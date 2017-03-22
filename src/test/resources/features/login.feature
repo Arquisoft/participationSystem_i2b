@@ -15,7 +15,7 @@ Feature:
       | name  | password |
       | user1 | user1    |
       | user2 | user2    |
-    When the user introduces username "user3" and password "user3"
+    When the user introduces username "user3" and password "user2"
     Then the login fails
 
   Scenario: A user puts a wrong password
