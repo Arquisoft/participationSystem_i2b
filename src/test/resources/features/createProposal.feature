@@ -1,2 +1,2 @@
 Feature:
-  The participants should be able to create proposals
+  The participants should be able to create proposals.
