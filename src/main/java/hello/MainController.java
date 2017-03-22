@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import hello.producers.KafkaProducer;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MainController {
@@ -16,7 +17,13 @@ public class MainController {
 
     @RequestMapping("/")
     public String landing(Model model) {
-        model.addAttribute("message", new Message());
+        model.addAttribute("loginInfo", new LoginInfo());
+        return "index.html";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Model model, @ModelAttribute LoginInfo loginInfo) {
+        // TODO perform login
         return "index";
     }
     

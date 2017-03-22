@@ -4,10 +4,9 @@
 </head>
 <body>
 <h1>ParticipationSystem0 skeleton</h1>
-<form th:action="@{/send}" th:object="${message}" method="POST">
-    <label for="message">Type a message: </label>
-    <input type="text" id="message" th:field="*{message}" />
-    <input type="submit" value="Send" />
+<form th:action="@{/login}" th:object="${loginInfo}" method="POST">
+    <input type="text" th:value="*{username}" />
+    <input type="password" th:value="*{password}" />
 </form>
 </body>
 </html>
