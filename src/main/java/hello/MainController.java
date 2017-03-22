@@ -17,14 +17,13 @@ public class MainController {
 
     @RequestMapping("/")
     public String landing(Model model) {
-        model.addAttribute("loginInfo", new LoginInfo());
-        return "index.html";
+        return "index";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, @ModelAttribute LoginInfo loginInfo) {
-        // TODO perform login
-        return "index";
+        model.addAttribute("loginInfo", new LoginInfo());
+        return "login";
     }
     
     @RequestMapping("/send")
