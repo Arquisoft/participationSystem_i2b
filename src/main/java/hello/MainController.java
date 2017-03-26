@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import hello.producers.KafkaProducer;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController {
@@ -16,8 +17,8 @@ public class MainController {
     private KafkaProducer kafkaProducer;
 
     @RequestMapping("/")
-    public String landing(Model model) {
-        return "index";
+    public ModelAndView landing(Model model) {
+        return new ModelAndView("redirect:" + "/user/home");
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -30,6 +31,11 @@ public class MainController {
     public String send(Model model, @ModelAttribute Message message) {
         kafkaProducer.send("exampleTopic", message.getMessage());
         return "redirect:/";
+    }
+
+    @RequestMapping("/user/home")
+    public String send(Model model) {
+        return "user/home";
     }
 
 }
