@@ -55,8 +55,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 }
                 rd.close();
 
-                JSONObject object = new JSONObject(result.toString());
-                System.out.println(object.toString());
+                //JSONObject object = new JSONObject(result.toString());
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 return new UsernamePasswordAuthenticationToken(login, password, authorities);

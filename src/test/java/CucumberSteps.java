@@ -1,19 +1,61 @@
+import com.esotericsoftware.minlog.Log;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.bson.BsonDocument;
+import org.bson.Document;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * @author nokutu
  * @since 22/03/2017.
  */
 public class CucumberSteps {
+
+    private static MongoClient mongoClient = new MongoClient("localhost", 27017);
+    private static MongoDatabase db = mongoClient.getDatabase("aswdb");
+    private static MongoCollection<Document> collection = db.getCollection("users");
+
+    public static void main(String args[]) {
+    }
+
     @Given("^the test database is loaded$")
     public void theTestDatabaseIsLoaded() throws Throwable {
         // TODO load a test database overwriting the old one
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        collection.deleteMany(new BsonDocument());
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("testDatabase/users.json"));
+            String line, result = "";
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            JSONArray users = new JSONArray(result);
+            /*users.forEach(user -> {
+                collection.insertOne(new Document()
+                        .append("_id")
+                        .append("firstName")
+                        .append("lastName")
+                        .append("email")
+
+                );
+            });*/
+
+        } catch (IOException e) {
+            Log.error(e.getMessage(), e);
+        }
     }
 
     @When("^the user introduces username \"([^\"]*)\" and password \"([^\"]*)\"$")

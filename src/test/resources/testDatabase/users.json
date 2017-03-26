@@ -1,0 +1,24 @@
+[
+  {
+    "_id" : ObjectId("58d7ac00247ae637c8b15ef5"),
+    "firstName" : "Prueba01",
+    "lastName" : "Apellido01",
+    "email" : "prueba01@prueba.es",
+    "address" : "c/Prueba n0 1a",
+    "nationality" : "España",
+    "userId" : "71735454H",
+    "dateOfBirth" : ISODate("1981-12-27T23:00:00.000Z"),
+    "password" : "o+HCYuXM7P93sPmUJYUYNdsYkMYCoIZuNVAxy5DqHQUZFs1iDU9bQhp9gfAxyhVW"
+  },
+  {
+    "_id" : ObjectId("58d7ac00247ae637c8b15ef6"),
+    "firstName" : "Prueba02",
+    "lastName" : "Apellido02",
+    "email" : "prueba02@prueba.es",
+    "address" : "c/Prueba n0 1a",
+    "nationality" : "España",
+    "userId" : "74401098P",
+    "dateOfBirth" : ISODate("1982-12-27T23:00:00.000Z"),
+    "password" : "YFzO3LxA7NcgtzO4NZYravkSmI96qD3H5HYIjlu6iT0zMzbeA/RpkUEjKV07kf8y"
+  }
+]
