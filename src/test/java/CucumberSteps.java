@@ -9,14 +9,20 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.bson.BsonDocument;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Date;
+import java.time.Instant;
 
 /**
  * @author nokutu
@@ -28,40 +34,68 @@ public class CucumberSteps {
     private static MongoDatabase db = mongoClient.getDatabase("aswdb");
     private static MongoCollection<Document> collection = db.getCollection("users");
 
+    private FirefoxDriver driver;
+
     public static void main(String args[]) {
+        try {
+            new CucumberSteps().theTestDatabaseIsLoaded();
+            new CucumberSteps().seleniumDriverIsLoaded();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     @Given("^the test database is loaded$")
     public void theTestDatabaseIsLoaded() throws Throwable {
-        // TODO load a test database overwriting the old one
         // Write code here that turns the phrase above into concrete actions
         collection.deleteMany(new BsonDocument());
         try {
-            BufferedReader br = new BufferedReader(new FileReader("testDatabase/users.json"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResource("testDatabase/users.json").openStream()));
             String line, result = "";
             while ((line = br.readLine()) != null) {
                 result += line;
             }
             JSONArray users = new JSONArray(result);
-            /*users.forEach(user -> {
+            users.forEach(userObject -> {
+                JSONObject user = (JSONObject) userObject;
                 collection.insertOne(new Document()
-                        .append("_id")
-                        .append("firstName")
-                        .append("lastName")
-                        .append("email")
-
+                        .append("_id", new ObjectId(user.getString("_id")))
+                        .append("firstName", user.getString("firstName"))
+                        .append("lastName", user.getString("lastName"))
+                        .append("email", user.getString("email"))
+                        .append("address", user.getString("address"))
+                        .append("nationality", user.getString("nationality"))
+                        .append("userId", user.getString("userId"))
+                        .append("dateOfBirth", Date.from(Instant.parse(user.getString("dateOfBirth"))))
+                        .append("password", user.getString("password"))
                 );
-            });*/
-
+            });
         } catch (IOException e) {
             Log.error(e.getMessage(), e);
         }
+    }
+
+    @Given("^Selenium driver is loaded$")
+    public void seleniumDriverIsLoaded() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        FirefoxBinary ffBinary = new FirefoxBinary(new File("FirefoxPortable\\FirefoxPortable.exe"));
+        FirefoxProfile firefoxProfile = new FirefoxProfile();
+        driver = new FirefoxDriver(ffBinary, firefoxProfile);
+    }
+
+    @And("^the user navigates to \"([^\"]*)\"$")
+    public void theUserNavigatesTo(String url) throws Throwable {
+        driver.get("http://localhost:8090/");
     }
 
     @When("^the user introduces username \"([^\"]*)\" and password \"([^\"]*)\"$")
     public void theUserIntroducesUsernameAndPassword(String username, String password) throws Throwable {
         // TODO login
         // Write code here that turns the phrase above into concrete actions
+        driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).sendKeys(username);
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys(password);
         throw new PendingException();
     }
 
@@ -101,20 +135,6 @@ public class CucumberSteps {
     @Then("^the user doesn't see \"([^\"]*)\"'s delete button$")
     public void theUserDoesnTSeeSDeleteButton(String proposalTitle) throws Throwable {
         // TODO check that there is no delete button in the given proposal
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
-
-    @Given("^Selenium driver is loaded$")
-    public void seleniumDriverIsLoaded() throws Throwable {
-        // TODO load selenium
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
-
-    @And("^the user navigates to \"([^\"]*)\"$")
-    public void theUserNavigatesTo(String url) throws Throwable {
-        // TODO go to url
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
