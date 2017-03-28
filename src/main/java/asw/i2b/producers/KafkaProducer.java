@@ -1,4 +1,4 @@
-package hello.producers;
+package asw.i2b.producers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

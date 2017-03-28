@@ -1,4 +1,4 @@
-package hello;
+package asw.i2b.model;
 
 /**
  * Created by herminio on 27/2/17.

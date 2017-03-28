@@ -1,4 +1,4 @@
-package hello;
+package asw.i2b.dao;
 
 import org.springframework.stereotype.Service;
 

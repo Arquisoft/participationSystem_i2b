@@ -1,12 +1,13 @@
-package hello;
+package asw.i2b.controller;
 
 
+import asw.i2b.model.Message;
+import asw.i2b.producers.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import hello.producers.KafkaProducer;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,8 +23,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, @ModelAttribute LoginInfo loginInfo) {
-        model.addAttribute("loginInfo", new LoginInfo());
+    public String login(Model model) {
         return "login";
     }
     

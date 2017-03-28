@@ -1,4 +1,4 @@
-package hello;
+package asw.i2b.model;
 
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,12 @@ import java.util.List;
  */
 @Service("proposalRestriction")
 public class ProposalRestrictions {
+
     private List<String> categories;
     private Date activeDate;
     private List<String> notAllowedWords;
 
-    public ProposalRestrictions(List<String> categories, Date activeDate, List<String> notAllowedWords){
+    public ProposalRestrictions(List<String> categories, Date activeDate, List<String> notAllowedWords) {
         this.categories = categories;
         this.activeDate = activeDate;
         this.notAllowedWords = notAllowedWords;

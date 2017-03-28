@@ -1,4 +1,4 @@
-package hello.producers;
+package asw.i2b.producers;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

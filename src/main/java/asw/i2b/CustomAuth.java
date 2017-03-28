@@ -1,4 +1,4 @@
-package hello;
+package asw.i2b;
 
 
 import org.json.JSONObject;
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 22/03/2017.
  */
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuth implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

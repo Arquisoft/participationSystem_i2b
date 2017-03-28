@@ -1,4 +1,4 @@
-/**
+package asw.i2b; /**
  * @author nokutu
  * @since 22/03/2017.
  */
@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-public class CucumberTest extends AbstractSpringTest {
+public class CucumberTest {
 
     @BeforeClass
     public static void setUp() {
