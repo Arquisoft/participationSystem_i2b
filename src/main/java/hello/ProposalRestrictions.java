@@ -1,11 +1,14 @@
 package hello;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Pineirin on 28/03/2017.
  */
+@Service("proposalRestriction")
 public class ProposalRestrictions {
     private List<String> categories;
     private Date activeDate;
