@@ -15,6 +15,9 @@ before_install:
 - nohup bash -c "cd kafka && bin/kafka-server-start.sh config/server.properties &"
 - sleep 5
 - kafka/bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic test.1 --zookeeper localhost:2181
+- git clone https://github.com/Arquisoft/participants_i2b.git
+- nohup bash -c "cd participants_i2b && mvn spring-boot:run &"
+- sleep 20
 before_script:
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"

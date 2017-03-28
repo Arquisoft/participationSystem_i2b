@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.logging.Level;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author nokutu
@@ -109,27 +113,23 @@ public class CucumberSteps {
 
     @When("^the user introduces username \"([^\"]*)\" and password \"([^\"]*)\"$")
     public void theUserIntroducesUsernameAndPassword(String username, String password) throws Throwable {
-        // TODO login
         // Write code here that turns the phrase above into concrete actions
-        /*driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).clear();
-        driver.findElement(By.id("password")).sendKeys(password);*/
-        throw new PendingException();
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("loginButton")).click();
     }
 
     @Then("^the login fails$")
     public void theLoginFails() throws Throwable {
-        // TODO detect that we are still in the login page
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assertTrue(driver.getCurrentUrl().contains("/login?error"));
     }
 
     @Then("^the user successfully logs in$")
     public void theUserSuccessfullyLogsIn() throws Throwable {
-        // TODO detect that we are in the main page
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assertTrue(driver.getCurrentUrl().contains("/user/home"));
     }
 
     @And("^user \"([^\"]*)\" with password \"([^\"]*)\" is logged in$")

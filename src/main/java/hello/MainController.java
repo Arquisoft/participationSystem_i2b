@@ -33,7 +33,7 @@ public class MainController {
         return "redirect:/";
     }
 
-    @RequestMapping("/user/home/")
+    @RequestMapping("/user/home")
     public String send(Model model) {
         return "user/home";
     }
