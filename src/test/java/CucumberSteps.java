@@ -7,6 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.commons.lang3.SystemUtils;
 import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -37,9 +38,10 @@ public class CucumberSteps {
     private FirefoxDriver driver;
 
     public static void main(String args[]) {
+        CucumberSteps steps = new CucumberSteps();
         try {
-            new CucumberSteps().theTestDatabaseIsLoaded();
-            new CucumberSteps().seleniumDriverIsLoaded();
+            steps.theTestDatabaseIsLoaded();
+            steps.seleniumDriverIsLoaded();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -51,11 +53,11 @@ public class CucumberSteps {
         collection.deleteMany(new BsonDocument());
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResource("testDatabase/users.json").openStream()));
-            String line, result = "";
+            String line;StringBuilder result = new StringBuilder();
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
-            JSONArray users = new JSONArray(result);
+            JSONArray users = new JSONArray(result.toString());
             users.forEach(userObject -> {
                 JSONObject user = (JSONObject) userObject;
                 collection.insertOne(new Document()
@@ -78,14 +80,19 @@ public class CucumberSteps {
     @Given("^Selenium driver is loaded$")
     public void seleniumDriverIsLoaded() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        FirefoxBinary ffBinary = new FirefoxBinary(new File("FirefoxPortable\\FirefoxPortable.exe"));
+        FirefoxBinary ffBinary;
+        if (SystemUtils.IS_OS_WINDOWS) {
+            ffBinary = new FirefoxBinary(new File("FirefoxPortable\\FirefoxPortable.exe"));
+        } else {
+            ffBinary = new FirefoxBinary();
+        }
         FirefoxProfile firefoxProfile = new FirefoxProfile();
         driver = new FirefoxDriver(ffBinary, firefoxProfile);
     }
 
     @And("^the user navigates to \"([^\"]*)\"$")
     public void theUserNavigatesTo(String url) throws Throwable {
-        driver.get("http://localhost:8090/");
+        driver.get(url);
     }
 
     @When("^the user introduces username \"([^\"]*)\" and password \"([^\"]*)\"$")
