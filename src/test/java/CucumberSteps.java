@@ -9,17 +9,20 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import hello.Application;
+import hello.MainController;
 import org.apache.commons.lang3.SystemUtils;
 import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -39,7 +42,7 @@ import static junit.framework.TestCase.assertTrue;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
-@SpringBootTest
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CucumberSteps {
 
     private static MongoClient mongoClient = new MongoClient("localhost", 27017);
@@ -47,15 +50,6 @@ public class CucumberSteps {
     private static MongoCollection<Document> collection = db.getCollection("users");
 
     private static FirefoxDriver driver;
-
-    public static void main(String args[]) {
-        CucumberSteps steps = new CucumberSteps();
-        try {
-            steps.theTestDatabaseIsLoaded();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-    }
 
     public static void setUp() {
         FirefoxBinary ffBinary;
@@ -66,6 +60,11 @@ public class CucumberSteps {
         }
         FirefoxProfile firefoxProfile = new FirefoxProfile();
         driver = new FirefoxDriver(ffBinary, firefoxProfile);
+    }
+
+    @Test
+    public void a() {
+
     }
 
     public static void tearDown() {
