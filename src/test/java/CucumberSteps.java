@@ -3,6 +3,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import cucumber.api.PendingException;
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -35,15 +36,39 @@ public class CucumberSteps {
     private static MongoDatabase db = mongoClient.getDatabase("aswdb");
     private static MongoCollection<Document> collection = db.getCollection("users");
 
-    private FirefoxDriver driver;
+    private static FirefoxDriver driver;
 
     public static void main(String args[]) {
         CucumberSteps steps = new CucumberSteps();
         try {
             steps.theTestDatabaseIsLoaded();
-            steps.seleniumDriverIsLoaded();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+        }
+    }
+
+    public static void setUp() {
+        FirefoxBinary ffBinary;
+        if (SystemUtils.IS_OS_WINDOWS) {
+            ffBinary = new FirefoxBinary(new File("FirefoxPortable\\FirefoxPortable.exe"));
+        } else {
+            ffBinary = new FirefoxBinary();
+        }
+        FirefoxProfile firefoxProfile = new FirefoxProfile();
+        driver = new FirefoxDriver(ffBinary, firefoxProfile);
+    }
+
+    public static void tearDown() {
+        driver.quit();
+    }
+
+    @After
+    public void cleanCookies() {
+        driver.manage().deleteAllCookies();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -77,19 +102,6 @@ public class CucumberSteps {
         }
     }
 
-    @Given("^Selenium driver is loaded$")
-    public void seleniumDriverIsLoaded() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        FirefoxBinary ffBinary;
-        if (SystemUtils.IS_OS_WINDOWS) {
-            ffBinary = new FirefoxBinary(new File("FirefoxPortable\\FirefoxPortable.exe"));
-        } else {
-            ffBinary = new FirefoxBinary();
-        }
-        FirefoxProfile firefoxProfile = new FirefoxProfile();
-        driver = new FirefoxDriver(ffBinary, firefoxProfile);
-    }
-
     @And("^the user navigates to \"([^\"]*)\"$")
     public void theUserNavigatesTo(String url) throws Throwable {
         driver.get(url);
@@ -99,10 +111,10 @@ public class CucumberSteps {
     public void theUserIntroducesUsernameAndPassword(String username, String password) throws Throwable {
         // TODO login
         // Write code here that turns the phrase above into concrete actions
-        driver.findElement(By.id("username")).clear();
+        /*driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).clear();
-        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("password")).sendKeys(password);*/
         throw new PendingException();
     }
 

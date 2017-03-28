@@ -3,9 +3,8 @@ Feature:
   Each participant can create as many comments as wanted.
 
   Scenario:
-    Given Selenium driver is loaded
-    And the test database is loaded
-    And the user navigates to "webpage"
+    Given the test database is loaded
+    And the user navigates to "localhost:8090"
     And user "user1" with password "user1" is logged in
     And the user navigates into "proposal1" details
     When the user creates a comment
