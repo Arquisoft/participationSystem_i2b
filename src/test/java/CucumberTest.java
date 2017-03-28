@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-public class CucumberTest {
+public class CucumberTest extends AbstractSpringTest {
 
     @BeforeClass
     public static void setUp() {
