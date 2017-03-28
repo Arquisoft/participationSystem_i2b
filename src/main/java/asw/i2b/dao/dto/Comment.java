@@ -3,6 +3,8 @@ package asw.i2b.dao.dto;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
+
 /**
  * Created by Pineirin on 28/03/2017.
  */
@@ -12,26 +14,21 @@ public class Comment {
     private ObjectId _id;
 
     private String text;
-    private int number;
+    private ObjectId proposalId;
+    private String author;
+    private Date created;
 
-    public Comment(String text, int number) {
+    public Comment(String text) {
         this.text = text;
-        this.number = number;
     }
 
     public void setText(String text) {
         this.text = text;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
 
     public String getText() {
         return text;
     }
 
-    public int getNumber() {
-        return number;
-    }
 }

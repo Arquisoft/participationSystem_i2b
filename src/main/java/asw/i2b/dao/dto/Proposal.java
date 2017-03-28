@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,13 +19,17 @@ public class Proposal {
     private ObjectId _id;
 
     private String category;
-    private int upVotes;
+    private int votes;
+    private List<String> votedUsernames;
     private List<Comment> comments;
     private int minimalSupport;
+    private String author;
+    private Date created;
 
     public Proposal(String category, int minimalSupport){
         this.category = category;
-        this.upVotes = 0;
+        this.votes = 0;
+        this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.minimalSupport = minimalSupport;
     }
@@ -33,8 +38,8 @@ public class Proposal {
         this.category = category;
     }
 
-    public void setUpVotes(int upVotes) {
-        this.upVotes = upVotes;
+    public void setVotes(int votes) {
+        this.votes = votes;
     }
 
     public void setComments(List<Comment> comments) {
@@ -49,8 +54,8 @@ public class Proposal {
         return category;
     }
 
-    public int getUpVotes() {
-        return upVotes;
+    public int getVotes() {
+        return votes;
     }
 
     public List<Comment> getComments() {
@@ -62,8 +67,16 @@ public class Proposal {
     }
 
     public boolean isSupported(){
-        if (getUpVotes() > getMinimalSupport())
+        if (getVotes() > getMinimalSupport())
             return true;
         return false;
+    }
+
+    public List<String> getVotedUsernames() {
+        return votedUsernames;
+    }
+
+    public ObjectId getId() {
+        return _id;
     }
 }
