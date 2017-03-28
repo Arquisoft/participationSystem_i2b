@@ -1,5 +1,6 @@
 package hello;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,14 +10,14 @@ public class Proposal {
     private String category;
     private int upVotes;
     private int downVotes;
-    private List<String> comments;
+    private List<Comment> comments;
     private int minimalSupport;
 
-    public Proposal(String category, int upVotes, int downVotes, List<String> comments, int minimalSupport){
+    public Proposal(String category, int minimalSupport){
         this.category = category;
-        this.upVotes = upVotes;
-        this.downVotes = downVotes;
-        this.comments = comments;
+        this.upVotes = 0;
+        this.downVotes = 0;
+        this.comments = new ArrayList<>();
         this.minimalSupport = minimalSupport;
     }
 
@@ -32,7 +33,7 @@ public class Proposal {
         this.downVotes = downVotes;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
@@ -52,7 +53,7 @@ public class Proposal {
         return downVotes;
     }
 
-    public List<String> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
