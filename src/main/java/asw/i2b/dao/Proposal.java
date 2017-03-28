@@ -1,4 +1,4 @@
-package hello;
+package asw.i2b.dao;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package hello;
+package asw.i2b.dao;
 
 /**
  * Created by Pineirin on 28/03/2017.

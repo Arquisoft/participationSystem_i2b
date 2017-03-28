@@ -1,3 +1,5 @@
+package asw.i2b;
+
 import com.esotericsoftware.minlog.Log;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -8,8 +10,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import hello.Application;
-import hello.MainController;
+import asw.i2b.Application;
 import org.apache.commons.lang3.SystemUtils;
 import org.bson.BsonDocument;
 import org.bson.Document;
@@ -22,7 +23,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
