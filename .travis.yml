@@ -9,9 +9,10 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 
 before_install:
-- wget http://www.us.apache.org/dist/kafka/0.8.2.1/kafka_2.10-0.8.2.1.tgz -O kafka.tgz
+- wget http://ftp.cixug.es/apache/kafka/0.10.2.0/kafka_2.11-0.10.2.0.tgz -O kafka.tgz
 - mkdir -p kafka && tar xzf kafka.tgz -C kafka --strip-components 1
 - nohup bash -c "cd kafka && bin/zookeeper-server-start.sh config/zookeeper.properties &"
+- sleep 5
 - nohup bash -c "cd kafka && bin/kafka-server-start.sh config/server.properties &"
 - sleep 5
 - git clone https://github.com/Arquisoft/participants_i2b.git
