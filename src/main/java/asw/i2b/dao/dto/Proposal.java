@@ -1,4 +1,7 @@
-package asw.i2b.dao;
+package asw.i2b.dao.dto;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,16 +10,18 @@ import java.util.List;
  * Created by Pineirin on 28/03/2017.
  */
 public class Proposal {
+
+    @Id
+    private ObjectId _id;
+
     private String category;
     private int upVotes;
-    private int downVotes;
     private List<Comment> comments;
     private int minimalSupport;
 
     public Proposal(String category, int minimalSupport){
         this.category = category;
         this.upVotes = 0;
-        this.downVotes = 0;
         this.comments = new ArrayList<>();
         this.minimalSupport = minimalSupport;
     }
@@ -27,10 +32,6 @@ public class Proposal {
 
     public void setUpVotes(int upVotes) {
         this.upVotes = upVotes;
-    }
-
-    public void setDownVotes(int downVotes) {
-        this.downVotes = downVotes;
     }
 
     public void setComments(List<Comment> comments) {
@@ -47,10 +48,6 @@ public class Proposal {
 
     public int getUpVotes() {
         return upVotes;
-    }
-
-    public int getDownVotes() {
-        return downVotes;
     }
 
     public List<Comment> getComments() {
