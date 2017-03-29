@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,12 +20,28 @@ public class ProposalRestrictions {
     private List<String> categories;
     private Date activeDate;
     private List<String> notAllowedWords;
+    private static ProposalRestrictions instance = null;
 
     public ProposalRestrictions(List<String> categories, Date activeDate, List<String> notAllowedWords) {
         this.categories = categories;
         this.activeDate = activeDate;
         this.notAllowedWords = notAllowedWords;
     }
+
+    public static ProposalRestrictions getInstance(List<String> categories, Date activeDate, List<String> notAllowedWords) {
+        if(instance == null) {
+            instance = new ProposalRestrictions(categories, activeDate, notAllowedWords);
+        }
+        return instance;
+    }
+
+    public static ProposalRestrictions getInstance() {
+        if(instance == null) {
+            instance = new ProposalRestrictions(new ArrayList<>(), new Date(), new ArrayList<>());
+        }
+        return instance;
+    }
+
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
