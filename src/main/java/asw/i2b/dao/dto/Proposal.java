@@ -26,12 +26,14 @@ public class Proposal {
     private String author;
     private Date created;
 
-    public Proposal(String category, int minimalSupport){
+    public Proposal(String category, int minimalSupport, String author, Date created){
         this.category = category;
         this.votes = 0;
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.minimalSupport = minimalSupport;
+        this.author = author;
+        this.created = created;
     }
 
     public void setCategory(String category) {
