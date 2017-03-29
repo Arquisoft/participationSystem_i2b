@@ -2,12 +2,14 @@ package asw.i2b.dao.dto;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
 /**
  * Created by Pineirin on 28/03/2017.
  */
+@Document(collection ="comments")
 public class Comment {
 
     @Id

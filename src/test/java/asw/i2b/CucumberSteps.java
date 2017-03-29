@@ -86,12 +86,7 @@ public class CucumberSteps {
         // Write code here that turns the phrase above into concrete actions
         collection.deleteMany(new BsonDocument());
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("testDatabase/users.json")));
-            String line;StringBuilder result = new StringBuilder();
-            while ((line = br.readLine()) != null) {
-                result.append(line);
-            }
-            JSONArray users = new JSONArray(result.toString());
+            JSONArray users = parseArray("testDatabase/users.json");
             users.forEach(userObject -> {
                 JSONObject user = (JSONObject) userObject;
                 collection.insertOne(new Document()
@@ -106,9 +101,30 @@ public class CucumberSteps {
                         .append("password", user.getString("password"))
                 );
             });
+
+            JSONArray proposals = parseArray("testDatabase/proposals.json");
+            proposals.forEach(userObject -> {
+                JSONObject proposal = (JSONObject) userObject;
+                collection.insertOne(new Document()
+                        .append("_id", new ObjectId(proposal.getString("_id")))
+                        .append("title", proposal.getString("title"))
+                        .append("body", proposal.getString("body"))
+                        .append("votes", proposal.getInt("votes"))
+                );
+            });
         } catch (IOException e) {
             Log.error(e.getMessage(), e);
         }
+    }
+
+    private JSONArray parseArray(String name) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(name)));
+        String line;StringBuilder result = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            result.append(line);
+        }
+        br.close();
+        return new JSONArray(result.toString());
     }
 
     @And("^the user navigates to \"([^\"]*)\"$")

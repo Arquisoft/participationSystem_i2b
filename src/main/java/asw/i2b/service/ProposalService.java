@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,5 +29,11 @@ public class ProposalService {
             p.setVotes(p.getVotes() + 1);
             p.getVotedUsernames().add(name);
         }
+    }
+
+    public Object getProposalsByPopularity() {
+        List<Proposal> ret = getAllProposals();
+        ret.sort((a, b) -> b.getVotes() - a.getVotes());
+        return ret;
     }
 }
