@@ -108,6 +108,11 @@ public class Proposal {
         return created;
     }
 
+    public void vote(String voteUsername){
+        getVotedUsernames().add(voteUsername);
+        setVotes(getVotes()+1);
+    }
+
     public boolean isSupported(){
         if (getVotes() > getMinimalSupport())
             return true;
