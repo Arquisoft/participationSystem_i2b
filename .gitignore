@@ -56,4 +56,6 @@ local.properties
 *.iml
 .idea
 
-FirefoxPortable/*
+
+FirefoxLinux/*
+FirefoxWindows/*
