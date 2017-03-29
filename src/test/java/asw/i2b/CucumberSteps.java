@@ -86,7 +86,7 @@ public class CucumberSteps {
         // Write code here that turns the phrase above into concrete actions
         collection.deleteMany(new BsonDocument());
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResource("testDatabase/users.json").openStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("testDatabase/users.json")));
             String line;StringBuilder result = new StringBuilder();
             while ((line = br.readLine()) != null) {
                 result.append(line);

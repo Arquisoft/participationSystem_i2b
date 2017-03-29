@@ -105,10 +105,11 @@
 			<version>2.1.2.RELEASE</version>
 		</dependency>
 
+		<!-- MongoDB Dependency -->
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.10.0.RELEASE</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			<version>1.5.2.RELEASE</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
