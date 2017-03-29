@@ -60,7 +60,7 @@ public class CucumberSteps {
     public static void setUp() {
         FirefoxBinary ffBinary;
         if (SystemUtils.IS_OS_WINDOWS) {
-            ffBinary = new FirefoxBinary(new File("FirefoxPortable\\FirefoxPortable.exe"));
+            ffBinary = new FirefoxBinary(new File("FirefoxWindows\\FirefoxPortable.exe"));
         } else {
             ffBinary = new FirefoxBinary();
         }
