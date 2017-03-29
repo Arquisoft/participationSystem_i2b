@@ -1,4 +1,4 @@
-package hello;
+package asw.i2b;
 
 
 import org.springframework.boot.SpringApplication;
