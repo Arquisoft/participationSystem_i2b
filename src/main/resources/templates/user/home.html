@@ -1,0 +1,64 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Participation System</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous">
+    </script>
+</head>
+<body>
+<div th:replace="/fragments/navbar :: navbar">
+
+</div>
+<div class="container">
+    <h1>Homepage</h1>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProposal">Create Proposal</button>
+
+    <!-- Modal -->
+    <div id = "createProposal" class = "modal fade" role = "dialog">
+        <div class= "modal dialog">
+            <div class= "modal-content">
+                <div class = "modal-header">
+                    <button type = "button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="modal-title">Here you can create new proposals.</div>
+                </div>
+                <div class = "modal-body">
+                    <div class="form-group">
+                        <div class="container">
+                            <form>
+                                <div class="form-group">
+                                    <label for="sel1">Select the category of your proposal:</label>
+                                    <select class="form-control" id="sel1">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <label for="comment">Explain your proposal:</label>
+                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                    </div>
+                </div>
+                <div class = "modal-fotter">
+                    <button type = "button" class="btn btn-default" data-dismiss = "modal">Accept</button>
+                    <button type = "button" class="btn btn-default" data-dismiss = "modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

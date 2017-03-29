@@ -3,6 +3,7 @@ package asw.i2b.controller;
 
 import asw.i2b.model.Message;
 import asw.i2b.producers.KafkaProducer;
+import asw.i2b.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,9 @@ public class MainController {
 
     @Autowired
     private KafkaProducer kafkaProducer;
+
+    @Autowired
+    private ProposalService proposalService;
 
     @RequestMapping("/")
     public ModelAndView landing(Model model) {
@@ -35,6 +39,7 @@ public class MainController {
 
     @RequestMapping("/user/home")
     public String send(Model model) {
+        model.addAttribute("proposals", proposalService.getAllProposals());
         return "user/home";
     }
 
