@@ -12,5 +12,4 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProposalsRepository extends MongoRepository<Proposal, ObjectId> {
-    Proposal insertProposal(Proposal proposal);
 }
