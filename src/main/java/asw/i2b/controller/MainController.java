@@ -57,7 +57,7 @@ public class MainController {
     @RequestMapping(value = "/user/createProposal", method = RequestMethod.POST)
     public String createProposal(Model model, @ModelAttribute ProposalCreation pC){
         Proposal proposal = new Proposal(pC.getCategory(), pC.getTitle(), pC.getBody(), 0, "author", new Date());
-        proposalRepository.insertProposal(proposal);
+        proposalRepository.insert(proposal);
         return "redirect:/user/home";
     }
 
