@@ -20,6 +20,7 @@ public class Comment {
     private String author;
     private Date created;
 
+
     public Comment(String text) {
         this.text = text;
     }

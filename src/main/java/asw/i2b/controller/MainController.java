@@ -3,6 +3,7 @@ package asw.i2b.controller;
 
 import asw.i2b.dao.ProposalsRepository;
 import asw.i2b.model.Message;
+import asw.i2b.model.ProposalCreation;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,14 @@ public class MainController {
     @RequestMapping("/user/home")
     public String send(Model model) {
         model.addAttribute("proposals", proposalService.getProposalsByPopularity());
+        model.addAttribute("createProposal", new ProposalCreation());
         return "user/home";
+    }
+
+    @RequestMapping(value = "/user/createProposal", method = RequestMethod.POST)
+    public String createProposal(Model model, @ModelAttribute ProposalCreation pC){
+        // TODO: leo pC y creo proposal
+        return "redirect:/user/home";
     }
 
     @RequestMapping("/user/proposal/{id}")

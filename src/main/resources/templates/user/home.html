@@ -23,7 +23,8 @@
     <h1>Homepage</h1>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProposal" style="margin: 0 auto;">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProposal"
+            style="margin: 0 auto;">
         Create Proposal
     </button>
 
@@ -53,23 +54,19 @@
                     <div class="modal-title">Here you can create new proposals.</div>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <div class="container">
-                            <form>
-                                <div class="form-group">
-                                    <label for="sel1">Select the category of your proposal:</label>
-                                    <select class="form-control" id="sel1">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select>
+                    <form th:action="@{/user/createProposal}" th:object="${pC}" method="POST">
+                        <div class="form-group">
+                            <label for="sel1">Select the category of your proposal:</label>
+                            <select class="form-control" id="sel1">
+                                <div th:each="category:${categories}">
+                                    <option value="${category.getId()}"
+                                            th:text="${category.getName()}"></option>
                                 </div>
-                            </form>
+                            </select>
                         </div>
                         <label for="comment">Explain your proposal:</label>
                         <textarea class="form-control" rows="5" id="comment"></textarea>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-fotter">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
