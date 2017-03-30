@@ -32,7 +32,8 @@ public class Proposal {
 
     }
 
-    public Proposal(String category, String proposalText, int minimalSupport, String author, Date created){
+    public Proposal(String category, String title, String proposalText, int minimalSupport, String author, Date created){
+        this.title = title;
         this.category = category;
         this.votes = 0;
         this.body = proposalText;

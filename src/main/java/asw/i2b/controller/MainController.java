@@ -2,8 +2,10 @@ package asw.i2b.controller;
 
 
 import asw.i2b.dao.ProposalsRepository;
+import asw.i2b.dao.dto.Proposal;
 import asw.i2b.model.Message;
 import asw.i2b.model.ProposalCreation;
+import asw.i2b.model.ProposalRestrictions;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
+
 @Controller
 public class MainController {
 
@@ -25,7 +29,7 @@ public class MainController {
     private ProposalService proposalService;
 
     @Autowired
-    private ProposalsRepository repository;
+    private ProposalsRepository proposalRepository;
 
     @RequestMapping("/")
     public ModelAndView landing(Model model) {
@@ -52,7 +56,8 @@ public class MainController {
 
     @RequestMapping(value = "/user/createProposal", method = RequestMethod.POST)
     public String createProposal(Model model, @ModelAttribute ProposalCreation pC){
-        // TODO: leo pC y creo proposal
+        Proposal proposal = new Proposal(pC.getCategory(), pC.getTitle(), pC.getBody(), 0, "author", new Date());
+        proposalRepository.insertProposal(proposal);
         return "redirect:/user/home";
     }
 
