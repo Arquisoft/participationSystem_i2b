@@ -1,26 +1,20 @@
 package asw.i2b.controller;
 
 
-import asw.i2b.dao.ProposalsRepository;
-import asw.i2b.dao.dto.Category;
 import asw.i2b.dao.dto.Proposal;
 import asw.i2b.model.Message;
 import asw.i2b.model.ProposalCreation;
-import asw.i2b.model.ProposalRestrictions;
 import asw.i2b.producers.KafkaProducer;
+import asw.i2b.service.CategoryService;
 import asw.i2b.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 public class MainController {
@@ -32,14 +26,14 @@ public class MainController {
     private ProposalService proposalService;
 
     @Autowired
-    private ProposalsRepository proposalRepository;
+    private CategoryService categoryService;
 
     @RequestMapping("/")
     public ModelAndView landing(Model model) {
         return new ModelAndView("redirect:" + "/user/home");
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public String login(Model model) {
         return "login";
     }
@@ -54,21 +48,29 @@ public class MainController {
     public String send(Model model) {
         model.addAttribute("proposals", proposalService.getProposalsByPopularity());
         model.addAttribute("createProposal", new ProposalCreation());
-        // TODO add services
-        model.addAttribute("categories", new ArrayList<Category>());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "user/home";
     }
 
-    @RequestMapping(value = "/user/createProposal", method = RequestMethod.POST)
-    public String createProposal(Model model, @ModelAttribute ProposalCreation pC){
-        Proposal proposal = new Proposal(pC.getCategory(), pC.getTitle(), pC.getBody(), 0, "author", new Date());
-        proposalRepository.insert(proposal);
+    @PostMapping("/voteProposal/{id}")
+    public String voteProposal(Model model, @PathVariable("id") String id) {
+        // TODO vote proposal
+        System.out.println("Vote proposal: " + id);
+        return "redirect:/user/home";
+    }
+
+    @RequestMapping("/user/createProposal")
+    public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal){
+        System.out.println("Create proposal: " + createProposal.getTitle());
+        String author = SecurityContextHolder.getContext().getAuthentication().getName();
+        Proposal proposal = new Proposal(createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0, author, new Date());
+        proposalService.createProposal(proposal);
         return "redirect:/user/home";
     }
 
     @RequestMapping("/user/proposal/{id}")
     public String proposal(Model model, @PathVariable("id") String id) {
-        System.out.println(id);
+        System.out.println("View proposal: " + id);
         return "user/proposal";
     }
 

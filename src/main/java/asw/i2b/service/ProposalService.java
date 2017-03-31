@@ -36,4 +36,8 @@ public class ProposalService {
         ret.sort((a, b) -> b.getVotes() - a.getVotes());
         return ret;
     }
+
+    public void createProposal(Proposal proposal) {
+        proposalsRepository.insert(proposal);
+    }
 }

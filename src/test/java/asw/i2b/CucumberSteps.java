@@ -103,13 +103,22 @@ public class CucumberSteps {
             });
 
             JSONArray proposals = parseArray("testDatabase/proposals.json");
-            proposals.forEach(userObject -> {
-                JSONObject proposal = (JSONObject) userObject;
+            proposals.forEach(proposalObject -> {
+                JSONObject proposal = (JSONObject) proposalObject;
                 collection.insertOne(new Document()
                         .append("_id", new ObjectId(proposal.getString("_id")))
                         .append("title", proposal.getString("title"))
                         .append("body", proposal.getString("body"))
                         .append("votes", proposal.getInt("votes"))
+                );
+            });
+
+            JSONArray categories = parseArray("testDatabase/categories.json");
+            categories.forEach(categoryObject -> {
+                JSONObject category = (JSONObject) categoryObject;
+                collection.insertOne(new Document()
+                        .append("_id", new ObjectId(category.getString("_id")))
+                        .append("name", category.getString("name"))
                 );
             });
         } catch (IOException e) {

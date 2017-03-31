@@ -29,8 +29,8 @@
     </button>
 
     <div th:each="proposal : ${proposals}" style="margin-top: 50px;">
-        <div class="panel panel-default">
-            <div class="panel-heading" th:with="proposalId=${proposal.getId().toHexString()}">
+        <div class="panel panel-default" th:with="proposalId=${proposal.getId().toHexString()}">
+            <div class="panel-heading">
                 <a th:href="${'/user/proposal/' + proposalId}" th:text="${proposal.getTitle()}"></a>
                 <div class="pull-right">
                     <div th:text="${proposal.getVotes()}"></div>
@@ -39,8 +39,10 @@
             <div class="panel-body">
                 <span th:text="${proposal.getBody()}"></span>
             </div>
-            <div class="panel-footer">
-
+            <div class="panel-footer" style="overflow: auto;">
+                <form th:action="${'/voteProposal/' + proposalId}" th:method="post">
+                    <button type="submit" class="btn btn-primary pull-right">Votar</button>
+                </form>
             </div>
         </div>
     </div>
@@ -49,29 +51,31 @@
     <div id="createProposal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <div class="modal-title">Here you can create new proposals.</div>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/user/createProposal}" th:object="${pC}" method="POST">
+                <form th:action="@{/user/createProposal}" th:object="${createProposal}" th:method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="modal-title">Here you can create new proposals.</div>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
                             <label for="sel1">Select the category of your proposal:</label>
-                            <select class="form-control" id="sel1">
+                            <select class="form-control" id="sel1" th:field="*{category}">
                                 <option th:each="category:${categories}" value="${category.getId()}"
                                         th:text="${category.getName()}"></option>
                             </select>
                         </div>
-                        <label for="comment">Title for your proposal:</label>
-                        <textarea class="form-control" rows="5" id="comment"></textarea>
-                        <label for="comment">Explanation of your proposal proposal:</label>
-                        <textarea class="form-control" rows="5" id="comment"></textarea>
-                    </form>
-                </div>
-                <div class="modal-fotter">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                        <label for="title">Title for your proposal:</label>
+                        <textarea class="form-control" rows="5" id="title" th:field="*{title}"></textarea>
+                        <label for="body">Explanation of your proposal proposal:</label>
+                        <textarea class="form-control" rows="5" id="body" th:field="*{body}"></textarea>
+                    </div>
+                    <div class="modal-footer" style="overflow: auto">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
