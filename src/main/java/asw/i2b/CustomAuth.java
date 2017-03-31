@@ -1,6 +1,7 @@
 package asw.i2b;
 
 
+import asw.i2b.model.UserModel;
 import org.json.JSONObject;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +29,13 @@ public class CustomAuth implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String login = authentication.getName().trim();
+        System.out.println(login);                                                       //
         String password = authentication.getCredentials().toString().trim();
+        System.out.println(password);                                                   //
+        UserModel u = new UserModel(login);
+
+        if(login.equals("admin") && password.equals("admin"))
+            u.setAdmin(true);
 
         try {
             StringBuilder result = new StringBuilder();
@@ -58,7 +65,7 @@ public class CustomAuth implements AuthenticationProvider {
                 //JSONObject object = new JSONObject(result.toString());
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                return new UsernamePasswordAuthenticationToken(login, password, authorities);
+                return new UsernamePasswordAuthenticationToken(u, password, authorities);
             }
 
         } catch (IOException e) {

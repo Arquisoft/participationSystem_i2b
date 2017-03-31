@@ -39,7 +39,7 @@ public class MainController {
         return new ModelAndView("redirect:" + "/user/home");
     }
 
-    @GetMapping("/login")
+    @GetMapping("/login")   //Spring-boot automatically applies a filter on this request to /login
     public String login(Model model) {
         return "login";
     }
