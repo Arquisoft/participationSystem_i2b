@@ -29,9 +29,7 @@ public class CustomAuth implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String login = authentication.getName().trim();
-        System.out.println(login);                                                       //
         String password = authentication.getCredentials().toString().trim();
-        System.out.println(password);                                                   //
         UserModel u = new UserModel(login);
 
         if(login.equals("admin") && password.equals("admin"))
