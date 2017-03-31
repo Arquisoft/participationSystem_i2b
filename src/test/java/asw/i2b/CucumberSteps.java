@@ -86,6 +86,9 @@ public class CucumberSteps {
     public void theTestDatabaseIsLoaded() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         users.deleteMany(new BsonDocument());
+        proposals.deleteMany(new BsonDocument());
+        categories.deleteMany(new BsonDocument());
+
         try {
             JSONArray users = parseArray("testDatabase/users.json");
             users.forEach(userObject -> {
