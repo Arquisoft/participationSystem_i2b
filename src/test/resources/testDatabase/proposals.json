@@ -3,12 +3,14 @@
     "_id" : "58dbfd7dbff2304aa268bacf",
     "title": "Propuesta 1",
     "body": "Contenido de la propuesta 1",
-    "votes": 5
+    "votes": 5,
+    "votedUsernames": ["a", "b", "c", "d", "e"]
   },
   {
     "_id" : "58dbfd8abff2304aa268bada",
     "title": "Propuesta 2",
     "body": "Contenido de la propuesta 2",
-    "votes": 10
+    "votes": 10,
+    "votedUsernames": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
   }
 ]

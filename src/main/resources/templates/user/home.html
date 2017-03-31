@@ -27,7 +27,7 @@
         Create Proposal
     </button>
 
-    <div th:each="proposal : ${proposals}" style="margin-top: 50px;">
+    <div id="proposalList" th:each="proposal : ${proposals}" style="margin-top: 50px;">
         <div class="panel panel-default" th:with="proposalId=${proposal.getId().toHexString()}">
             <div class="panel-heading">
                 <a th:href="${'/user/proposal/' + proposalId}" th:text="${proposal.getTitle()}"></a>

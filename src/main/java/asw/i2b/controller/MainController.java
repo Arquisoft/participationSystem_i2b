@@ -50,7 +50,7 @@ public class MainController {
         return "redirect:/";
     }
 
-    @RequestMapping("/user/home")
+    @GetMapping("/user/home")
     public String send(Model model) {
         model.addAttribute("proposals", proposalService.getProposalsByPopularity());
         model.addAttribute("createProposal", new ProposalCreation());
@@ -60,18 +60,15 @@ public class MainController {
 
     @PostMapping("/voteProposal/{id}")
     public String voteProposal(Model model, @PathVariable("id") String id) {
-        for (Proposal proposal : proposalService.getAllProposals()){
-            if(proposal.getId().toString().equals(id)) {
-                proposalService.vote(proposal);
-            }
+        Proposal proposal = proposalService.findProposalById(id);
+        if(proposal != null) {
+            proposalService.vote(proposal);
         }
-        //System.out.println("Vote proposal: " + id);
         return "redirect:/user/home";
     }
 
     @RequestMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal){
-        System.out.println("Create proposal: " + createProposal.getTitle());
         String author = SecurityContextHolder.getContext().getAuthentication().getName();
         Proposal proposal = new Proposal("author", createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
         proposalService.createProposal(proposal);

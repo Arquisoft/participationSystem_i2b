@@ -5,13 +5,13 @@ Feature:
   Scenario: Proposals are shown
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user visits the homepage
-    Then the user should see "proposal2" and "proposal1"
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user navigates to "localhost:8090/user/home"
+    Then the user should see "Propuesta 1" and "Propuesta 2"
 
   Scenario: Proposals are ordered correctly
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user visits the homepage
-    Then the user should see "proposal2" before "proposal1"
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user navigates to "localhost:8090/user/home"
+    Then the user should see proposal "Propuesta 2" before "Propuesta 1"

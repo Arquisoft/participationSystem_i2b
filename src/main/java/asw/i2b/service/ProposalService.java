@@ -2,6 +2,7 @@ package asw.i2b.service;
 
 import asw.i2b.dao.ProposalsRepository;
 import asw.i2b.dao.dto.Proposal;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,10 @@ public class ProposalService {
 
     public void save(Proposal proposal){
         proposalsRepository.save(proposal);
+    }
+
+    public Proposal findProposalById(String id) {
+        return proposalsRepository.findOne(new ObjectId(id));
     }
 
     public Object getProposalsByPopularity() {

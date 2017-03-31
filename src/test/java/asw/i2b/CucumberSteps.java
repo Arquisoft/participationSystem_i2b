@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -34,6 +35,7 @@ import java.sql.Date;
 import java.time.Instant;
 
 import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
 
 /**
  * @author nokutu
@@ -114,6 +116,7 @@ public class CucumberSteps {
                         .append("title", proposal.getString("title"))
                         .append("body", proposal.getString("body"))
                         .append("votes", proposal.getInt("votes"))
+                        .append("votedUsernames", proposal.getJSONArray("votedUsernames").toList())
                 );
             });
 
@@ -132,7 +135,8 @@ public class CucumberSteps {
 
     private JSONArray parseArray(String name) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(name)));
-        String line;StringBuilder result = new StringBuilder();
+        String line;
+        StringBuilder result = new StringBuilder();
         while ((line = br.readLine()) != null) {
             result.append(line);
         }
@@ -197,5 +201,28 @@ public class CucumberSteps {
         // TODO click on the given proposal's vote button
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
+    }
+
+    @Then("^the user should see \"([^\"]*)\" and \"([^\"]*)\"$")
+    public void theUserShouldSeeAnd(String text1, String text2) throws Throwable {
+        assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + text1 + "')]").size() > 0);
+        assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + text2 + "')]").size() > 0);
+    }
+
+    @Then("^the user should see proposal \"([^\"]*)\" before \"([^\"]*)\"$")
+    public void theUserShouldSeeBefore(String text1, String text2) throws Throwable {
+        boolean foundFirst = false;
+        for (WebElement we : driver.findElementsByXPath("//div[@id='proposalList']/div/div[@class='panel-heading']/a")) {
+            if (we.getText().contains(text1)) {
+                foundFirst = true;
+            } else if (we.getText().contains(text2)) {
+                if (foundFirst) {
+                    return;
+                } else {
+                    fail();
+                }
+            }
+        }
+        fail();
     }
 }
