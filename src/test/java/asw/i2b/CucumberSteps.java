@@ -10,7 +10,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import asw.i2b.Application;
 import org.apache.commons.lang3.SystemUtils;
 import org.bson.BsonDocument;
 import org.bson.Document;
@@ -47,7 +46,9 @@ public class CucumberSteps {
 
     private static MongoClient mongoClient = new MongoClient("localhost", 27017);
     private static MongoDatabase db = mongoClient.getDatabase("aswdb");
-    private static MongoCollection<Document> collection = db.getCollection("users");
+    private static MongoCollection<Document> users = db.getCollection("users");
+    private static MongoCollection<Document> proposals = db.getCollection("proposals");
+    private static MongoCollection<Document> categories = db.getCollection("categories");
 
     private static FirefoxDriver driver;
 
@@ -84,12 +85,12 @@ public class CucumberSteps {
     @Given("^the test database is loaded$")
     public void theTestDatabaseIsLoaded() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        collection.deleteMany(new BsonDocument());
+        users.deleteMany(new BsonDocument());
         try {
             JSONArray users = parseArray("testDatabase/users.json");
             users.forEach(userObject -> {
                 JSONObject user = (JSONObject) userObject;
-                collection.insertOne(new Document()
+                CucumberSteps.users.insertOne(new Document()
                         .append("_id", new ObjectId(user.getString("_id")))
                         .append("firstName", user.getString("firstName"))
                         .append("lastName", user.getString("lastName"))
@@ -105,7 +106,7 @@ public class CucumberSteps {
             JSONArray proposals = parseArray("testDatabase/proposals.json");
             proposals.forEach(proposalObject -> {
                 JSONObject proposal = (JSONObject) proposalObject;
-                collection.insertOne(new Document()
+                CucumberSteps.proposals.insertOne(new Document()
                         .append("_id", new ObjectId(proposal.getString("_id")))
                         .append("title", proposal.getString("title"))
                         .append("body", proposal.getString("body"))
@@ -116,7 +117,7 @@ public class CucumberSteps {
             JSONArray categories = parseArray("testDatabase/categories.json");
             categories.forEach(categoryObject -> {
                 JSONObject category = (JSONObject) categoryObject;
-                collection.insertOne(new Document()
+                CucumberSteps.categories.insertOne(new Document()
                         .append("_id", new ObjectId(category.getString("_id")))
                         .append("name", category.getString("name"))
                 );
