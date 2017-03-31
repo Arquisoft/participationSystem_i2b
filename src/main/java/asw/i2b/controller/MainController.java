@@ -56,8 +56,10 @@ public class MainController {
     public String voteProposal(Model model, @PathVariable("id") String id) {
         // TODO vote proposal
         for (Proposal proposal : proposalService.getAllProposals()){
-            if(proposal.getId().toString().equals(id));
+            if(proposal.getId().toString().equals(id)) {
                 proposalService.vote(proposal);
+                proposalService.save(proposal);
+            }
         }
         System.out.println("Vote proposal: " + id);
         return "redirect:/user/home";
