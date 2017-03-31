@@ -22,14 +22,14 @@
 <div class="container">
     <h1>Homepage</h1>
 
-    <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+    <div th:if="${!user.isAdmin()}">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProposal"
                 style="margin: 0 auto;">
             Create Proposal
         </button>
     </div>
 
-    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+    <div th:if="${user.isAdmin()}">
         <h2 style="color: darkred">Admin</h2>
     </div>
 
@@ -38,21 +38,21 @@
             <div class="panel-heading">
                 <a th:href="${'/user/proposal/' + proposalId}" th:text="${proposal.getTitle()}"></a>
                 <div class="pull-right">
-                    <div th:text="${proposal.getVotes()}"></div>
+                    <div th:id="${'votes-' + proposalId}" th:text="${proposal.getVotes()}"></div>
                 </div>
             </div>
             <div class="panel-body">
                 <span th:text="${proposal.getBody()}"></span>
             </div>
             <div class="panel-footer" style="overflow: auto;">
-                <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                <div th:if="${!user.isAdmin() and !proposal.getVotedUsernames().contains(user.getLogin())}">
                     <form th:action="${'/voteProposal/' + proposalId}" th:method="post">
-                        <button type="submit" class="btn btn-primary pull-right">Vote</button>
+                        <button type="submit" class="btn btn-primary pull-right">Votar</button>
                     </form>
                 </div>
-                <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <div th:if="${user.isAdmin()}">
                     <form th:action="${'/deleteProposal/' + proposalId}" th:method="post">
-                        <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                        <button type="submit" class="btn btn-danger pull-right">Eliminar</button>
                     </form>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import asw.i2b.dao.dto.Proposal;
 import asw.i2b.model.CommentCreation;
 import asw.i2b.model.Message;
 import asw.i2b.model.ProposalCreation;
+import asw.i2b.model.UserModel;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.CategoryService;
 import asw.i2b.service.CommentService;
@@ -16,8 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Date;
 
 @Controller
 public class MainController {
@@ -43,7 +42,7 @@ public class MainController {
     public String login(Model model) {
         return "login";
     }
-    
+
     @RequestMapping("/send")
     public String send(Model model, @ModelAttribute Message message) {
         kafkaProducer.send("exampleTopic", message.getMessage());
@@ -52,6 +51,7 @@ public class MainController {
 
     @GetMapping("/user/home")
     public String send(Model model) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("proposals", proposalService.getProposalsByPopularity());
         model.addAttribute("createProposal", new ProposalCreation());
         model.addAttribute("categories", categoryService.getAllCategories());
@@ -78,7 +78,7 @@ public class MainController {
 
     @RequestMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal){
-        String author = SecurityContextHolder.getContext().getAuthentication().getName();
+        String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Proposal proposal = new Proposal("author", createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
         proposalService.createProposal(proposal);
         return "redirect:/user/home";
@@ -87,7 +87,7 @@ public class MainController {
     @RequestMapping("/user/createComment")
     public String createComment(Model model, @ModelAttribute CommentCreation createComment){
         System.out.println("Create comment");
-        String author = SecurityContextHolder.getContext().getAuthentication().getName();
+        String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Comment comment = new Comment(null, author, createComment.getBody());
         commentService.createCommnet(comment);
         return "redirect:/user/home";

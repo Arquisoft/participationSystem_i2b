@@ -33,9 +33,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.List;
 
+import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author nokutu
@@ -198,9 +201,10 @@ public class CucumberSteps {
 
     @When("^the user clicks on the vote button of \"([^\"]*)\"$")
     public void theUserClicksOnTheVoteButtonOf(String proposalTitle) throws Throwable {
-        // TODO click on the given proposal's vote button
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        driver.findElementByXPath(
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Votar']"
+        ).click();
     }
 
     @Then("^the user should see \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -224,5 +228,34 @@ public class CucumberSteps {
             }
         }
         fail();
+    }
+
+    @Then("^the user returns to login screen$")
+    public void theUserReturnsToLoginScreen() throws Throwable {
+        assertTrue(driver.getCurrentUrl().contains("localhost:8090/login?logout"));
+    }
+
+    @When("^the users clicks on the logout button$")
+    public void theUsersClicksOnTheLogoutButton() throws Throwable {
+        driver.findElementById("logout").click();
+    }
+
+    @Then("^the amount of votes for proposal \"([^\"]*)\" with initial value \"([^\"]*)\" is increased and \"([^\"]*)\" is added to the votes list$")
+    public void theAmountOfVotesForProposalWithInitialValueIsIncreasedAndIsAddedToTheVotesList(String proposalTitle, String initialVotesString, String user) throws Throwable {
+        int initialVotes = Integer.parseInt(initialVotesString);
+        int votes = Integer.parseInt(
+                driver.findElementByXPath(
+                        "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//div[contains(@id, 'votes-')]"
+                ).getText()
+        );
+        assertEquals(initialVotes + 1, votes);
+    }
+
+    @Then("^\"([^\"]*)\" vote button is not visible$")
+    public void voteButtonIsNotVisible(String proposalTitle) throws Throwable {
+        List<WebElement> elements = driver.findElementsByXPath(
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Votar']"
+        );
+        assertEquals(0, elements.size());
     }
 }

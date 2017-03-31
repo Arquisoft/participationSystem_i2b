@@ -19,3 +19,10 @@ Feature:
     And the user navigates to "localhost:8090"
     When the user introduces username "prueba01@prueba.es" and password "wrongpassword"
     Then the login fails
+
+  Scenario: A user tries to log out
+    Given the test database is loaded
+    And the user navigates to "localhost:8090"
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the users clicks on the logout button
+    Then the user returns to login screen

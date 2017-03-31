@@ -5,21 +5,21 @@ Feature:
   Scenario: a user votes a proposal
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user clicks on the vote button of "proposal1"
-    Then votesAmount is increased and the userId is added to the votes list
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user clicks on the vote button of "Propuesta 1"
+    Then the amount of votes for proposal "Propuesta 1" with initial value "5" is increased and "prueba01@prueba.es" is added to the votes list
 
   Scenario: a user votes a proposal twice
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user clicks on the vote button of "proposal1"
-    Then "proposal1"'s button is not visible
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user clicks on the vote button of "Propuesta 1"
+    Then "Propuesta 1" vote button is not visible
 
   Scenario: a user votes a proposal
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user clicks on the vote button of "proposal1"
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user clicks on the vote button of "Propuesta 1"
     Then a kafka voteProposal event is generated
 

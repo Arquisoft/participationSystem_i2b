@@ -2,6 +2,7 @@ package asw.i2b.service;
 
 import asw.i2b.dao.ProposalsRepository;
 import asw.i2b.dao.dto.Proposal;
+import asw.i2b.model.UserModel;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,9 +26,9 @@ public class ProposalService {
     }
 
     public void vote(Proposal p) {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!p.getVotesUsernames().contains(name)) {
-            p.vote(name);
+        String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
+        if (!p.getVotedUsernames().contains(author)) {
+            p.vote(author);
             save(p);
         }
     }
@@ -40,7 +41,7 @@ public class ProposalService {
         return proposalsRepository.findOne(new ObjectId(id));
     }
 
-    public Object getProposalsByPopularity() {
+    public List<Proposal> getProposalsByPopularity() {
         List<Proposal> ret = getAllProposals();
         ret.sort((a, b) -> b.getVotes() - a.getVotes());
         return ret;

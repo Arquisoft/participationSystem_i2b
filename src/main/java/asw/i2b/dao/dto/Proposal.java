@@ -25,7 +25,7 @@ public class Proposal {
     private String body;
     private int minimalSupport;
     private int votes;
-    private List<String> votesUsernames;
+    private List<String> votedUsernames;
     private List<Comment> comments;
 
     public Proposal() {
@@ -40,7 +40,7 @@ public class Proposal {
         this.body = body;
         this.minimalSupport = minimalSupport;
         this.votes = 0;
-        this.votesUsernames = new ArrayList<>();
+        this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
 
     }
@@ -77,8 +77,8 @@ public class Proposal {
         return votes;
     }
 
-    public List<String> getVotesUsernames() {
-        return votesUsernames;
+    public List<String> getVotedUsernames() {
+        return votedUsernames;
     }
 
     public List<Comment> getComments() {
@@ -86,7 +86,7 @@ public class Proposal {
     }
 
     public void vote(String voteUsername){
-        votesUsernames.add(voteUsername);
+        votedUsernames.add(voteUsername);
         this.votes++;
     }
 
