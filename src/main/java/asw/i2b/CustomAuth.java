@@ -1,15 +1,12 @@
 package asw.i2b;
 
 
-import asw.i2b.model.UserModel;
-import org.json.JSONObject;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -30,10 +27,13 @@ public class CustomAuth implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String login = authentication.getName().trim();
         String password = authentication.getCredentials().toString().trim();
-        UserModel u = new UserModel(login);
 
-        if(login.equals("admin") && password.equals("admin"))
-            u.setAdmin(true);
+        //If it is admin, we let him log in without passing through participants' REST API. TODO: for the moment at least
+        if(login.equals("admin@admin.es") && password.equals("admin")){
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            return new UsernamePasswordAuthenticationToken(login, password, authorities);
+        }
 
         try {
             StringBuilder result = new StringBuilder();
@@ -63,7 +63,7 @@ public class CustomAuth implements AuthenticationProvider {
                 //JSONObject object = new JSONObject(result.toString());
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                return new UsernamePasswordAuthenticationToken(u, password, authorities);
+                return new UsernamePasswordAuthenticationToken(login, password, authorities);
             }
 
         } catch (IOException e) {

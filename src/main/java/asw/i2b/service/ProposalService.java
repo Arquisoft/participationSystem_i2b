@@ -49,4 +49,8 @@ public class ProposalService {
     public void createProposal(Proposal proposal) {
         proposalsRepository.insert(proposal);
     }
+
+    public void delete(Proposal proposal) {
+        proposalsRepository.delete(proposal);
+    }
 }

@@ -67,6 +67,15 @@ public class MainController {
         return "redirect:/user/home";
     }
 
+    @PostMapping("/deleteProposal/{id}")
+    public String deleteProposal(Model model, @PathVariable("id") String id) {
+        Proposal proposal = proposalService.findProposalById(id);
+        if(proposal != null) {
+            proposalService.delete(proposal);
+        }
+        return "redirect:/user/home";
+    }
+
     @RequestMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal){
         String author = SecurityContextHolder.getContext().getAuthentication().getName();
