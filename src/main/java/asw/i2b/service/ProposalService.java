@@ -25,8 +25,9 @@ public class ProposalService {
 
     public void vote(Proposal p) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!p.getVotedUsernames().contains(name)) {
+        if (!p.getVotesUsernames().contains(name)) {
             p.vote(name);
+            save(p);
         }
     }
 

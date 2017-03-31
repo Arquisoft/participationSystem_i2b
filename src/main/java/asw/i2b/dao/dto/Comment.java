@@ -20,18 +20,34 @@ public class Comment {
     private String author;
     private Date created;
 
+    public Comment(){
 
-    public Comment(String text) {
-        this.text = text;
     }
 
-    public void setText(String text) {
+    public Comment(String text, ObjectId proposalId) {
         this.text = text;
+        this.proposalId = proposalId;
+        author = "";
+        created = new Date();
     }
 
+    public ObjectId getId() {
+        return _id;
+    }
 
     public String getText() {
         return text;
     }
 
+    public ObjectId getProposalId() {
+        return proposalId;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
 }

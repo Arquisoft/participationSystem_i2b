@@ -54,11 +54,9 @@ public class MainController {
 
     @PostMapping("/voteProposal/{id}")
     public String voteProposal(Model model, @PathVariable("id") String id) {
-        // TODO vote proposal
         for (Proposal proposal : proposalService.getAllProposals()){
             if(proposal.getId().toString().equals(id)) {
                 proposalService.vote(proposal);
-                proposalService.save(proposal);
             }
         }
         System.out.println("Vote proposal: " + id);
@@ -69,7 +67,7 @@ public class MainController {
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal){
         System.out.println("Create proposal: " + createProposal.getTitle());
         String author = SecurityContextHolder.getContext().getAuthentication().getName();
-        Proposal proposal = new Proposal(createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0, author, new Date());
+        Proposal proposal = new Proposal("author", createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
         proposalService.createProposal(proposal);
         return "redirect:/user/home";
     }
