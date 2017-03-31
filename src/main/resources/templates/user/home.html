@@ -58,10 +58,8 @@
                         <div class="form-group">
                             <label for="sel1">Select the category of your proposal:</label>
                             <select class="form-control" id="sel1">
-                                <div th:each="category:${categories}">
-                                    <option value="${category.getId()}"
-                                            th:text="${category.getName()}"></option>
-                                </div>
+                                <option th:each="category:${categories}" value="${category.getId()}"
+                                        th:text="${category.getName()}"></option>
                             </select>
                         </div>
                         <label for="comment">Title for your proposal:</label>
