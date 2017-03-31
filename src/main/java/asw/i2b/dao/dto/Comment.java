@@ -15,20 +15,20 @@ public class Comment {
     @Id
     private ObjectId _id;
 
-    private String text;
     private ObjectId proposalId;
     private String author;
     private Date created;
+    private String text;
 
     public Comment(){
 
     }
 
-    public Comment(String text, ObjectId proposalId) {
-        this.text = text;
+    public Comment(ObjectId proposalId, String author, String text) {
         this.proposalId = proposalId;
-        author = "";
-        created = new Date();
+        this.author = author;
+        this.text = text;
+        this.created = new Date();
     }
 
     public ObjectId getId() {

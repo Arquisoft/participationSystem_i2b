@@ -18,6 +18,10 @@ public class CommentService {
     @Autowired
     private CommentsRepository commentsRepository;
 
+    public void createCommnet(Comment comment) {
+        commentsRepository.insert(comment);
+    }
+
     public List<Comment> getCommentsForProposal(Proposal p) {
         return commentsRepository.findByProposalId(p.getId());
     }

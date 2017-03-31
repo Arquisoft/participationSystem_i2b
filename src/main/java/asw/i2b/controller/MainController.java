@@ -1,11 +1,14 @@
 package asw.i2b.controller;
 
 
+import asw.i2b.dao.dto.Comment;
 import asw.i2b.dao.dto.Proposal;
+import asw.i2b.model.CommentCreation;
 import asw.i2b.model.Message;
 import asw.i2b.model.ProposalCreation;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.CategoryService;
+import asw.i2b.service.CommentService;
 import asw.i2b.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +27,9 @@ public class MainController {
 
     @Autowired
     private ProposalService proposalService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private CategoryService categoryService;
@@ -59,7 +65,7 @@ public class MainController {
                 proposalService.vote(proposal);
             }
         }
-        System.out.println("Vote proposal: " + id);
+        //System.out.println("Vote proposal: " + id);
         return "redirect:/user/home";
     }
 
@@ -69,6 +75,15 @@ public class MainController {
         String author = SecurityContextHolder.getContext().getAuthentication().getName();
         Proposal proposal = new Proposal("author", createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
         proposalService.createProposal(proposal);
+        return "redirect:/user/home";
+    }
+
+    @RequestMapping("/user/createComment")
+    public String createComment(Model model, @ModelAttribute CommentCreation createComment){
+        System.out.println("Create comment");
+        String author = SecurityContextHolder.getContext().getAuthentication().getName();
+        Comment comment = new Comment(null, author, createComment.getBody());
+        commentService.createCommnet(comment);
         return "redirect:/user/home";
     }
 
