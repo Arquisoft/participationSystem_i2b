@@ -64,10 +64,16 @@
                                 </div>
                             </select>
                         </div>
-                        <label for="comment">Title for your proposal:</label>
-                        <textarea class="form-control" rows="5" id="comment"></textarea>
-                        <label for="comment">Explanation of your proposal proposal:</label>
-                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                        <label for="title">Title for your proposal:</label>
+                        <textarea class="form-control" rows="1" id="title"></textarea>
+                        <input type="text" id="title" th:field="*{title}" />
+
+                        <label for="body">Explanation of your proposal proposal:</label>
+                        <textarea class="form-control" rows="5" id="body"></textarea>
+                        <input type="text" id="body" th:field="*{body}" />
+                        
+                        <br/>
+                        <input type="submit" value="Create" />
                     </form>
                 </div>
                 <div class="modal-fotter">
