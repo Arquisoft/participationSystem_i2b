@@ -55,6 +55,10 @@ public class MainController {
     @PostMapping("/voteProposal/{id}")
     public String voteProposal(Model model, @PathVariable("id") String id) {
         // TODO vote proposal
+        for (Proposal proposal : proposalService.getAllProposals()){
+            if(proposal.getId().toString().equals(id));
+                proposalService.vote(proposal);
+        }
         System.out.println("Vote proposal: " + id);
         return "redirect:/user/home";
     }
