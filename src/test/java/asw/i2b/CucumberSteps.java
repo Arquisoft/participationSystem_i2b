@@ -23,6 +23,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -39,6 +40,7 @@ import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * @author nokutu
@@ -198,6 +200,11 @@ public class CucumberSteps {
         assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + text2 + "')]").size() > 0);
     }
 
+    @Then("^the user should see proposal \"([^\"]*)\"$")
+    public void theUserShouldSeeProposal(String proposal) throws Throwable {
+        assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + proposal + "')]").size() > 0);
+    }
+
     @Then("^the user should see proposal \"([^\"]*)\" before \"([^\"]*)\"$")
     public void theUserShouldSeeBefore(String text1, String text2) throws Throwable {
         boolean foundFirst = false;
@@ -250,5 +257,23 @@ public class CucumberSteps {
                 "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']"
         );
         assertEquals(0, elements.size());
+    }
+
+    @When("^the user clicks on the create proposal button$")
+    public void theUserClicksOnTheCreateProposalButton() throws Throwable {
+        driver.findElementById("openCreateProposalDialog").click();
+    }
+
+
+
+    @And("^the user fills and sends proposal creation form with category \"([^\"]*)\" title \"([^\"]*)\" and explanation \"([^\"]*)\"$")
+    public void theUserFillsAndSendsProposalCreationFormWithCategoryTitleAndExplanation(String category, String title, String explanation) throws Throwable {
+        WebElement modal = driver.findElementById("createProposal");
+        Select select = new Select(modal.findElement(By.id("sel1")));
+        select.selectByVisibleText(category);
+
+        modal.findElement(By.id("title")).sendKeys(title);
+        modal.findElement(By.id("body")).sendKeys(explanation);
+        modal.findElement(By.id("sendCreateProposal")).click();
     }
 }
