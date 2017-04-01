@@ -14,13 +14,10 @@ import java.util.List;
 @Document(collection ="comments")
 public class Comment {
 
-    @Id
-    private ObjectId _id;
-
     private ObjectId proposalId;
     private String author;
     private Date created;
-    private String text;
+    private String body;
     private int votes;
     private List<String> votedUsernames;
 
@@ -28,21 +25,16 @@ public class Comment {
 
     }
 
-    public Comment(ObjectId proposalId, String author, String text) {
-        this.proposalId = proposalId;
+    public Comment(String author, String body) {
         this.author = author;
-        this.text = text;
+        this.body = body;
         this.created = new Date();
         votes = 0;
         this.votedUsernames = new ArrayList<>();
     }
 
-    public ObjectId getId() {
-        return _id;
-    }
-
-    public String getText() {
-        return text;
+    public String getBody() {
+        return body;
     }
 
     public ObjectId getProposalId() {

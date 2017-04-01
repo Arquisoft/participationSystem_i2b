@@ -52,7 +52,7 @@
     </div>
 
     <div id="proposalList" th:each="comment : ${selectedProposal.getComments()}" style="margin-top: 50px;">
-        <div class="panel panel-default" th:with="proposalId=${comment.getId().toHexString()}">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="pull-right">
                     <div th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
@@ -69,7 +69,7 @@
     <div id="createComment" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form th:action="@{/user/createComment}" th:object="${createComment}" th:method="post">
+                <form th:action="${'/user/createComment/' + selectedProposal.getId()}" th:object="${createComment}" th:method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <div class="modal-title">Here you can write a comment for this proposal</div>
