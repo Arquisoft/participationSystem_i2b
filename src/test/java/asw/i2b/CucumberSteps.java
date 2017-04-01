@@ -115,7 +115,7 @@ public class CucumberSteps {
                         .append("body", proposal.getString("body"))
                         .append("votes", proposal.getInt("votes"))
                         .append("votedUsernames", proposal.getJSONArray("votedUsernames").toList())
-                        .append("comments", proposal.getJSONArray("comments"))
+                        .append("comments", proposal.getJSONArray("comments").toList())
                 );
             });
 

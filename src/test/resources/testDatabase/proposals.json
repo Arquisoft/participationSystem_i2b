@@ -4,9 +4,11 @@
     "title": "Proposal 1",
     "body": "Proposal 1 content",
     "votes": 5,
-    "votedUsernames": ["a", "b", "c", "d", "e"]
+    "votedUsernames": ["a", "b", "c", "d", "e"],
     "comments": [
                   {
+                    "_id": "58dbfd7dbff2304aa268aaaa",
+                    "votes": 8,
                     "body": "Proposal 1 seems quite good"
                   }
                 ]
@@ -19,12 +21,17 @@
     "votedUsernames": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"],
     "comments": [
                   {
+                    "_id": "58dbfd7dbff2304aa268abaa",
+                    "votes": 4,
                     "body": "This is a test comment"
                   },
                   {
+                    "_id": "58dbfd7dbff2304aa268abab",
                     "body": "Your test comment is shit"
                   },
                   {
+                    "_id": "58dbfd7dbff2304aa268abac",
+                    "votes": 12,
                     "body": "Shut up *$%/&!º"
                   }
                 ]
