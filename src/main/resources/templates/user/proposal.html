@@ -16,12 +16,9 @@
     </script>
 </head>
 <body>
-
-
+<div th:replace="/fragments/navbar :: navbar">
 
 <div class="container">
-
-    <h1></h1>
 
     <div th:if="${!user.isAdmin()}">
         <button id="openCreateProposalDialog" type="button" class="btn btn-primary" data-toggle="modal"
