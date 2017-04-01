@@ -5,12 +5,28 @@
     "body": "Proposal 1 content",
     "votes": 5,
     "votedUsernames": ["a", "b", "c", "d", "e"]
+    "comments": [
+                  {
+                    "body": "Proposal 1 seems quite good"
+                  }
+                ]
   },
   {
     "_id" : "58dbfd8abff2304aa268bada",
     "title": "Proposal 2",
     "body": "Proposal 2 content",
     "votes": 10,
-    "votedUsernames": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+    "votedUsernames": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"],
+    "comments": [
+                  {
+                    "body": "This is a test comment"
+                  },
+                  {
+                    "body": "Your test comment is shit"
+                  },
+                  {
+                    "body": "Shut up *$%/&!º"
+                  }
+                ]
   }
 ]
