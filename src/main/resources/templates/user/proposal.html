@@ -47,6 +47,26 @@
         </div>
     </div>
 
+    <div id="proposalList" th:each="comment : ${selectedProposal.getComments()}" style="margin-top: 50px;">
+        <div class="panel panel-default" th:with="proposalId=${comment.getId().toHexString()}">
+            <div class="panel-heading">
+                <div class="pull-right">
+                    <div th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <span th:text="${comment.getBody()}"></span>
+            </div>
+            <div class="panel-footer" style="overflow: auto;">
+                <div th:if="${user.isAdmin()}">
+                    <form th:action="${'/deleteProposal/' + proposalId}" th:method="post">
+                        <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 </body>

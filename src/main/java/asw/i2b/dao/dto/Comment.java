@@ -19,6 +19,7 @@ public class Comment {
     private String author;
     private Date created;
     private String text;
+    private int votes;
 
     public Comment(){
 
@@ -29,6 +30,7 @@ public class Comment {
         this.author = author;
         this.text = text;
         this.created = new Date();
+        votes = 0;
     }
 
     public ObjectId getId() {
@@ -49,5 +51,9 @@ public class Comment {
 
     public Date getCreated() {
         return created;
+    }
+
+    public int getVotes(){
+        return votes;
     }
 }
