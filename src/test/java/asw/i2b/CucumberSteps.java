@@ -21,6 +21,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,7 +39,7 @@ import java.util.List;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.*;
 
 /**
  * @author nokutu
@@ -265,7 +267,9 @@ public class CucumberSteps {
 
     @And("^the user fills and sends proposal creation form with category \"([^\"]*)\" title \"([^\"]*)\" and explanation \"([^\"]*)\"$")
     public void theUserFillsAndSendsProposalCreationFormWithCategoryTitleAndExplanation(String category, String title, String explanation) throws Throwable {
-        WebElement modal = driver.findElementById("createProposal");
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebElement modal = wait.until(ExpectedConditions.visibilityOf(driver.findElementById("createProposal")));
+
         Select select = new Select(modal.findElement(By.id("sel1")));
         select.selectByVisibleText(category);
 
