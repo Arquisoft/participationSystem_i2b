@@ -86,16 +86,17 @@ public class MainController {
 
     @RequestMapping("/user/createComment")
     public String createComment(Model model, @ModelAttribute CommentCreation createComment){
-        System.out.println("Create comment");
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Comment comment = new Comment(null, author, createComment.getBody());
         commentService.createCommnet(comment);
-        return "redirect:/user/home";
+        return "redirect:/user/proposal";
     }
 
     @RequestMapping("/user/proposal/{id}")
     public String proposal(Model model, @PathVariable("id") String id) {
         System.out.println("View proposal: " + id);
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        model.addAttribute("selectedProposal", proposalService.findProposalById(id));
         return "user/proposal";
     }
 
