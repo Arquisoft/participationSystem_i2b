@@ -9,7 +9,6 @@ import asw.i2b.model.ProposalCreation;
 import asw.i2b.model.UserModel;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.CategoryService;
-import asw.i2b.service.CommentService;
 import asw.i2b.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,9 +25,6 @@ public class MainController {
 
     @Autowired
     private ProposalService proposalService;
-
-    @Autowired
-    private CommentService commentService;
 
     @Autowired
     private CategoryService categoryService;
@@ -84,12 +80,14 @@ public class MainController {
         return "redirect:/user/home";
     }
 
-    @PostMapping("/user/createComment")
-    public String createComment(Model model, @ModelAttribute CommentCreation createComment){
+    @PostMapping("/user/createComment/{id}")
+    public String createComment(Model model, @ModelAttribute CommentCreation createComment, @PathVariable("id") String id){
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
-        Comment comment = new Comment(null, author, createComment.getBody());
-        commentService.createCommnet(comment);
-        return "redirect:/user/proposal";
+        Proposal proposal = proposalService.findProposalById(id);
+        Comment comment = new Comment(author, createComment.getBody());
+        proposal.getComments().add(comment);
+        proposalService.save(proposal);
+        return "redirect:/user/proposal/" + id;
     }
 
     @GetMapping("/user/proposal/{id}")
