@@ -33,7 +33,7 @@ public class MainController {
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public ModelAndView landing(Model model) {
         return new ModelAndView("redirect:" + "/user/home");
     }
@@ -43,7 +43,7 @@ public class MainController {
         return "login";
     }
 
-    @RequestMapping("/send")
+    @PostMapping("/send")
     public String send(Model model, @ModelAttribute Message message) {
         kafkaProducer.send("exampleTopic", message.getMessage());
         return "redirect:/";
@@ -76,7 +76,7 @@ public class MainController {
         return "redirect:/user/home";
     }
 
-    @RequestMapping("/user/createProposal")
+    @PostMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal){
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Proposal proposal = new Proposal("author", createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
@@ -84,7 +84,7 @@ public class MainController {
         return "redirect:/user/home";
     }
 
-    @RequestMapping("/user/createComment")
+    @PostMapping("/user/createComment")
     public String createComment(Model model, @ModelAttribute CommentCreation createComment){
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Comment comment = new Comment(null, author, createComment.getBody());
@@ -92,7 +92,7 @@ public class MainController {
         return "redirect:/user/proposal";
     }
 
-    @RequestMapping("/user/proposal/{id}")
+    @GetMapping("/user/proposal/{id}")
     public String proposal(Model model, @PathVariable("id") String id) {
         System.out.println("View proposal: " + id);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());

@@ -16,13 +16,9 @@
     </script>
 </head>
 <body>
-
-
+<div th:replace="/fragments/navbar :: navbar">
 
 <div class="container">
-
-    <h1></h1>
-
     <div class="panel panel-default" th:with="proposalId=${selectedProposal.getId().toHexString()}">
         <div class="panel-heading">
             <a th:href="${'/user/proposal/' + proposalId}" th:text="${selectedProposal.getTitle()}"></a>
