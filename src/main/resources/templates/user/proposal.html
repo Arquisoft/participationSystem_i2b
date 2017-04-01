@@ -23,6 +23,13 @@
 
     <h1></h1>
 
+    <div th:if="${!user.isAdmin()}">
+        <button id="openCreateProposalDialog" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#createComment" style="margin: 0 auto;">
+            Create Proposal
+        </button>
+    </div>
+
     <div class="panel panel-default" th:with="proposalId=${selectedProposal.getId().toHexString()}">
         <div class="panel-heading">
             <a th:href="${'/user/proposal/' + proposalId}" th:text="${selectedProposal.getTitle()}"></a>
@@ -58,15 +65,32 @@
                 <span th:text="${comment.getBody()}"></span>
             </div>
             <div class="panel-footer" style="overflow: auto;">
-                <div th:if="${user.isAdmin()}">
-                    <form th:action="${'/deleteProposal/' + proposalId}" th:method="post">
-                        <button type="submit" class="btn btn-danger pull-right">Delete</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
 
+    <div id="createComment" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/user/createComment}" th:object="${createComment}" th:method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="modal-title">Here you can write a comment for this proposal</div>
+                    </div>
+                    <div class="modal-body">
+                        <label for="body">Comment for this proposal:</label>
+                        <textarea class="form-control" rows="5" id="body" th:field="*{body}"></textarea>
+                    </div>
+                    <div class="modal-footer" style="overflow: auto">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary">Comment</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 </body>
