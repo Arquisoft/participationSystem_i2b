@@ -68,11 +68,6 @@ public class CucumberSteps {
         driver = new FirefoxDriver(ffBinary, firefoxProfile);
     }
 
-    @Test
-    public void a() {
-
-    }
-
     public static void tearDown() {
         driver.quit();
     }
@@ -89,7 +84,6 @@ public class CucumberSteps {
 
     @Given("^the test database is loaded$")
     public void theTestDatabaseIsLoaded() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
         users.deleteMany(new BsonDocument());
         proposals.deleteMany(new BsonDocument());
         categories.deleteMany(new BsonDocument());
@@ -154,7 +148,6 @@ public class CucumberSteps {
 
     @When("^the user introduces username \"([^\"]*)\" and password \"([^\"]*)\"$")
     public void theUserIntroducesUsernameAndPassword(String username, String password) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).clear();
@@ -164,7 +157,6 @@ public class CucumberSteps {
 
     @Then("^the login fails$")
     public void theLoginFails() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
         assertTrue(driver.getCurrentUrl().contains("/login?error"));
     }
 
@@ -180,30 +172,23 @@ public class CucumberSteps {
 
     @When("^the personnel member clicks in \"([^\"]*)\"'s delete button$")
     public void thePersonnelMemberClicksInSDeleteButton(String proposalTitle) throws Throwable {
-        // TODO click in parameter's proposal delete button
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
-
-    @Then("^\"([^\"]*)\" is deleted$")
-    public void isDeleted(String proposalTitle) throws Throwable {
-        // TODO check that the given proposal is neither in the page nor in the database.
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        driver.findElementByXPath(
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Delete']"
+        ).click();
     }
 
     @Then("^the user doesn't see \"([^\"]*)\"'s delete button$")
     public void theUserDoesnTSeeSDeleteButton(String proposalTitle) throws Throwable {
-        // TODO check that there is no delete button in the given proposal
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        List<WebElement> elements = driver.findElementsByXPath(
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Delete']"
+        );
+        assertEquals(0, elements.size());
     }
 
     @When("^the user clicks on the vote button of \"([^\"]*)\"$")
     public void theUserClicksOnTheVoteButtonOf(String proposalTitle) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
         driver.findElementByXPath(
-                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Votar']"
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Vote']"
         ).click();
     }
 
@@ -254,7 +239,15 @@ public class CucumberSteps {
     @Then("^\"([^\"]*)\" vote button is not visible$")
     public void voteButtonIsNotVisible(String proposalTitle) throws Throwable {
         List<WebElement> elements = driver.findElementsByXPath(
-                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Votar']"
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Vote']"
+        );
+        assertEquals(0, elements.size());
+    }
+
+    @Then("^the users doesn't see \"([^\"]*)\"$")
+    public void theUsersDoesnTSee(String proposalTitle) throws Throwable {
+        List<WebElement> elements = driver.findElementsByXPath(
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']"
         );
         assertEquals(0, elements.size());
     }

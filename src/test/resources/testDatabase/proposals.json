@@ -1,15 +1,15 @@
 [
   {
     "_id" : "58dbfd7dbff2304aa268bacf",
-    "title": "Propuesta 1",
-    "body": "Contenido de la propuesta 1",
+    "title": "Proposal 1",
+    "body": "Proposal 1 content",
     "votes": 5,
     "votedUsernames": ["a", "b", "c", "d", "e"]
   },
   {
     "_id" : "58dbfd8abff2304aa268bada",
-    "title": "Propuesta 2",
-    "body": "Contenido de la propuesta 2",
+    "title": "Proposal 2",
+    "body": "Proposal 2 content",
     "votes": 10,
     "votedUsernames": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
   }

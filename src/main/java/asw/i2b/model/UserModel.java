@@ -21,7 +21,7 @@ public class UserModel {
     }
 
     public void setAdmin(boolean admin) {
-        admin = admin;
+        this.admin = admin;
     }
 
     public boolean isAdmin(){
