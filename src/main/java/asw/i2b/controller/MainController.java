@@ -83,7 +83,7 @@ public class MainController {
     @PostMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
-        Proposal proposal = new Proposal("author", createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
+        Proposal proposal = new Proposal(author, createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
         proposalService.createProposal(proposal);
         return "redirect:/user/home";
     }
@@ -97,7 +97,7 @@ public class MainController {
             comment.vote(author);
         }
         proposalService.save(proposal);
-        return "redirect:/user/home";
+        return "redirect:/user/proposal/" + id;
     }
 
     @PostMapping("/user/createComment/{id}")
