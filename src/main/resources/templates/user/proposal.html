@@ -85,7 +85,7 @@
             Comments
         </div>
         <div class="panel-body">
-            <div id="proposalList" th:each="comment : ${selectedProposal.getComments()}">
+            <div class="comment" th:each="comment : ${selectedProposal.getComments()}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <span th:text="${comment.getAuthor() + ' says:'}"></span>

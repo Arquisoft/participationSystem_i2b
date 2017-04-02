@@ -317,4 +317,30 @@ public class CucumberSteps {
                 ".//a[contains(text(),\""+ link.trim() +"\")]"
         ).click();
     }
+
+    @When("^the user clicks on the create comment button$")
+    public void theUserClicksOnTheCreateCommentButton() throws Throwable {
+        driver.findElementByXPath(
+                ".//button[contains(text(),\"Create Comment\")]"
+        ).click();
+    }
+
+    @And("^the user fills and sends the comment with body \"([^\"]*)\"$")
+    public void theUserFillsAndSendsTheCommentWithBody(String body) throws Throwable {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebElement input = wait.until(ExpectedConditions.visibilityOf(driver.findElementById("body")));
+        input.sendKeys(body);
+        driver.findElement(By.xpath(".//*[@id='createComment']//div[@class=\"modal-footer\"]//button[1]")).click();
+    }
+
+    @Then("^a comment should appear on the comment list with body \"([^\"]*)\"$")
+    public void aCommentShouldAppearOnTheCommentListWithBody(String body) throws Throwable {
+
+        String bodyInDoc = (
+                driver.findElementByXPath(
+                        ".//*[@class='comment'][last()]//div[@class=\"panel-body\"]"
+                ).getText()
+        );
+        assertEquals(body, bodyInDoc);
+    }
 }
