@@ -59,6 +59,7 @@ public class MainController {
         Proposal proposal = proposalService.findProposalById(id);
         if (proposal != null) {
             proposalService.vote(proposal);
+            kafkaProducer.sendVoteProposal(proposal);
         }
         return "redirect:/user/home";
     }
@@ -85,6 +86,7 @@ public class MainController {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Proposal proposal = new Proposal(author, createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
         proposalService.createProposal(proposal);
+        kafkaProducer.sendCreateProposal(proposal);
         return "redirect:/user/home";
     }
 
@@ -97,6 +99,7 @@ public class MainController {
             comment.vote(author);
         }
         proposalService.save(proposal);
+        kafkaProducer.sendVoteComment(comment);
         return "redirect:/user/proposal/" + proposalId;
     }
 
@@ -107,6 +110,7 @@ public class MainController {
         Comment comment = new Comment(author, createComment.getBody());
         proposal.comment(comment);
         proposalService.save(proposal);
+        kafkaProducer.sendCreateComment(comment);
         return "redirect:/user/proposal/" + id;
     }
 

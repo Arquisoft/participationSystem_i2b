@@ -1,5 +1,7 @@
 package asw.i2b.dao.dto;
 
+import asw.i2b.util.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,12 +16,20 @@ import java.util.List;
 @Document(collection = "comments")
 public class Comment {
 
-    private ObjectId proposalId;
+    private ObjectId proposalId;    //TODO: Is this used for anything ??
+
+    @JsonView(Views.Public.class)
     private String author;
+
+    @JsonView(Views.Public.class)
     private Date created;
+
+    @JsonView(Views.Public.class)
     private String body;
     private int votes;
     private List<String> votedUsernames;
+
+    @JsonView(Views.Public.class)
     private long num;
 
 
@@ -35,12 +45,14 @@ public class Comment {
         this.votedUsernames = new ArrayList<>();
     }
 
+
     public String getBody() {
         return body;
     }
 
-    public ObjectId getProposalId() {
-        return proposalId;
+    @JsonView(Views.Public.class)
+    public String getProposalId() {
+        return proposalId.toHexString();
     }
 
     public String getAuthor() {

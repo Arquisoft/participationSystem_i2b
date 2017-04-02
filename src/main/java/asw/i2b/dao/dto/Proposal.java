@@ -1,10 +1,18 @@
 package asw.i2b.dao.dto;
 
 import asw.i2b.model.ProposalRestrictions;
+import asw.i2b.util.ObjectIdSerializer;
+import asw.i2b.util.Views;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,16 +24,24 @@ import java.util.List;
 public class Proposal {
 
     @Id
+
     private ObjectId _id;
 
+    @JsonView(Views.Public.class)
     private String author;
+    @JsonView(Views.Public.class)
     private Date created;
     private String category;
+    @JsonView(Views.Public.class)
     private String title;
+    @JsonView(Views.Public.class)
     private String body;
     private int minimalSupport;
+    @JsonView(Views.Public.class)
     private int votes;
+    @JsonView(Views.Public.class)
     private List<String> votedUsernames;
+    @JsonView(Views.Public.class)
     private List<Comment> comments;
 
     public Proposal() {
@@ -43,6 +59,10 @@ public class Proposal {
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
 
+    }
+    @JsonView(Views.Public.class)
+    public String get_id() {        //Just for serialization, to have the appropiate name with the _
+        return _id.toHexString();   //and just serializing the id string
     }
 
     public ObjectId getId() {
