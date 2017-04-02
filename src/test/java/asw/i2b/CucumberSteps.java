@@ -4,6 +4,7 @@ import com.esotericsoftware.minlog.Log;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -277,5 +278,43 @@ public class CucumberSteps {
         modal.findElement(By.id("title")).sendKeys(title);
         modal.findElement(By.id("body")).sendKeys(explanation);
         modal.findElement(By.id("sendCreateProposal")).click();
+    }
+
+    @When("^the user clicks on the comment's vote button with title \"([^\"]*)\"$")
+    public void hteUserClicksOnTheCommentVoteButton(String commentTitle) throws InterruptedException {
+
+        driver.findElementByXPath(
+                ".//*[contains(text(),\"" + commentTitle.trim() + "\")]/../..//button"
+        ).click();
+    }
+
+    @Then("^the amount of votes for comment \"([^\"]*)\" with initial value \"([^\"]*)\" is increased and \"([^\"]*)\" is added to the votes list$")
+    public void theAmountOfVotesForCommentWithInitialValueIsIncreasedAndIsAddedToTheVotesList(String commentTitle, String initialVotesString, String user) throws Throwable {
+
+        int initialVotes = Integer.parseInt(initialVotesString);
+        int votes = Integer.parseInt(
+                driver.findElementByXPath(
+                        ".//*[contains(text(),\""+commentTitle.trim()+"\")]/../../div[@class=\"panel-heading\"]/div[@class=\"pull-right\"]"
+                ).getText()
+        );
+        assertEquals(initialVotes + 1, votes);
+    }
+
+    @Then("^the button to vote comment \"([^\"]*)\" is not present$")
+    public void testButtonNotPresentForComment(String commentTitle) throws Throwable {
+        String button = (
+                driver.findElementByXPath(
+                        ".//*[contains(text(),\""+commentTitle+"\")]/../..//span[@class=\"pull-right\"]"
+                ).getText()
+        );
+        assertEquals("You've already voted", button);
+    }
+
+
+    @And("^the user navigates into \"([^\"]*)\" details$")
+    public void theUserNavigatesIntoDetails(String link) throws Throwable {
+        driver.findElementByXPath(
+                ".//a[contains(text(),\""+ link.trim() +"\")]"
+        ).click();
     }
 }

@@ -77,7 +77,7 @@ public class MainController {
         Proposal proposal = proposalService.findProposalById(proposalId);
         proposal.deleteComment(Long.parseLong(id));
         proposalService.save(proposal);
-        return "redirect:/user/home";
+        return "redirect:/user/proposal/"+proposalId;
     }
 
     @PostMapping("/user/createProposal")
@@ -97,7 +97,7 @@ public class MainController {
             comment.vote(author);
         }
         proposalService.save(proposal);
-        return "redirect:/user/proposal/" + id;
+        return "redirect:/user/proposal/" + proposalId;
     }
 
     @PostMapping("/user/createComment/{id}")
