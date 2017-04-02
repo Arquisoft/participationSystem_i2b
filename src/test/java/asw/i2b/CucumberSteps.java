@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -110,13 +111,32 @@ public class CucumberSteps {
             JSONArray proposals = parseArray("testDatabase/proposals.json");
             proposals.forEach(proposalObject -> {
                 JSONObject proposal = (JSONObject) proposalObject;
+                JSONArray comments = proposal.getJSONArray("comments");
+                List<Document> commentsToInsert = new ArrayList<>();
+
+                for(Object commentO :comments){
+                    JSONObject comment = (JSONObject) commentO;
+                    commentsToInsert.add(new Document()
+                            .append("num", comment.getInt("num"))
+                            .append("author", comment.getString("author"))
+                            .append("created", Date.from(Instant.parse(comment.getString("created"))))
+                            .append("votes", comment.getInt("votes"))
+                            .append("votedUsernames", comment.getJSONArray("votedUsernames").toList())
+                            .append("body", comment.getString("body"))
+                    );
+                }
+
+
                 CucumberSteps.proposals.insertOne(new Document()
                         .append("_id", new ObjectId(proposal.getString("_id")))
                         .append("title", proposal.getString("title"))
                         .append("body", proposal.getString("body"))
                         .append("votes", proposal.getInt("votes"))
                         .append("votedUsernames", proposal.getJSONArray("votedUsernames").toList())
-                        .append("comments", proposal.getJSONArray("comments").toList())
+                        .append("comments", commentsToInsert)
+                        .append("created", Date.from(Instant.parse(proposal.getString("created"))))
+                        .append("minimalSupport", proposal.getInt("minimalSupport"))
+                        .append("category", "category")
                 );
             });
 
@@ -333,7 +353,7 @@ public class CucumberSteps {
         driver.findElement(By.xpath(".//*[@id='createComment']//div[@class=\"modal-footer\"]//button[1]")).click();
     }
 
-    @Then("^a comment should appear on the comment list with body \"([^\"]*)\"$")
+    @Then("^a comment should appear at the bottom of the comment list with body \"([^\"]*)\"$")
     public void aCommentShouldAppearOnTheCommentListWithBody(String body) throws Throwable {
 
         String bodyInDoc = (

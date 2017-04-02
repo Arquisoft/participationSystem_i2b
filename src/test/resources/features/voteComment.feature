@@ -21,7 +21,7 @@ Feature:
   Scenario: a user votes a comment
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    And the user navigates to "http://localhost:8090/user/proposal/58dbfd8abff2304aa268bada"
-    When the user clicks on the comment's vote button
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    And the user navigates into "Proposal 1" details
+    When the user clicks on the comment's vote button with title "Proposal 1 seems quite good"
     Then a kafka voteComment event is generated

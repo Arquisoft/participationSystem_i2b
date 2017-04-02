@@ -37,12 +37,12 @@
                 </div>
                 <div class="panel-footer" style="overflow: auto;">
                     <div th:if="${!user.isAdmin() and !selectedProposal.getVotedUsernames().contains(user.getLogin())}">
-                        <form th:action="${'/voteProposal/' + proposalId}" th:method="post">
+                        <form th:action="${'/voteProposal/' + proposalId}" th:method="post" style="margin:0;">
                             <button type="submit" class="btn btn-primary pull-right">Vote</button>
                         </form>
                     </div>
                     <div th:if="${user.isAdmin()}">
-                        <form th:action="${'/deleteProposal/' + proposalId}" th:method="post">
+                        <form th:action="${'/deleteProposal/' + proposalId}" th:method="post" style="margin:0;">
                             <button type="submit" class="btn btn-danger pull-right">Delete</button>
                         </form>
                     </div>
@@ -73,7 +73,7 @@
         <div class="panel-footer">
             <div th:if="${!user.isAdmin()}">
                 <button id="openCreateProposalDialog" type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#createComment" style="margin: 0 auto;">
+                        data-target="#createComment" style="margin: 0;">
                     Create Comment
                 </button>
             </div>
@@ -100,7 +100,7 @@
                         <div th:if="${!user.isAdmin()}">
                             <div th:if="${!comment.getVotedUsernames().contains(user.getLogin())}">
                                 <form th:action="${'/user/voteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
-                                      th:method="post">
+                                      th:method="post" style="margin:0;">
                                     <button type="submit" class="btn btn-primary pull-right">Vote</button>
                                 </form>
                             </div>
@@ -110,7 +110,7 @@
                         </div>
                         <div th:if="${user.isAdmin()}">
                             <form th:action="${'/deleteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
-                                  th:method="post">
+                                  th:method="post" style="margin:0;">
                                 <button type="submit" class="btn btn-danger pull-right">Delete</button>
                             </form>
                         </div>

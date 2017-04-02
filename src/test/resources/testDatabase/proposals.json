@@ -2,8 +2,12 @@
   {
     "_id": "58dbfd7dbff2304aa268bacf",
     "title": "Proposal 1",
+    "author" : "Author 1",
     "body": "Proposal 1 content",
+    "created": "2017-02-27T23:00:00.000Z",
+    "minimalSupport" : 100,
     "votes": 5,
+    "category" : "Category 1",
     "votedUsernames": [
       "a",
       "b",
@@ -14,6 +18,8 @@
     "comments": [
       {
         "num": 0,
+        "author" : "Author 1",
+        "created" :   "2017-02-27T23:17:00.000Z",
         "votes": 7,
         "votedUsernames": [
           "a",
@@ -31,8 +37,12 @@
   {
     "_id": "58dbfd8abff2304aa268bada",
     "title": "Proposal 2",
+    "author" : "Author 2",
     "body": "Proposal 2 content",
+    "created": "2017-02-27T23:00:00.000Z",
+    "category" : "Category 2",
     "votes": 10,
+    "minimalSupport" : 200,
     "votedUsernames": [
       "a",
       "b",
@@ -48,6 +58,8 @@
     "comments": [
       {
         "num": 0,
+        "author" : "Author 2",
+        "created" :  "2017-03-01T16:00:00.000Z",
         "votes": 4,
         "votedUsernames": [
           "a",
@@ -59,6 +71,8 @@
       },
       {
         "num": 1,
+        "author" : "Author 1",
+        "created" :  "2017-03-01T17:00:00.000Z",
         "votes": 4,
         "votedUsernames": [
           "a",
@@ -70,6 +84,8 @@
       },
       {
         "num": 2,
+        "author" : "Author 2",
+        "created" :  "2017-03-01T15:00:00.000Z",
         "votes": 10,
         "votedUsernames": [
           "a",
