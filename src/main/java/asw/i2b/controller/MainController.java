@@ -72,6 +72,14 @@ public class MainController {
         return "redirect:/user/home";
     }
 
+    @PostMapping("/deleteComment/{id}")
+    public String deleteComment(Model model, @RequestParam(value = "proposalId") String proposalId, @PathVariable("id") String id) {
+        Proposal proposal = proposalService.findProposalById(proposalId);
+        proposal.deleteComment(Long.parseLong(id));
+        proposalService.save(proposal);
+        return "redirect:/user/home";
+    }
+
     @PostMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();

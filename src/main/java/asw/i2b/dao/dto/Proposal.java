@@ -136,4 +136,10 @@ public class Proposal {
                 ", comments=" + comments +
                 '}';
     }
+
+    public void deleteComment(long num) {
+        for(int i = 0;i < this.comments.size();i++)
+            if(this.comments.get(i).getNum() == num)
+                this.comments.remove(i);
+    }
 }
