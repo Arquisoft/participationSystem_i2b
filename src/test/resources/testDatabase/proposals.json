@@ -1,39 +1,90 @@
 [
   {
-    "_id" : "58dbfd7dbff2304aa268bacf",
+    "_id": "58dbfd7dbff2304aa268bacf",
     "title": "Proposal 1",
     "body": "Proposal 1 content",
     "votes": 5,
-    "votedUsernames": ["a", "b", "c", "d", "e"],
+    "votedUsernames": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e"
+    ],
     "comments": [
-                  {
-                    "_id": "58dbfd7dbff2304aa268aaaa",
-                    "votes": 8,
-                    "body": "Proposal 1 seems quite good"
-                  }
-                ]
+      {
+        "num": 0,
+        "votes": 7,
+        "votedUsernames": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g"
+        ],
+        "body": "Proposal 1 seems quite good"
+      }
+    ]
   },
   {
-    "_id" : "58dbfd8abff2304aa268bada",
+    "_id": "58dbfd8abff2304aa268bada",
     "title": "Proposal 2",
     "body": "Proposal 2 content",
     "votes": 10,
-    "votedUsernames": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"],
+    "votedUsernames": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j"
+    ],
     "comments": [
-                  {
-                    "_id": "58dbfd7dbff2304aa268abaa",
-                    "votes": 4,
-                    "body": "This is a test comment"
-                  },
-                  {
-                    "_id": "58dbfd7dbff2304aa268abab",
-                    "body": "Your test comment is shit"
-                  },
-                  {
-                    "_id": "58dbfd7dbff2304aa268abac",
-                    "votes": 12,
-                    "body": "Shut up *$%/&!º"
-                  }
-                ]
+      {
+        "num": 0,
+        "votes": 4,
+        "votedUsernames": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "body": "This is a test comment"
+      },
+      {
+        "num": 1,
+        "votes": 4,
+        "votedUsernames": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "body": "Your test comment is shit"
+      },
+      {
+        "num": 2,
+        "votes": 10,
+        "votedUsernames": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g",
+          "h",
+          "i",
+          "j"
+        ],
+        "body": "Shut up *$%/&!º"
+      }
+    ]
   }
 ]

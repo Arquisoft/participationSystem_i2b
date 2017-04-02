@@ -25,7 +25,8 @@
                 data-target="#createComment" style="margin: 0 auto;">
             Create Comment
         </button>
-    </div><br />
+    </div>
+    <br/>
 
     <div class="panel panel-info" th:with="proposalId=${selectedProposal.getId().toHexString()}">
         <div class="panel-heading">
@@ -64,6 +65,22 @@
                     </div>
                     <div class="panel-footer" style="overflow: auto;">
                         <div th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
+                        <div th:if="${!user.isAdmin()}">
+                            <div th:if="${!comment.getVotedUsernames().contains(user.getLogin())}">
+                                <form th:action="${'/user/voteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
+                                      th:method="post">
+                                    <button type="submit" class="btn btn-primary pull-right">Vote</button>
+                                </form>
+                            </div>
+                            <div th:if="${comment.getVotedUsernames().contains(user.getLogin())}">
+                                <span class="pull-right">You've already voted</span>
+                            </div>
+                        </div>
+                        <!--<div th:if="${user.isAdmin()}">
+                            <form th:action="${'/deleteProposal/' + proposalId}" th:method="post">
+                                <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                            </form>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -73,7 +90,8 @@
     <div id="createComment" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form th:action="${'/user/createComment/' + selectedProposal.getId()}" th:object="${createComment}" th:method="post">
+                <form th:action="${'/user/createComment/' + selectedProposal.getId()}" th:object="${createComment}"
+                      th:method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <div class="modal-title">Here you can write a comment for this proposal</div>

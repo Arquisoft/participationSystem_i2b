@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Pineirin on 28/03/2017.
  */
-@Document(collection ="comments")
+@Document(collection = "comments")
 public class Comment {
 
     private ObjectId proposalId;
@@ -20,8 +20,10 @@ public class Comment {
     private String body;
     private int votes;
     private List<String> votedUsernames;
+    private long num;
 
-    public Comment(){
+
+    public Comment() {
 
     }
 
@@ -49,7 +51,7 @@ public class Comment {
         return created;
     }
 
-    public int getVotes(){
+    public int getVotes() {
         return votes;
     }
 
@@ -57,9 +59,29 @@ public class Comment {
         return votedUsernames;
     }
 
-    public void vote(String voteUsername){
+    public void vote(String voteUsername) {
         votedUsernames.add(voteUsername);
         this.votes++;
     }
 
+    public void setNum(long num) {
+        this.num = num;
+    }
+
+    public long getNum() {
+        return num;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "proposalId=" + proposalId +
+                ", author='" + author + '\'' +
+                ", created=" + created +
+                ", body='" + body + '\'' +
+                ", votes=" + votes +
+                ", votedUsernames=" + votedUsernames +
+                ", num=" + num +
+                '}';
+    }
 }

@@ -57,7 +57,7 @@ public class MainController {
     @PostMapping("/voteProposal/{id}")
     public String voteProposal(Model model, @PathVariable("id") String id) {
         Proposal proposal = proposalService.findProposalById(id);
-        if(proposal != null) {
+        if (proposal != null) {
             proposalService.vote(proposal);
         }
         return "redirect:/user/home";
@@ -66,26 +66,38 @@ public class MainController {
     @PostMapping("/deleteProposal/{id}")
     public String deleteProposal(Model model, @PathVariable("id") String id) {
         Proposal proposal = proposalService.findProposalById(id);
-        if(proposal != null) {
+        if (proposal != null) {
             proposalService.delete(proposal);
         }
         return "redirect:/user/home";
     }
 
     @PostMapping("/user/createProposal")
-    public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal){
+    public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Proposal proposal = new Proposal("author", createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
         proposalService.createProposal(proposal);
         return "redirect:/user/home";
     }
 
+    @PostMapping("/user/voteComment/{id}")//user/voteComment/2?proposalId=58dbfd8abff2304aa268bada
+    public String voteComment(Model model, @RequestParam(value = "proposalId") String proposalId, @PathVariable("id") String id) {
+        String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
+        Proposal proposal = proposalService.findProposalById(proposalId);
+        Comment comment = proposal.getComment(Long.parseLong(id));
+        if (comment != null) {
+            comment.vote(author);
+        }
+        proposalService.save(proposal);
+        return "redirect:/user/home";
+    }
+
     @PostMapping("/user/createComment/{id}")
-    public String createComment(Model model, @ModelAttribute CommentCreation createComment, @PathVariable("id") String id){
+    public String createComment(Model model, @ModelAttribute CommentCreation createComment, @PathVariable("id") String id) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Proposal proposal = proposalService.findProposalById(id);
         Comment comment = new Comment(author, createComment.getBody());
-        proposal.getComments().add(comment);
+        proposal.comment(comment);
         proposalService.save(proposal);
         return "redirect:/user/proposal/" + id;
     }
@@ -93,8 +105,10 @@ public class MainController {
     @GetMapping("/user/proposal/{id}")
     public String proposal(Model model, @PathVariable("id") String id) {
         System.out.println("View proposal: " + id);
+        Proposal selectedProposal = proposalService.findProposalById(id);
+        System.out.print(selectedProposal);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        model.addAttribute("selectedProposal", proposalService.findProposalById(id));
+        model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());
         return "user/proposal";
     }

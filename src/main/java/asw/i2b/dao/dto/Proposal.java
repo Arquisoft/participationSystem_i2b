@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Pineirin on 28/03/2017.
  */
-@Document(collection ="proposals")
+@Document(collection = "proposals")
 public class Proposal {
 
     @Id
@@ -32,7 +32,7 @@ public class Proposal {
 
     }
 
-    public Proposal(String author, String category, String title, String body, int minimalSupport){
+    public Proposal(String author, String category, String title, String body, int minimalSupport) {
         this.author = author;
         this.created = new Date();
         this.category = category;
@@ -85,21 +85,55 @@ public class Proposal {
         return comments;
     }
 
-    public void vote(String voteUsername){
+    public void vote(String voteUsername) {
         votedUsernames.add(voteUsername);
         this.votes++;
     }
 
-    public boolean isSupported(){
+    public boolean isSupported() {
         if (votes > minimalSupport)
             return true;
         return false;
     }
 
-    public boolean isValid(){
-        for(String s : ProposalRestrictions.getInstance().getNotAllowedWords())
-            if(body.contains(s))
+    public boolean isValid() {
+        for (String s : ProposalRestrictions.getInstance().getNotAllowedWords())
+            if (body.contains(s))
                 return false;
         return true;
+    }
+
+    public void comment(Comment comment) {
+        comment.setNum(getLastCommentId() + 1);
+        this.comments.add(comment);
+    }
+
+    public long getLastCommentId() {
+        long res = 0;
+        for (Comment c : comments)
+            res = (res < c.getNum()) ? c.getNum() : res;
+        return res;
+    }
+
+    public Comment getComment(Long num) {
+        for (Comment c : comments)
+            if (c.getNum() == num) return c;
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Proposal{" +
+                "_id=" + _id +
+                ", author='" + author + '\'' +
+                ", created=" + created +
+                ", category='" + category + '\'' +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                ", minimalSupport=" + minimalSupport +
+                ", votes=" + votes +
+                ", votedUsernames=" + votedUsernames +
+                ", comments=" + comments +
+                '}';
     }
 }
