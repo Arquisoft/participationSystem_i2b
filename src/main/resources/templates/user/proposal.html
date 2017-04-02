@@ -77,7 +77,8 @@
                             </div>
                         </div>
                         <div th:if="${user.isAdmin()}">
-                            <form th:action="${'/deleteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}" th:method="post">
+                            <form th:action="${'/deleteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
+                                  th:method="post">
                                 <button type="submit" class="btn btn-danger pull-right">Delete</button>
                             </form>
                         </div>
