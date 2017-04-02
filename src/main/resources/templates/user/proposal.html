@@ -20,14 +20,6 @@
 
 <div class="container">
 
-    <div th:if="${!user.isAdmin()}">
-        <button id="openCreateProposalDialog" type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#createComment" style="margin: 0 auto;">
-            Create Comment
-        </button>
-    </div>
-    <br/>
-
     <div class="panel panel-info" th:with="proposalId=${selectedProposal.getId().toHexString()}">
         <div class="panel-heading">
             <a th:href="${'/user/proposal/' + proposalId}" th:text="${selectedProposal.getTitle()}"></a>
@@ -52,6 +44,14 @@
         </div>
     </div>
 
+    <div th:if="${!user.isAdmin()}">
+        <button id="openCreateProposalDialog" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#createComment" style="margin: 0 auto;">
+            Create Comment
+        </button>
+    </div>
+    <br/>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             Comments
@@ -59,12 +59,16 @@
         <div class="panel-body">
             <div id="proposalList" th:each="comment : ${selectedProposal.getComments()}">
                 <div class="panel panel-default">
-
+                    <div class="panel-heading">
+                        <a th:href="${'/user/proposal/' + proposalId}" th:text="${comment.getAuthor()}"></a>
+                        <div class="pull-right">
+                            <div th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
+                        </div>
+                    </div>
                     <div class="panel-body">
                         <span th:text="${comment.getBody()}"></span>
                     </div>
                     <div class="panel-footer" style="overflow: auto;">
-                        <div th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
                         <div th:if="${!user.isAdmin()}">
                             <div th:if="${!comment.getVotedUsernames().contains(user.getLogin())}">
                                 <form th:action="${'/user/voteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
