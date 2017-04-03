@@ -23,3 +23,5 @@ Feature:
     When the user clicks on the vote button of "Proposal 1"
     Then a kafka voteProposal event is generated
 
+    #TODO
+
