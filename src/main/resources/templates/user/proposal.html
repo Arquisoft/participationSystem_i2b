@@ -20,81 +20,72 @@
 
 <div class="container">
 
-    <div class="panel panel-default">
+
+    <div class="panel panel-info" th:with="proposalId=${selectedProposal.getId().toHexString()}">
         <div class="panel-heading">
-            Proposal
+            <a th:text="${selectedProposal.getTitle()}"></a>
+            <div class="pull-right">
+                <div th:id="${'votes-' + proposalId}" th:text="${selectedProposal.getVotes()}"></div>
+            </div>
         </div>
         <div class="panel-body">
-            <div class="panel panel-info" th:with="proposalId=${selectedProposal.getId().toHexString()}">
-                <div class="panel-heading">
-                    <a th:href="${'/user/proposal/' + proposalId}" th:text="${selectedProposal.getTitle()}"></a>
-                    <div class="pull-right">
-                        <div th:id="${'votes-' + proposalId}" th:text="${selectedProposal.getVotes()}"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div><span th:text="${selectedProposal.getBody()}"></span></div>
-                </div>
-                <div class="panel-footer" style="overflow: auto;">
-                    <div th:if="${!user.isAdmin() and !selectedProposal.getVotedUsernames().contains(user.getLogin())}">
-                        <form th:action="${'/voteProposal/' + proposalId}" th:method="post" style="margin:0;">
-                            <button type="submit" class="btn btn-primary pull-right">Vote</button>
-                        </form>
-                    </div>
-                    <div th:if="${user.isAdmin()}">
-                        <form th:action="${'/deleteProposal/' + proposalId}" th:method="post" style="margin:0;">
-                            <button type="submit" class="btn btn-danger pull-right">Delete</button>
-                        </form>
-                    </div>
-                </div>
+            <p align="justify" th:text="${selectedProposal.getBody()}"></p>
+
+            <hr/>
+            <span th:text="${'Created by: ' + selectedProposal.getAuthor() + '.'}"></span>
+            <br/>
+            <span th:text="${'At: ' + #dates.format(selectedProposal.getCreated(),'dd/MM/yyyy')+ '.'}"></span>
+
+            <br/>
+            <span th:text="${'Supported by: ' + selectedProposal.getVotes() + ' users.'}"></span>
+            <br/>
+            <span th:text="${'Needs the support of: ' + selectedProposal.getMinimalSupport() + ' users.'}"></span>
+            <br/>
+            <div th:if="${selectedProposal.isSupported()}">
+                <span th:text="${'Currently it has enough support.'}"></span>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Proposal Information
-                </div>
-                <div class="panel-body">
-                    <span th:text="${'Created by: ' + selectedProposal.getAuthor() + '.'}"></span>
-                    <br/>
-                    <span th:text="${'At: ' + selectedProposal.getCreated()+ '.'}"></span>
-                    <br/>
-                    <span th:text="${'Supported by: ' + selectedProposal.getVotes() + ' users.'}"></span>
-                    <br/>
-                    <span th:text="${'Needs the support of: ' + selectedProposal.getMinimalSupport() + ' users.'}"></span>
-                    <br/>
-                    <div th:if="${selectedProposal.isSupported()}">
-                        <span th:text="${'Currently it has enough support.'}"></span>
-                    </div>
-                    <div th:if="${!selectedProposal.isSupported()}">
-                        <span th:text="${'Currently it has not enough support.'}"></span>
-                    </div>
-                </div>
+            <div th:if="${!selectedProposal.isSupported()}">
+                <span th:text="${'Currently it has not enough support.'}"></span>
             </div>
         </div>
-        <div class="panel-footer">
+        <div class="panel-footer" style="overflow: auto;">
             <div th:if="${!user.isAdmin()}">
-                <button id="openCreateProposalDialog" type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#createComment" style="margin: 0;">
-                    Create Comment
-                </button>
+                <div th:if="${!selectedProposal.getVotedUsernames().contains(user.getLogin())}">
+                    <form th:action="${'/voteProposal/' + proposalId}" th:method="post" style="margin:0;">
+                        <button type="submit" class="btn btn-primary pull-right">Vote</button>
+                    </form>
+                </div>
+                <div th:if="${selectedProposal.getVotedUsernames().contains(user.getLogin())}">
+                    <span class="pull-right">You've already voted</span>
+                </div>
+            </div>
+            <div th:if="${user.isAdmin()}">
+                <form th:action="${'/deleteProposal/' + proposalId}" th:method="post" style="margin:0;">
+                    <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                </form>
             </div>
         </div>
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            Comments
+        <div class="panel-heading" style="height: 4em;">
+            <span>Comments</span>
+            <button th:if="${!user.isAdmin()}" id="openCreateProposalDialog" type="button"
+                    class="btn btn-primary pull-right"
+                    data-toggle="modal"
+                    data-target="#createComment" style="margin: 0;">
+                Create Comment
+            </button>
         </div>
         <div class="panel-body">
             <div class="comment" th:each="comment : ${selectedProposal.getComments()}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <span th:text="${comment.getAuthor() + ' says:'}"></span>
-                        <div class="pull-right">
-                            <div th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
-                        </div>
+                        <div class="pull-right" th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
                     </div>
                     <div class="panel-body">
-                        <span th:text="${comment.getBody()}"></span>
+                        <span align="justify" th:text="${comment.getBody()}"></span>
                     </div>
                     <div class="panel-footer" style="overflow: auto;">
                         <div th:if="${!user.isAdmin()}">

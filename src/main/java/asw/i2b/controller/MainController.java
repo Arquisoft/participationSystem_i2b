@@ -114,7 +114,6 @@ public class MainController {
     public String proposal(Model model, @PathVariable("id") String id) {
         System.out.println("View proposal: " + id);
         Proposal selectedProposal = proposalService.findProposalById(id);
-        System.out.print(selectedProposal);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());
