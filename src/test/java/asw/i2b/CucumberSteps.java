@@ -136,7 +136,8 @@ public class CucumberSteps {
                         .append("comments", commentsToInsert)
                         .append("created", Date.from(Instant.parse(proposal.getString("created"))))
                         .append("minimalSupport", proposal.getInt("minimalSupport"))
-                        .append("category", "category")
+                        .append("category", proposal.getString("category"))
+                        .append("author", proposal.getString("author"))
                 );
             });
 
