@@ -91,7 +91,7 @@ public class Proposal {
     }
 
     public boolean isSupported() {
-        if (votes > minimalSupport)
+        if (votes >= minimalSupport)
             return true;
         return false;
     }
