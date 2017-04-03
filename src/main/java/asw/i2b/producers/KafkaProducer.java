@@ -81,22 +81,23 @@ public class KafkaProducer {
         send("createComment", sb.toString());
     }
 
-    public void sendVoteProposal(Proposal proposal) {
+    public void sendVoteProposal(Proposal proposal, boolean isAVote) {
         StringBuilder sb = new StringBuilder();
         sb.append(proposal.get_id());
         sb.append(";");
         sb.append(Iterables.getLast(proposal.getVotedUsernames()));
-        send("voteProposal", sb.toString());
+        send(isAVote ? "voteProposal" : "unvoteProposal", sb.toString());
     }
 
-    public void sendVoteComment(Comment comment, Proposal proposal) {
+
+    public void sendVoteComment(Comment comment, Proposal proposal, boolean isAVote) {
         StringBuilder sb = new StringBuilder();
         sb.append(proposal.get_id());
         sb.append(";");
         sb.append(comment.getNum());
         sb.append(";");
         sb.append(Iterables.getLast(comment.getVotedUsernames()));
-        send("voteComment", sb.toString());
+        send(isAVote ? "voteComment" : "unvoteComment", sb.toString());
     }
 
 }

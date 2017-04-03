@@ -60,7 +60,7 @@ public class MainController {
         Proposal proposal = proposalService.findProposalById(id);
         if (proposal != null) {
             proposalService.vote(proposal);
-            kafkaProducer.sendVoteProposal(proposal);
+            kafkaProducer.sendVoteProposal(proposal, true);
         }
         return "redirect:/user/home";
     }
@@ -101,7 +101,7 @@ public class MainController {
             comment.vote(author);
         }
         proposalService.save(proposal);
-        kafkaProducer.sendVoteComment(comment, proposal);
+        kafkaProducer.sendVoteComment(comment, proposal, true);
         return "redirect:/user/proposal/" + proposalId;
     }
 
