@@ -148,6 +148,7 @@ public class CucumberSteps {
                 CucumberSteps.categories.insertOne(new Document()
                         .append("_id", new ObjectId(category.getString("_id")))
                         .append("name", category.getString("name"))
+                        .append("minimalSupport", category.getInt("minimalSupport"))
                 );
             });
         } catch (IOException e) {

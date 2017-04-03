@@ -1,5 +1,7 @@
 package asw.i2b.dao.dto;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -10,9 +12,11 @@ import java.util.List;
 @Document(collection = "categories")
 public class Category {
 
+    @Id
+    private ObjectId _id;
+
     private String name;
     private int minimalSupport;
-    private List<String> invalidWords;
 
     public Category(){
 
@@ -34,11 +38,7 @@ public class Category {
         this.minimalSupport = minimalSupport;
     }
 
-    public List<String> getInvalidWords() {
-        return invalidWords;
-    }
-
-    public void setInvalidWords(List<String> invalidWords) {
-        this.invalidWords = invalidWords;
+    public ObjectId getId() {
+        return _id;
     }
 }

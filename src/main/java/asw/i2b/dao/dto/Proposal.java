@@ -1,7 +1,9 @@
 package asw.i2b.dao.dto;
 
 import asw.i2b.model.ProposalRestrictions;
+import asw.i2b.service.CategoryService;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +17,9 @@ import java.util.List;
 @Document(collection = "proposals")
 public class Proposal {
 
+    @Autowired
+    CategoryService categoryService;
+
     @Id
     private ObjectId _id;
 
@@ -26,7 +31,6 @@ public class Proposal {
     private int minimalSupport;
     private int votes;
     private List<String> votedUsernames;
-    private List<String> invalidWords;
     private List<Comment> comments;
 
     public Proposal() {
@@ -43,7 +47,6 @@ public class Proposal {
         this.votes = 0;
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
-        this.invalidWords = new ArrayList<>();
     }
 
     public ObjectId getId() {
@@ -126,13 +129,5 @@ public class Proposal {
         for(int i = 0;i < this.comments.size();i++)
             if(this.comments.get(i).getNum() == num)
                 this.comments.remove(i);
-    }
-
-    public List<String> getInvalidWords() {
-        return invalidWords;
-    }
-
-    public void setInvalidWords(List<String> invalidWords) {
-        this.invalidWords = invalidWords;
     }
 }
