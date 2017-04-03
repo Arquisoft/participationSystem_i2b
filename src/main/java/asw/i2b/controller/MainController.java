@@ -121,7 +121,8 @@ public class MainController {
         System.out.println("View proposal: " + id);
         Proposal selectedProposal = proposalService.findProposalById(id);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        selectedProposal.setOrder((orderBy.equals("date"))?Proposal.Order.date:Proposal.Order.date);
+        selectedProposal.setOrder((orderBy.equals("date"))?Proposal.Order.date:Proposal.Order.popularity);
+        model.addAttribute("orderBy",orderBy);
         model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());
         return "user/proposal";

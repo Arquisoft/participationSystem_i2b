@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div th:if="${user.isAdmin()}">
-                <form th:action="${'/deleteProposal/' + proposalId}" th:method="post" style="margin:0;">
+                <form th:action="${'/deleteProposal/' + selectedProposal.id}" th:method="post" style="margin:0;">
                     <button type="submit" class="btn btn-danger pull-right">Delete</button>
                 </form>
             </div>
@@ -77,6 +77,15 @@
                     data-target="#createComment" style="margin: 0;">
                 Create Comment
             </button>
+            <a th:if="${orderBy eq 'date'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=popularity'}"
+               class="btn btn-default pull-right" style="margin-right: 10;">
+                Order by Popularity
+            </a>
+            <a th:if="${orderBy eq 'popularity'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=date'}"
+               class="btn btn-default pull-right" style="margin-right: 10;">
+                Order by Date
+            </a>
+
         </div>
         <div class="panel-body">
             <div class="comment" th:each="comment : ${selectedProposal.getComments()}">

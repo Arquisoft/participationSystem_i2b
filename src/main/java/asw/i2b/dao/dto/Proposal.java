@@ -112,6 +112,7 @@ public class Proposal {
     }
 
     public List<Comment> getComments() {
+        System.out.println(orderBy);
         switch (orderBy){
             case date:
                 this.comments.sort(
@@ -124,6 +125,7 @@ public class Proposal {
                 );
                 break;
         }
+        System.out.println(comments);
         return comments;
     }
 

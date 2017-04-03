@@ -88,18 +88,9 @@
         "num": 2,
         "author": "Author 2",
         "created": "2017-03-01T15:00:00.000Z",
-        "votes": 10,
+        "votes": 1,
         "votedUsernames": [
-          "a",
-          "b",
-          "c",
-          "d",
-          "e",
-          "f",
-          "g",
-          "h",
-          "i",
-          "j"
+          "a"
         ],
         "body": "Shut up *$%/&!º"
       }
