@@ -23,7 +23,8 @@
 
     <div class="panel panel-info" th:with="proposalId=${selectedProposal.getId().toHexString()}">
         <div class="panel-heading">
-            <a th:text="${selectedProposal.getTitle()}"></a>
+            <span th:text="${selectedProposal.getTitle()}"/>
+            <span>[#</span><span th:text="${selectedProposal.getCategory()}"/><span>]</span>
             <div class="pull-right">
                 <div th:id="${'votes-' + proposalId}" th:text="${selectedProposal.getVotes()}"></div>
             </div>
