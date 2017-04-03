@@ -23,6 +23,9 @@ import java.io.StringWriter;
 
 /**
  * Created by herminio on 26/12/16.
+ *
+ * @author MIGUEL
+ * @since 02/04/2017
  */
 @ManagedBean
 public class KafkaProducer {
@@ -68,8 +71,14 @@ public class KafkaProducer {
         send("createProposal", writer(proposal));
     }
 
-    public void sendCreateComment(Comment comment) {
-        send("createComment", writer(comment));
+    public void sendCreateComment(Comment comment, String proposalId) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"proposalId\":\"");
+        sb.append(proposalId);
+        sb.append("\",\"comment:");
+        sb.append(writer(comment));
+        sb.append("}");
+        send("createComment", sb.toString());
     }
 
     public void sendVoteProposal(Proposal proposal) {
@@ -80,11 +89,12 @@ public class KafkaProducer {
         send("voteProposal", sb.toString());
     }
 
-    public void sendVoteComment(Comment comment) {
+    public void sendVoteComment(Comment comment, Proposal proposal) {
         StringBuilder sb = new StringBuilder();
-        sb.append(comment.getProposalId());
+        sb.append(proposal.get_id());
         sb.append(";");
         sb.append(comment.getNum());
+        sb.append(";");
         sb.append(Iterables.getLast(comment.getVotedUsernames()));
         send("voteComment", sb.toString());
     }

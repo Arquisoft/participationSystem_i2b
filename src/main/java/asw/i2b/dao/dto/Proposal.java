@@ -1,18 +1,12 @@
 package asw.i2b.dao.dto;
 
 import asw.i2b.model.ProposalRestrictions;
-import asw.i2b.util.ObjectIdSerializer;
 import asw.i2b.util.Views;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +18,6 @@ import java.util.List;
 public class Proposal {
 
     @Id
-
     private ObjectId _id;
 
     @JsonView(Views.Public.class)

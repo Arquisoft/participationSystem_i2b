@@ -99,7 +99,7 @@ public class MainController {
             comment.vote(author);
         }
         proposalService.save(proposal);
-        kafkaProducer.sendVoteComment(comment);
+        kafkaProducer.sendVoteComment(comment, proposal);
         return "redirect:/user/proposal/" + proposalId;
     }
 
@@ -110,7 +110,7 @@ public class MainController {
         Comment comment = new Comment(author, createComment.getBody());
         proposal.comment(comment);
         proposalService.save(proposal);
-        kafkaProducer.sendCreateComment(comment);
+        kafkaProducer.sendCreateComment(comment, id);
         return "redirect:/user/proposal/" + id;
     }
 

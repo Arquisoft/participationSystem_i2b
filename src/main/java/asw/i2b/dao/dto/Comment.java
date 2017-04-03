@@ -16,8 +16,6 @@ import java.util.List;
 @Document(collection = "comments")
 public class Comment {
 
-    private ObjectId proposalId;    //TODO: Is this used for anything ??
-
     @JsonView(Views.Public.class)
     private String author;
 
@@ -48,11 +46,6 @@ public class Comment {
 
     public String getBody() {
         return body;
-    }
-
-    @JsonView(Views.Public.class)
-    public String getProposalId() {
-        return proposalId.toHexString();
     }
 
     public String getAuthor() {
@@ -87,7 +80,6 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "proposalId=" + proposalId +
                 ", author='" + author + '\'' +
                 ", created=" + created +
                 ", body='" + body + '\'' +
