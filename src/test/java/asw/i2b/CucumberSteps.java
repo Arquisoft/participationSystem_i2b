@@ -303,10 +303,11 @@ public class CucumberSteps {
 
     @When("^the user clicks on the comment's vote button with title \"([^\"]*)\"$")
     public void hteUserClicksOnTheCommentVoteButton(String commentTitle) throws InterruptedException {
-
-        driver.findElementByXPath(
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+        By.xpath(
                 ".//*[contains(text(),\"" + commentTitle.trim() + "\")]/../..//button"
-        ).click();
+        ))).click();
     }
 
     @Then("^the amount of votes for comment \"([^\"]*)\" with initial value \"([^\"]*)\" is increased and \"([^\"]*)\" is added to the votes list$")
@@ -341,9 +342,8 @@ public class CucumberSteps {
 
     @When("^the user clicks on the create comment button$")
     public void theUserClicksOnTheCreateCommentButton() throws Throwable {
-        driver.findElementByXPath(
-                ".//button[contains(text(),\"Create Comment\")]"
-        ).click();
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("openCreateProposalDialog"))).click();
     }
 
     @And("^the user fills and sends the comment with body \"([^\"]*)\"$")
