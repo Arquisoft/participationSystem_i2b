@@ -41,8 +41,14 @@
                     <div th:id="${'votes-' + proposalId}" th:text="${proposal.getVotes()}"></div>
                 </div>
             </div>
-            <div class="panel-body">
-                <span th:text="${proposal.getBody()}"></span>
+            <div class="panel-body" align="justify">
+                <div th:if="${proposal.getBody().length() gt 500}">
+                    <span align="justify" th:text="${#strings.substring(proposal.getBody(),0, 500)}"></span>
+                    <a th:href="${'/user/proposal/' + proposalId}" th:text="[...]"></a>
+                </div>
+                <div th:if="${proposal.getBody().length() lt 500}">
+                    <span align="justify" th:text="${proposal.getBody()}"></span>
+                </div>
             </div>
             <div class="panel-footer" style="overflow: auto;">
                 <div th:if="${!user.isAdmin()}">
@@ -68,7 +74,8 @@
     <div id="createProposal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form th:action="@{/user/createProposal}" th:object="${createProposal}" th:method="post" style="margin:0;">
+                <form th:action="@{/user/createProposal}" th:object="${createProposal}" th:method="post"
+                      style="margin:0;">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <div class="modal-title">Here you can create new proposals.</div>
@@ -77,12 +84,13 @@
                         <div class="form-group">
                             <label for="sel1">Select the category of your proposal:</label>
                             <select class="form-control" id="sel1" th:field="*{category}">
-                                <option th:each="category:${categories}" value="${category.getId()}"
+                                <option th:each="category:${categories}" th:value="${category.getId()}"
                                         th:text="${category.getName()}"></option>
                             </select>
                         </div>
                         <label for="title">Title for your proposal:</label>
-                        <textarea class="form-control" rows="1" id="title" required="required" th:field="*{title}"></textarea>
+                        <textarea class="form-control" rows="1" id="title" required="required"
+                                  th:field="*{title}"></textarea>
                         <label for="body">Explanation of your proposal proposal:</label>
                         <textarea class="form-control" rows="5" id="body" th:field="*{body}"></textarea>
                     </div>

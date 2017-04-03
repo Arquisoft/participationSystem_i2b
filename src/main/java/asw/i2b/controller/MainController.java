@@ -1,6 +1,7 @@
 package asw.i2b.controller;
 
 
+import asw.i2b.dao.dto.Category;
 import asw.i2b.dao.dto.Comment;
 import asw.i2b.dao.dto.Proposal;
 import asw.i2b.model.CommentCreation;
@@ -84,7 +85,8 @@ public class MainController {
     @PostMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
-        Proposal proposal = new Proposal(author, createProposal.getCategory(), createProposal.getTitle(), createProposal.getBody(), 0);
+        Category cat = categoryService.findProposalById(createProposal.getCategory());
+        Proposal proposal = new Proposal(author, cat.getName(), createProposal.getTitle(), createProposal.getBody(), cat.getMinimalSupport());
         proposalService.createProposal(proposal);
         kafkaProducer.sendCreateProposal(proposal);
         return "redirect:/user/home";
@@ -118,7 +120,6 @@ public class MainController {
     public String proposal(Model model, @PathVariable("id") String id) {
         System.out.println("View proposal: " + id);
         Proposal selectedProposal = proposalService.findProposalById(id);
-        System.out.print(selectedProposal);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());

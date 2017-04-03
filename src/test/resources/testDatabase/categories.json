@@ -1,10 +1,14 @@
 [
   {
     "_id" : "58de2252958e54c628660788",
-    "name" : "Category 1"
+    "name" : "Category 1",
+    "invalidWords" : ["cat1"],
+    "minimalSupport": 100
   },
   {
     "_id" : "58de2263958e54c628660797",
-    "name" : "Category 2"
+    "name" : "Category 2",
+    "invalidWords" : ["cat2"],
+    "minimalSupport": 200
   }
 ]

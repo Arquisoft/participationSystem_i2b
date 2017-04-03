@@ -3,7 +3,9 @@ package asw.i2b.dao.dto;
 import asw.i2b.model.ProposalRestrictions;
 import asw.i2b.util.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import asw.i2b.service.CategoryService;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +18,9 @@ import java.util.List;
  */
 @Document(collection = "proposals")
 public class Proposal {
+
+    @Autowired
+    CategoryService categoryService;
 
     @Id
     private ObjectId _id;
@@ -51,7 +56,6 @@ public class Proposal {
         this.votes = 0;
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
-
     }
     @JsonView(Views.Public.class)
     public String get_id() {        //Just for serialization, to have the appropiate name with the _
@@ -104,7 +108,7 @@ public class Proposal {
     }
 
     public boolean isSupported() {
-        if (votes > minimalSupport)
+        if (votes >= minimalSupport)
             return true;
         return false;
     }
@@ -132,22 +136,6 @@ public class Proposal {
         for (Comment c : comments)
             if (c.getNum() == num) return c;
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return "Proposal{" +
-                "_id=" + _id +
-                ", author='" + author + '\'' +
-                ", created=" + created +
-                ", category='" + category + '\'' +
-                ", title='" + title + '\'' +
-                ", body='" + body + '\'' +
-                ", minimalSupport=" + minimalSupport +
-                ", votes=" + votes +
-                ", votedUsernames=" + votedUsernames +
-                ", comments=" + comments +
-                '}';
     }
 
     public void deleteComment(long num) {

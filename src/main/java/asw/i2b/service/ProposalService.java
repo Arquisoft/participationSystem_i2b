@@ -54,4 +54,7 @@ public class ProposalService {
     public void delete(Proposal proposal) {
         proposalsRepository.delete(proposal);
     }
+
+
+
 }

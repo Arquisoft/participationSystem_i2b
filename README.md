@@ -16,3 +16,4 @@ Skeleton of participationSystem module
 - Nicolás Pascual González (@nicolaspascual)
 - Miguel García García (@miguelgrc)
 - Jorge López Fueyo (@JLFueyo_)
+- Pablo García Marcos (@Pineirin)

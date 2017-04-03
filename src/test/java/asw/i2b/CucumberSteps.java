@@ -136,7 +136,9 @@ public class CucumberSteps {
                         .append("comments", commentsToInsert)
                         .append("created", Date.from(Instant.parse(proposal.getString("created"))))
                         .append("minimalSupport", proposal.getInt("minimalSupport"))
-                        .append("category", "category")
+                        .append("category", proposal.getString("category"))
+                        .append("author", proposal.getString("author"))
+                        .append("invalidWords", proposal.getJSONArray("invalidWords").toList())
                 );
             });
 
@@ -146,6 +148,7 @@ public class CucumberSteps {
                 CucumberSteps.categories.insertOne(new Document()
                         .append("_id", new ObjectId(category.getString("_id")))
                         .append("name", category.getString("name"))
+                        .append("minimalSupport", category.getInt("minimalSupport"))
                 );
             });
         } catch (IOException e) {
