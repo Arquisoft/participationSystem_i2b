@@ -26,6 +26,7 @@ public class Proposal {
     private int minimalSupport;
     private int votes;
     private List<String> votedUsernames;
+    private List<String> invalidWords;
     private List<Comment> comments;
 
     public Proposal() {
@@ -42,7 +43,7 @@ public class Proposal {
         this.votes = 0;
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
-
+        this.invalidWords = new ArrayList<>();
     }
 
     public ObjectId getId() {
@@ -121,25 +122,17 @@ public class Proposal {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "Proposal{" +
-                "_id=" + _id +
-                ", author='" + author + '\'' +
-                ", created=" + created +
-                ", category='" + category + '\'' +
-                ", title='" + title + '\'' +
-                ", body='" + body + '\'' +
-                ", minimalSupport=" + minimalSupport +
-                ", votes=" + votes +
-                ", votedUsernames=" + votedUsernames +
-                ", comments=" + comments +
-                '}';
-    }
-
     public void deleteComment(long num) {
         for(int i = 0;i < this.comments.size();i++)
             if(this.comments.get(i).getNum() == num)
                 this.comments.remove(i);
+    }
+
+    public List<String> getInvalidWords() {
+        return invalidWords;
+    }
+
+    public void setInvalidWords(List<String> invalidWords) {
+        this.invalidWords = invalidWords;
     }
 }

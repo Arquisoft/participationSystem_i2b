@@ -138,6 +138,7 @@ public class CucumberSteps {
                         .append("minimalSupport", proposal.getInt("minimalSupport"))
                         .append("category", proposal.getString("category"))
                         .append("author", proposal.getString("author"))
+                        .append("invalidWords", proposal.getJSONArray("invalidWords").toList())
                 );
             });
 
