@@ -102,7 +102,7 @@ public class MainController {
         }
         proposalService.save(proposal);
         kafkaProducer.sendVoteComment(comment, proposal);
-        return "redirect:/user/proposal/" + proposalId;
+        return "redirect:/user/proposal/" + proposalId+"?orderBy=date";
     }
 
     @PostMapping("/user/createComment/{id}")
@@ -113,14 +113,15 @@ public class MainController {
         proposal.comment(comment);
         proposalService.save(proposal);
         kafkaProducer.sendCreateComment(comment, id);
-        return "redirect:/user/proposal/" + id;
+        return "redirect:/user/proposal/" + id +"?orderBy=date";
     }
 
     @GetMapping("/user/proposal/{id}")
-    public String proposal(Model model, @PathVariable("id") String id) {
+    public String proposal(Model model, @PathVariable("id") String id, @RequestParam(value = "orderBy") String orderBy) {
         System.out.println("View proposal: " + id);
         Proposal selectedProposal = proposalService.findProposalById(id);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        selectedProposal.setOrder((orderBy.equals("date"))?Proposal.Order.date:Proposal.Order.date);
         model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());
         return "user/proposal";

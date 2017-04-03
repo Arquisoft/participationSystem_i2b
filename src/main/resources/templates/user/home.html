@@ -36,7 +36,7 @@
     <div id="proposalList" th:each="proposal : ${proposals}" style="margin-top: 50px;">
         <div class="panel panel-default" th:with="proposalId=${proposal.getId().toHexString()}">
             <div class="panel-heading">
-                <a th:href="${'/user/proposal/' + proposalId}" th:text="${proposal.getTitle()}"></a>
+                <a th:href="${'/user/proposal/' + proposalId + '?orderBy=date'}" th:text="${proposal.getTitle()}"></a>
                 <div class="pull-right">
                     <div th:id="${'votes-' + proposalId}" th:text="${proposal.getVotes()}"></div>
                 </div>
@@ -44,7 +44,7 @@
             <div class="panel-body" align="justify">
                 <div th:if="${proposal.getBody().length() gt 500}">
                     <span align="justify" th:text="${#strings.substring(proposal.getBody(),0, 500)}"></span>
-                    <a th:href="${'/user/proposal/' + proposalId}" th:text="[...]"></a>
+                    <a th:href="${'/user/proposal/' + proposalId + '?orderBy=date'}" th:text="[...]"></a>
                 </div>
                 <div th:if="${proposal.getBody().length() lt 500}">
                     <span align="justify" th:text="${proposal.getBody()}"></span>

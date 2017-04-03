@@ -82,7 +82,7 @@
             <div class="comment" th:each="comment : ${selectedProposal.getComments()}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span th:text="${comment.getAuthor() + ' says:'}"></span>
+                        <span th:text="${comment.getAuthor() + ' said at ' + #dates.format(comment.getCreated(), 'dd/MM/yyyy HH:mm')}"></span>
                         <div class="pull-right" th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
                     </div>
                     <div class="panel-body">

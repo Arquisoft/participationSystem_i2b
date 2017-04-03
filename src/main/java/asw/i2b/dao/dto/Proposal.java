@@ -19,6 +19,15 @@ import java.util.List;
 @Document(collection = "proposals")
 public class Proposal {
 
+
+
+    public enum Order{
+        date,
+        popularity
+    }
+
+    private Order orderBy;
+
     @Autowired
     CategoryService categoryService;
 
@@ -98,7 +107,23 @@ public class Proposal {
         return votedUsernames;
     }
 
+    public void setOrder(Order orderBy) {
+        this.orderBy = orderBy;
+    }
+
     public List<Comment> getComments() {
+        switch (orderBy){
+            case date:
+                this.comments.sort(
+                        (a,b) -> a.getCreated().compareTo(b.getCreated())
+                );
+                break;
+            case popularity:
+                this.comments.sort(
+                        (a,b) -> b.getVotes() - a.getVotes()
+                );
+                break;
+        }
         return comments;
     }
 
