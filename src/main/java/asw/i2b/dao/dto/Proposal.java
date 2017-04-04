@@ -1,15 +1,16 @@
 package asw.i2b.dao.dto;
 
 import asw.i2b.model.ProposalRestrictions;
+import asw.i2b.service.CategoryService;
 import asw.i2b.util.Views;
 import com.fasterxml.jackson.annotation.JsonView;
-import asw.i2b.service.CategoryService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +20,7 @@ import java.util.List;
 @Document(collection = "proposals")
 public class Proposal {
 
-
-
-    public enum Order{
+    public enum Order {
         date,
         popularity
     }
@@ -29,7 +28,7 @@ public class Proposal {
     private Order orderBy;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Id
     private ObjectId _id;
@@ -67,8 +66,9 @@ public class Proposal {
         this.comments = new ArrayList<>();
         this.orderBy = Order.date;
     }
+
     @JsonView(Views.Public.class)
-    public String get_id() {        //Just for serialization, to have the appropiate name with the _
+    public String getIdString() {        //Just for serialization, to have the appropiate name with the _
         return _id.toHexString();   //and just serializing the id string
     }
 
@@ -114,17 +114,18 @@ public class Proposal {
 
     public List<Comment> getComments() {
         System.out.println(orderBy);
-        switch (orderBy){
+        switch (orderBy) {
             case date:
                 this.comments.sort(
-                        (a,b) -> a.getCreated().compareTo(b.getCreated())
+                        Comparator.comparing(Comment::getCreated)
                 );
                 break;
             case popularity:
                 this.comments.sort(
-                        (a,b) -> b.getVotes() - a.getVotes()
+                        (a, b) -> b.getVotes() - a.getVotes()
                 );
                 break;
+            default:
         }
         System.out.println(comments);
         return comments;
@@ -141,9 +142,7 @@ public class Proposal {
     }
 
     public boolean isSupported() {
-        if (votes >= minimalSupport)
-            return true;
-        return false;
+        return votes >= minimalSupport;
     }
 
     public boolean isValid() {
@@ -172,8 +171,8 @@ public class Proposal {
     }
 
     public void deleteComment(long num) {
-        for(int i = 0;i < this.comments.size();i++)
-            if(this.comments.get(i).getNum() == num)
+        for (int i = 0; i < this.comments.size(); i++)
+            if (this.comments.get(i).getNum() == num)
                 this.comments.remove(i);
     }
 }

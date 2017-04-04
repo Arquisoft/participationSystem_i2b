@@ -32,7 +32,7 @@ public class CustomAuth implements AuthenticationProvider {
         String password = authentication.getCredentials().toString().trim();
         UserModel u = new UserModel(login);
 
-        if(login.equals("admin@admin.com") && password.equals("admin")) {
+        if("admin@admin.com".equals(login) && "admin".equals(password)) {
             u.setAdmin(true);
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

@@ -91,7 +91,7 @@ public class MainController {
         Proposal proposal = proposalService.findProposalById(proposalId);
         proposal.deleteComment(Long.parseLong(id));
         proposalService.save(proposal);
-        return "redirect:/user/proposal/"+proposalId;
+        return "redirect:/user/proposal/" + proposalId;
     }
 
     @PostMapping("/deleteInvalidWord/{id}")
@@ -130,13 +130,13 @@ public class MainController {
         if (comment != null) {
             if (!comment.getVotedUsernames().contains(author)) {
                 comment.vote(author);
-            } else{
+            } else {
                 comment.unvote(author);
             }
         }
         proposalService.save(proposal);
         kafkaProducer.sendVoteComment(comment, proposal, true);
-        return "redirect:/user/proposal/" + proposalId+"?orderBy=date";
+        return "redirect:/user/proposal/" + proposalId + "?orderBy=date";
     }
 
     @PostMapping("/user/createComment/{id}")
@@ -147,7 +147,7 @@ public class MainController {
         proposal.comment(comment);
         proposalService.save(proposal);
         kafkaProducer.sendCreateComment(comment, id);
-        return "redirect:/user/proposal/" + id +"?orderBy=date";
+        return "redirect:/user/proposal/" + id + "?orderBy=date";
     }
 
     @PostMapping("/createInvalidWord")
@@ -176,8 +176,8 @@ public class MainController {
         System.out.println("View proposal: " + id);
         Proposal selectedProposal = proposalService.findProposalById(id);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        selectedProposal.setOrder((orderBy.equals("date"))?Proposal.Order.date:Proposal.Order.popularity);
-        model.addAttribute("orderBy",orderBy);
+        selectedProposal.setOrder(("date".equals(orderBy)) ? Proposal.Order.date : Proposal.Order.popularity);
+        model.addAttribute("orderBy", orderBy);
         model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());
         return "user/proposal";

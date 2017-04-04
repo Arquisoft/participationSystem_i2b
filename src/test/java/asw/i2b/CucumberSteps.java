@@ -264,11 +264,7 @@ public class CucumberSteps {
             if (we.getText().contains(text1)) {
                 foundFirst = true;
             } else if (we.getText().contains(text2)) {
-                if (foundFirst) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return foundFirst;
             }
         }
         return false;
