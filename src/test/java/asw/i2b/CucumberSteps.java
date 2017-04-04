@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
@@ -452,5 +453,40 @@ public class CucumberSteps {
     public void aKafkaCreateCommentEventIsGenerated(String comment) throws InterruptedException {
         assertTrue(kafkaConsumer.getCreateComment().stream().anyMatch(elem -> elem.contains(comment)));
     }
+
+    @And("^the user navigates into admin settings$")
+    public void theUserNavigatesIntoAdminSettings(){
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("btn-settings"))).click();
+    }
+
+    @When("^the personnel member adds a new category \"([^\"]*)\" with minimal support of \"([^\"]*)\"$")
+    public void thePersonnelMemberAddsANewCategoryWithMinimalSupportOf(String category, String minimalSupport){
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebElement form = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='manageCategories']/div[@class='panel-footer']/form")));
+        form.findElement(By.xpath("./input[@type='text']")).sendKeys(category);
+        form.findElement(By.xpath("./input[@type='number']")).sendKeys(minimalSupport);
+        form.findElement(By.xpath(".//button")).click();
+    }
+
+    @Then("^the category \"([^\"]*)\" is added with \"([^\"]*)\" minimal support$")
+    public void theCategoryIsAdded(String category, String minimalSupport){
+        assertTrue(driver.findElements(By.xpath("//div[@id='manageCategories']//table//*[contains(text(), '" + category + "')]")).size() > 0);
+        assertTrue(driver.findElements(By.xpath("//div[@id='manageCategories']//table//*[contains(text(), '" + minimalSupport + "')]")).size() > 0);
+    }
+
+    @When("^the personnel member deletes category \"([^\"]*)\"$")
+    public void thePersonnelMemberDeletesCategory(String category){
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='manageCategories']//table/tbody//*[contains(text(), '"
+                + category + "')]/..//form/a"))).click();
+    }
+
+    @Then("^the category \"([^\"]*)\" doesn't exist$")
+    public void theCategoryDoesntExist(String category){
+        assertFalse(driver.findElements(By.xpath("//div[@id='manageCategories']//table//*[contains(text(), '" + category + "')]")).size() > 0);
+    }
+
+
 
 }

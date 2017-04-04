@@ -21,6 +21,7 @@
 
 <div class="container">
     <h1>Settings</h1>
+    <br />
 
     <div id="invalidWords" class="panel panel-info" style="height: 40%; position: relative">
         <div class="panel-heading">
@@ -64,18 +65,18 @@
                 </tr>
                 </thead>
                 <tbody th:each="category : ${categories}">
-                <tr>
-                    <td style="text-align: center" th:text="${category.name}"/>
-                    <td style="text-align: center" th:text="${category.minimalSupport}"/>
-                    <td style="text-align: center; ">
-                        <form method="post" style="float:right; text-align: center"
-                              th:action="${'/deleteCategory/'+ category.id}" th:id="${'form-delete-cat-'+category.id}">
-                            <a style="cursor:pointer;" type="submit"
-                               th:onclick="'document.getElementById(\''+${'form-delete-cat-'+category.id}+'\').submit()'"
-                               class="glyphicon glyphicon-remove pull-right"/>
-                        </form>
-                    </td>
-                </tr>
+                    <tr>
+                        <td style="text-align: center" th:text="${category.name}"/>
+                        <td style="text-align: center" th:text="${category.minimalSupport}"/>
+                        <td style="text-align: center; ">
+                            <form method="post" style="float:right; text-align: center"
+                                  th:action="${'/deleteCategory/'+ category.id}" th:id="${'form-delete-cat-'+category.id}">
+                                <a style="cursor:pointer;" type="submit"
+                                   th:onclick="'document.getElementById(\''+${'form-delete-cat-'+category.id}+'\').submit()'"
+                                   class="glyphicon glyphicon-remove pull-right"/>
+                            </form>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
