@@ -103,10 +103,19 @@ public class MainController {
         return "redirect:/user/admin_settings";
     }
 
+    @PostMapping("/deleteCategory/{id}")
+    public String deleteCategory(Model model, @PathVariable("id") String id) {
+        Category cat = categoryService.findCategoryById(id);
+        if (cat != null) {
+            categoryService.delete(cat);
+        }
+        return "redirect:/user/admin_settings";
+    }
+
     @PostMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
-        Category cat = categoryService.findProposalById(createProposal.getCategory());
+        Category cat = categoryService.findCategoryById(createProposal.getCategory());
         Proposal proposal = new Proposal(author, cat.getName(), createProposal.getTitle(), createProposal.getBody(), cat.getMinimalSupport());
         proposalService.createProposal(proposal);
         kafkaProducer.sendCreateProposal(proposal);
@@ -146,6 +155,17 @@ public class MainController {
         invalidWordsService.createInvalidWord(
                 new InvalidWord(
                         invalidWordCreation.getWord()
+                )
+        );
+        return "redirect:/user/admin_settings";
+    }
+
+    @PostMapping("/createCategory")
+    public String createCategory(Model model, @ModelAttribute CategoryCreation categoryCreation) {
+        categoryService.createCategory(
+                new Category(
+                        categoryCreation.getName(),
+                        categoryCreation.getMinimalSupport()
                 )
         );
         return "redirect:/user/admin_settings";

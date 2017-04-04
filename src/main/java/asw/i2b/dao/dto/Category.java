@@ -23,7 +23,8 @@ public class Category {
     }
 
     public Category(String name, int minimalSupport){
-
+        this.name = name;
+        this.minimalSupport = minimalSupport;
     }
 
     public Category(String name){
