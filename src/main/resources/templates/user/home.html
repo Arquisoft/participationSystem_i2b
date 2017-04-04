@@ -56,14 +56,9 @@
             </div>
             <div class="panel-footer" style="overflow: auto;">
                 <div th:if="${!user.isAdmin()}">
-                    <div th:if="${!proposal.getVotedUsernames().contains(user.getLogin())}">
-                        <form th:action="${'/voteProposal/' + proposalId}" th:method="post" style="margin:0;">
-                            <button type="submit" class="btn btn-primary pull-right">Vote</button>
-                        </form>
-                    </div>
-                    <div th:if="${proposal.getVotedUsernames().contains(user.getLogin())}">
-                        <span class="pull-right">You've already voted</span>
-                    </div>
+                    <form th:action="${'/voteProposal/' + proposalId}" th:method="post" style="margin:0;">
+                        <button type="submit" class="btn btn-primary pull-right">Vote</button>
+                    </form>
                 </div>
                 <div th:if="${user.isAdmin()}">
                     <form th:action="${'/deleteProposal/' + proposalId}" th:method="post" style="margin:0;">

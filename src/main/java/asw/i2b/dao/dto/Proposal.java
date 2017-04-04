@@ -135,6 +135,11 @@ public class Proposal {
         this.votes++;
     }
 
+    public void unvote(String voteUsername) {
+        votedUsernames.remove(voteUsername);
+        this.votes--;
+    }
+
     public boolean isSupported() {
         if (votes >= minimalSupport)
             return true;

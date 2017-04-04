@@ -30,6 +30,9 @@ public class ProposalService {
         if (!p.getVotedUsernames().contains(author)) {
             p.vote(author);
             save(p);
+        } else{
+            p.unvote(author);
+            save(p);
         }
     }
 
