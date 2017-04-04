@@ -21,6 +21,13 @@
 
 <div class="container">
     <h1>Homepage</h1>
+    <a div="btn-settings" class="btn btn-primary pull-right glyphicon glyphicon-asterisk"
+       th:href="@{/user/admin_settings}" th:if="${user.isAdmin()}"
+       style="margin: 0 auto;"/>
+
+    <div th:if="${user.isAdmin()}">
+        <h2 style="color: darkred">Admin</h2>
+    </div>
 
     <div th:if="${!user.isAdmin()}">
         <button id="openCreateProposalDialog" type="button" class="btn btn-primary" data-toggle="modal"
@@ -29,9 +36,6 @@
         </button>
     </div>
 
-    <div th:if="${user.isAdmin()}">
-        <h2 style="color: darkred">Admin</h2>
-    </div>
 
     <div id="proposalList" th:each="proposal : ${proposals}" style="margin-top: 50px;">
         <div class="panel panel-default" th:with="proposalId=${proposal.getId().toHexString()}">

@@ -57,6 +57,7 @@ public class CucumberSteps {
     private static MongoCollection<Document> users = db.getCollection("users");
     private static MongoCollection<Document> proposals = db.getCollection("proposals");
     private static MongoCollection<Document> categories = db.getCollection("categories");
+    private static MongoCollection<Document> invalidWords = db.getCollection("invalidWords");
 
     private static FirefoxDriver driver;
 
@@ -90,6 +91,7 @@ public class CucumberSteps {
         users.deleteMany(new BsonDocument());
         proposals.deleteMany(new BsonDocument());
         categories.deleteMany(new BsonDocument());
+        invalidWords.deleteMany(new BsonDocument());
 
         try {
             JSONArray users = parseArray("testDatabase/users.json");
@@ -151,6 +153,19 @@ public class CucumberSteps {
                         .append("minimalSupport", category.getInt("minimalSupport"))
                 );
             });
+
+            JSONArray invalidWords = parseArray("testDatabase/invalidWords.json");
+            invalidWords.forEach(
+                    invalidWordObject -> {
+                        JSONObject invalidWord = (JSONObject) invalidWordObject;
+                        CucumberSteps.invalidWords.insertOne(
+                                new Document()
+                                    .append("word", invalidWord.getString("word"))
+                        );
+
+                    }
+            );
+
         } catch (IOException e) {
             Log.error(e.getMessage(), e);
         }

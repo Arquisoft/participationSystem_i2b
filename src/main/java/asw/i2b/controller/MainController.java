@@ -10,6 +10,7 @@ import asw.i2b.model.ProposalCreation;
 import asw.i2b.model.UserModel;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.CategoryService;
+import asw.i2b.service.InvalidWordsService;
 import asw.i2b.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,9 @@ public class MainController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private InvalidWordsService invalidWordsService;
 
     @GetMapping("/")
     public ModelAndView landing(Model model) {
@@ -53,6 +57,14 @@ public class MainController {
         model.addAttribute("createProposal", new ProposalCreation());
         model.addAttribute("categories", categoryService.getAllCategories());
         return "user/home";
+    }
+
+    @GetMapping("/user/admin_settings")
+    public String settings(Model model) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        model.addAttribute("invalidWords", invalidWordsService.getAllInvalidWords());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "user/admin_settings";
     }
 
     @PostMapping("/voteProposal/{id}")
