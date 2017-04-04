@@ -20,6 +20,9 @@ In order to run this application, you have to follow this steps:
 
 And you're ready to go.
 
+## Testing the application
+If you want to run the tests, you need to perform the same steps as before, but also to **uncompress** FirefoxWindows or FirefoxLinux, directly where they are.
+
 
 # Authors
 
