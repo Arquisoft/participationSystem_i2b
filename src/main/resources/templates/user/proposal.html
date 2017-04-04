@@ -14,6 +14,13 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous">
     </script>
+    <script>
+        function reply(commentNumber) {
+            $('#createComment').modal('show');
+            document.getElementById("body").value = "Reply to #" + commentNumber + "\n";
+
+        }
+    </script>
 </head>
 <body>
 <div th:replace="/fragments/navbar :: navbar"></div>
@@ -77,11 +84,13 @@
                     data-target="#createComment" style="margin: 0;">
                 Create Comment
             </button>
-            <a id="order-by-popularity" th:if="${orderBy eq 'date'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=popularity'}"
+            <a id="order-by-popularity" th:if="${orderBy eq 'date'}"
+               th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=popularity'}"
                class="btn btn-default pull-right" style="margin-right: 10;">
                 Order by Popularity
             </a>
-            <a id="order-by-date" th:if="${orderBy eq 'popularity'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=date'}"
+            <a id="order-by-date" th:if="${orderBy eq 'popularity'}"
+               th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=date'}"
                class="btn btn-default pull-right" style="margin-right: 10;">
                 Order by Date
             </a>
@@ -91,7 +100,7 @@
             <div class="comment" th:each="comment : ${selectedProposal.getComments()}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span th:text="${comment.getAuthor() + ' said at ' + #dates.format(comment.getCreated(), 'dd/MM/yyyy HH:mm')}"></span>
+                        <span th:text="${comment.getAuthor() + ' said at ' + #dates.format(comment.getCreated(), 'dd/MM/yyyy HH:mm') + ' [#' + comment.num + ']'}"></span>
                         <div class="pull-right" th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
                     </div>
                     <div class="panel-body">
@@ -108,6 +117,11 @@
                             <div th:if="${comment.getVotedUsernames().contains(user.getLogin())}">
                                 <span class="pull-right">You've already voted</span>
                             </div>
+                            <button th:if="${!user.isAdmin()}" id="btn-reply" type="button"
+                                    th:onclick="'javascript:reply('+${comment.num}+')'"
+                                    class="btn btn-default pull-right" style="margin-right: 10;">
+                                Reply
+                            </button>
                         </div>
                         <div th:if="${user.isAdmin()}">
                             <form th:action="${'/deleteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
