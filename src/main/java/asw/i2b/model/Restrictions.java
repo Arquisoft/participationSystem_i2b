@@ -1,13 +1,11 @@
 package asw.i2b.model;
 
 import asw.i2b.dao.dto.InvalidWord;
-import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.InvalidWordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
