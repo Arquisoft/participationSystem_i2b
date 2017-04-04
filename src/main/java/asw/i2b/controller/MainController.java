@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.stream.Collectors;
+
 @Controller
 public class MainController {
 
@@ -117,8 +119,10 @@ public class MainController {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         Category cat = categoryService.findCategoryById(createProposal.getCategory());
         Proposal proposal = new Proposal(author, cat.getName(), createProposal.getTitle(), createProposal.getBody(), cat.getMinimalSupport());
-        proposalService.createProposal(proposal);
-        kafkaProducer.sendCreateProposal(proposal);
+        if(proposal.isValid(invalidWordsService.getAllInvalidWords().stream().map(a -> a.getWord()).collect(Collectors.toList()))){
+            proposalService.createProposal(proposal);
+            kafkaProducer.sendCreateProposal(proposal);
+        }
         return "redirect:/user/home";
     }
 
@@ -145,8 +149,11 @@ public class MainController {
         Proposal proposal = proposalService.findProposalById(id);
         Comment comment = new Comment(author, createComment.getBody());
         proposal.comment(comment);
-        proposalService.save(proposal);
-        kafkaProducer.sendCreateComment(comment, id);
+        if(comment.isValid(invalidWordsService.getAllInvalidWords().stream().map(a -> a.getWord()).collect(Collectors.toList()))){
+            proposalService.save(proposal);
+            kafkaProducer.sendCreateComment(comment, id);
+        }
+
         return "redirect:/user/proposal/" + id + "?orderBy=date";
     }
 

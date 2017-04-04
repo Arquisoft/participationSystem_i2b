@@ -91,4 +91,11 @@ public class Comment {
                 ", num=" + num +
                 '}';
     }
+
+    public boolean isValid(List<String> invalidWords) {
+        for (String s : invalidWords)
+            if (body.contains(s))
+                return false;
+        return true;
+    }
 }
