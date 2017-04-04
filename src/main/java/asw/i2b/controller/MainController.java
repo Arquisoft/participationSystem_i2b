@@ -110,7 +110,11 @@ public class MainController {
         Proposal proposal = proposalService.findProposalById(proposalId);
         Comment comment = proposal.getComment(Long.parseLong(id));
         if (comment != null) {
-            comment.vote(author);
+            if (!comment.getVotedUsernames().contains(author)) {
+                comment.vote(author);
+            } else{
+                comment.unvote(author);
+            }
         }
         proposalService.save(proposal);
         kafkaProducer.sendVoteComment(comment, proposal, true);

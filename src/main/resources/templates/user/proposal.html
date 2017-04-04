@@ -103,15 +103,10 @@
                     </div>
                     <div class="panel-footer" style="overflow: auto;">
                         <div th:if="${!user.isAdmin()}">
-                            <div th:if="${!comment.getVotedUsernames().contains(user.getLogin())}">
-                                <form th:action="${'/user/voteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
-                                      th:method="post" style="margin:0;">
-                                    <button type="submit" class="btn btn-primary pull-right">Vote</button>
-                                </form>
-                            </div>
-                            <div th:if="${comment.getVotedUsernames().contains(user.getLogin())}">
-                                <span class="pull-right">You've already voted</span>
-                            </div>
+                            <form th:action="${'/user/voteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
+                                  th:method="post" style="margin:0;">
+                                <button type="submit" class="btn btn-primary pull-right">Vote</button>
+                            </form>
                             <button th:if="${!user.isAdmin()}" id="btn-reply" type="button"
                                     th:onclick="'javascript:reply('+${comment.num}+')'"
                                     class="btn btn-default pull-right" style="margin-right: 10;">
