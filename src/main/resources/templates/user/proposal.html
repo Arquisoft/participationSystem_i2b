@@ -17,8 +17,7 @@
     <script>
         function reply(commentNumber) {
             $('#createComment').modal('show');
-            document.getElementById("body").value = "Reply to #" + commentNumber + "\n";
-
+            document.getElementById("body").value = "[Reply to #" + commentNumber + "]\n";
         }
     </script>
 </head>
@@ -95,17 +94,23 @@
             <div class="comment" th:each="comment : ${selectedProposal.getComments()}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span th:text="${comment.getAuthor() + ' said at ' + #dates.format(comment.getCreated(), 'dd/MM/yyyy HH:mm') + ' [#' + comment.num + ']'}"></span>
+                        <span th:text="${comment.getAuthor() + ' said at ' + #dates.format(comment.getCreated(),
+                            'dd/MM/yyyy HH:mm') + ' [#' + comment.num + ']'}"></span>
                         <div class="pull-right" th:id="${'votes-' + proposalId}" th:text="${comment.getVotes()}"></div>
                     </div>
                     <div class="panel-body">
                         <span align="justify" th:text="${comment.getBody()}"></span>
                     </div>
                     <div class="panel-footer" style="overflow: auto;">
-                        <div th:if="${!user.isAdmin()}">
+                        <div id="form-vote" th:if="${!user.isAdmin()}">
                             <form th:action="${'/user/voteComment/' + comment.num +'?proposalId='+ selectedProposal.getId().toHexString()}"
                                   th:method="post" style="margin:0;">
-                                <button type="submit" class="btn btn-primary pull-right">Vote</button>
+                                <div th:if="${!comment.getVotedUsernames().contains(user.getLogin())}">
+                                    <button type="submit" class="btn btn-primary pull-right">Vote</button>
+                                </div>
+                                <div th:if="${comment.getVotedUsernames().contains(user.getLogin())}">
+                                    <button type="submit" class="btn btn-info pull-right">Unvote</button>
+                                </div>
                             </form>
                             <button th:if="${!user.isAdmin()}" id="btn-reply" type="button"
                                     th:onclick="'javascript:reply('+${comment.num}+')'"

@@ -71,8 +71,8 @@ public class MainController {
     public String voteProposal(Model model, @PathVariable("id") String id) {
         Proposal proposal = proposalService.findProposalById(id);
         if (proposal != null) {
-            proposalService.vote(proposal);
-            kafkaProducer.sendVoteProposal(proposal, true);
+            boolean isAVote = proposalService.vote(proposal);
+            kafkaProducer.sendVoteProposal(proposal, isAVote);
         }
         return "redirect:/user/home";
     }

@@ -25,14 +25,16 @@ public class ProposalService {
         return proposalsRepository.findAll();
     }
 
-    public void vote(Proposal p) {
+    public boolean vote(Proposal p) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
         if (!p.getVotedUsernames().contains(author)) {
             p.vote(author);
             save(p);
+            return true;
         } else{
             p.unvote(author);
             save(p);
+            return false;
         }
     }
 
