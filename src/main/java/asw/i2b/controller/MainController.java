@@ -171,9 +171,18 @@ public class MainController {
         return "redirect:/user/admin_settings";
     }
 
+    @PostMapping("/addVotes/{id}")
+    public String addVotes(Model model, @ModelAttribute("quantity") int quantity, @PathVariable("id") String id){
+        Proposal proposal = proposalService.findProposalById(id);
+        System.out.println("QUANTITY" + quantity);
+        if(proposal != null)
+            proposal.setVotes(proposal.getVotes() + quantity);
+        proposalService.save(proposal);
+        return "redirect:/user/proposal/" + id + "?orderBy=date";
+    }
+
     @GetMapping("/user/proposal/{id}")
     public String proposal(Model model, @PathVariable("id") String id, @RequestParam(value = "orderBy") String orderBy) {
-        System.out.println("View proposal: " + id);
         Proposal selectedProposal = proposalService.findProposalById(id);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         selectedProposal.setOrder(("date".equals(orderBy)) ? Proposal.Order.date : Proposal.Order.popularity);

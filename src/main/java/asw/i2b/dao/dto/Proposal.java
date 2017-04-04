@@ -104,6 +104,10 @@ public class Proposal {
         return votes;
     }
 
+    public void setVotes(int votes){
+        this.votes = votes;
+    }
+
     public List<String> getVotedUsernames() {
         return votedUsernames;
     }
