@@ -160,7 +160,7 @@ public class MainController {
         model.addAttribute("orderBy",orderBy);
         model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());
-        return "redirect:user/proposal";
+        return "user/proposal";
     }
 
 }
