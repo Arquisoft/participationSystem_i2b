@@ -2,6 +2,7 @@ package asw.i2b.producers;
 
 import asw.i2b.dao.dto.Comment;
 import asw.i2b.dao.dto.Proposal;
+import asw.i2b.model.UserModel;
 import asw.i2b.util.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
@@ -85,7 +87,8 @@ public class KafkaProducer {
         StringBuilder sb = new StringBuilder();
         sb.append(proposal.get_id());
         sb.append(";");
-        sb.append(Iterables.getLast(proposal.getVotedUsernames()));
+        sb.append(isAVote ? Iterables.getLast(proposal.getVotedUsernames()) :
+                ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin());
         send(isAVote ? "voteProposal" : "unvoteProposal", sb.toString());
     }
 

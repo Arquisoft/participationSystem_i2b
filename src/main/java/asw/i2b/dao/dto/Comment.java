@@ -69,6 +69,11 @@ public class Comment {
         this.votes++;
     }
 
+    public void unvote(String voteUsername) {
+        votedUsernames.remove(voteUsername);
+        this.votes--;
+    }
+
     public void setNum(long num) {
         this.num = num;
     }

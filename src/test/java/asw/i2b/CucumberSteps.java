@@ -229,7 +229,7 @@ public class CucumberSteps {
     @When("^the user clicks on the vote button of \"([^\"]*)\"$")
     public void theUserClicksOnTheVoteButtonOf(String proposalTitle) throws Throwable {
         driver.findElementByXPath(
-                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//button[text()='Vote']"
+                "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//div[@id='form-vote']//button"
         ).click();
     }
 
@@ -304,6 +304,17 @@ public class CucumberSteps {
         assertEquals(initialVotes + 1, votes);
     }
 
+    @Then("^the amount of votes for proposal \"([^\"]*)\" with initial value \"([^\"]*)\" is not increased$")
+    public void theAmountOfVotesForProposalWithInitialValueIsNotIncreased(String proposalTitle, String initialVotesString) throws Throwable {
+        int initialVotes = Integer.parseInt(initialVotesString);
+        int votes = Integer.parseInt(
+                driver.findElementByXPath(
+                        "//div[@id='proposalList']/div[div[@class='panel-heading']/a/text()='" + proposalTitle + "']//div[contains(@id, 'votes-')]"
+                ).getText()
+        );
+        assertEquals(initialVotes, votes);
+    }
+
     @Then("^\"([^\"]*)\" vote button is not visible$")
     public void voteButtonIsNotVisible(String proposalTitle) throws Throwable {
         List<WebElement> elements = driver.findElementsByXPath(
@@ -345,7 +356,7 @@ public class CucumberSteps {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.presenceOfElementLocated(
         By.xpath(
-                ".//*[contains(text(),\"" + commentTitle.trim() + "\")]/../..//button"
+                ".//*[contains(text(),\"" + commentTitle.trim() + "\")]/../..//div[@id='form-vote']/form//button"
         ))).click();
     }
 
@@ -361,14 +372,24 @@ public class CucumberSteps {
         assertEquals(initialVotes + 1, votes);
     }
 
-    @Then("^the button to vote comment \"([^\"]*)\" is not present$")
-    public void testButtonNotPresentForComment(String commentTitle) throws Throwable {
-        String button = (
+    @Then("^the amount of votes for comment \"([^\"]*)\" with initial value \"([^\"]*)\" is not increased$")
+    public void theAmountOfVotesForCommentWithInitialValueIsNotIncreased(String commentTitle, String initialVotesString) throws Throwable {
+        int initialVotes = Integer.parseInt(initialVotesString);
+        int votes = Integer.parseInt(
                 driver.findElementByXPath(
-                        ".//*[contains(text(),\""+commentTitle+"\")]/../..//span[@class=\"pull-right\"]"
+                        ".//*[contains(text(),\""+commentTitle.trim()+"\")]/../../div[@class=\"panel-heading\"]/div[@class=\"pull-right\"]"
                 ).getText()
         );
-        assertEquals("You've already voted", button);
+        assertEquals(initialVotes, votes);
+    }
+
+    @Then("^the button to vote comment \"([^\"]*)\" is not present$")
+    public void testButtonNotPresentForComment(String commentContent) throws Throwable {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        String button = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(
+                ".//*[contains(text(),\""+commentContent+"\")]/../..//div[@id='form-vote']/form//button")))
+                .getText();
+        assertEquals("Unvote", button);
     }
 
 
