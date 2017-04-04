@@ -1,5 +1,7 @@
 package asw.i2b.dao.dto;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -7,6 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "invalidWords")
 public class InvalidWord {
+
+    @Id
+    private ObjectId _id;
+
     String word;
 
     public InvalidWord(String word){
@@ -19,5 +25,13 @@ public class InvalidWord {
 
     public void setWord(String word) {
         this.word = word;
+    }
+
+    public ObjectId getId() {
+        return _id;
+    }
+
+    public void setId(ObjectId _id) {
+        this._id = _id;
     }
 }

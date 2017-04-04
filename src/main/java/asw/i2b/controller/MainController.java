@@ -3,11 +3,9 @@ package asw.i2b.controller;
 
 import asw.i2b.dao.dto.Category;
 import asw.i2b.dao.dto.Comment;
+import asw.i2b.dao.dto.InvalidWord;
 import asw.i2b.dao.dto.Proposal;
-import asw.i2b.model.CommentCreation;
-import asw.i2b.model.Message;
-import asw.i2b.model.ProposalCreation;
-import asw.i2b.model.UserModel;
+import asw.i2b.model.*;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.CategoryService;
 import asw.i2b.service.InvalidWordsService;
@@ -56,7 +54,7 @@ public class MainController {
         model.addAttribute("proposals", proposalService.getProposalsByPopularity());
         model.addAttribute("createProposal", new ProposalCreation());
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "user/home";
+        return "/user/home";
     }
 
     @GetMapping("/user/admin_settings")
@@ -64,7 +62,9 @@ public class MainController {
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("invalidWords", invalidWordsService.getAllInvalidWords());
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "user/admin_settings";
+        model.addAttribute("createInvalidWord", new InvalidWordCreation());
+        model.addAttribute("createCategory", new CategoryCreation());
+        return "/user/admin_settings";
     }
 
     @PostMapping("/voteProposal/{id}")
@@ -92,6 +92,15 @@ public class MainController {
         proposal.deleteComment(Long.parseLong(id));
         proposalService.save(proposal);
         return "redirect:/user/proposal/"+proposalId;
+    }
+
+    @PostMapping("/deleteInvalidWord/{id}")
+    public String deleteInvalidWord(Model model, @PathVariable("id") String id) {
+        InvalidWord invalidWord = invalidWordsService.findInvalidWordById(id);
+        if (invalidWord != null) {
+            invalidWordsService.delete(invalidWord);
+        }
+        return "redirect:/user/admin_settings";
     }
 
     @PostMapping("/user/createProposal")
@@ -128,6 +137,16 @@ public class MainController {
         return "redirect:/user/proposal/" + id +"?orderBy=date";
     }
 
+    @PostMapping("/createInvalidWord")
+    public String createInvalidWord(Model model, @ModelAttribute InvalidWordCreation invalidWordCreation) {
+        invalidWordsService.createInvalidWord(
+                new InvalidWord(
+                        invalidWordCreation.getWord()
+                )
+        );
+        return "redirect:/user/admin_settings";
+    }
+
     @GetMapping("/user/proposal/{id}")
     public String proposal(Model model, @PathVariable("id") String id, @RequestParam(value = "orderBy") String orderBy) {
         System.out.println("View proposal: " + id);
@@ -137,7 +156,7 @@ public class MainController {
         model.addAttribute("orderBy",orderBy);
         model.addAttribute("selectedProposal", selectedProposal);
         model.addAttribute("createComment", new CommentCreation());
-        return "user/proposal";
+        return "redirect:user/proposal";
     }
 
 }

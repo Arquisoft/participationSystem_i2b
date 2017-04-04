@@ -22,6 +22,10 @@ public class Category {
 
     }
 
+    public Category(String name, int minimalSupport){
+
+    }
+
     public Category(String name){
         this.name = name;
     }
