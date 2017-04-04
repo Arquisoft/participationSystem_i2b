@@ -4,6 +4,7 @@ import asw.i2b.model.Restrictions;
 import asw.i2b.service.CategoryService;
 import asw.i2b.util.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
@@ -19,6 +20,8 @@ import java.util.List;
  */
 @Document(collection = "proposals")
 public class Proposal {
+
+    private static final Logger logger = Logger.getLogger(Proposal.class);
 
     public enum Order {
         date,
@@ -104,7 +107,7 @@ public class Proposal {
         return votes;
     }
 
-    public void setVotes(int votes){
+    public void setVotes(int votes) {
         this.votes = votes;
     }
 
@@ -138,6 +141,9 @@ public class Proposal {
     public void vote(String voteUsername) {
         votedUsernames.add(voteUsername);
         this.votes++;
+        if (this.votes == this.minimalSupport)
+            logger.debug("NOTIFY ADMIN: Proposal with id [" + this._id + "] and title [" + this.title
+                    + "] has reached the minimal Support");
     }
 
     public void unvote(String voteUsername) {
