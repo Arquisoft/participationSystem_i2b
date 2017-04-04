@@ -1,12 +1,9 @@
 package asw.i2b.dao.dto;
 
-import asw.i2b.model.Restrictions;
-import asw.i2b.service.CategoryService;
 import asw.i2b.util.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
