@@ -1,5 +1,6 @@
 package asw.i2b.model;
 
+import asw.i2b.dao.dto.InvalidWord;
 import asw.i2b.producers.KafkaProducer;
 import asw.i2b.service.InvalidWordsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,6 @@ import java.util.stream.Collectors;
 public class Restrictions {
 
     @Autowired
-    private KafkaProducer kafkaProducer;
-
-    @Autowired
     private InvalidWordsService invalidWordsService;
 
     private Date activeDate;
@@ -26,7 +24,7 @@ public class Restrictions {
 
     public Restrictions(Date activeDate) {
         this.activeDate = activeDate;
-        this.notAllowedWords = invalidWordsService.getAllInvalidWords().stream().map(a -> a.getWord()).collect(Collectors.toList());
+        this.notAllowedWords = invalidWordsService.getAllInvalidWords().stream().map(InvalidWord::getWord).collect(Collectors.toList());
     }
 
     public static Restrictions getInstance(List<String> categories, Date activeDate) {

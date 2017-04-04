@@ -30,9 +30,6 @@ public class Proposal {
 
     private Order orderBy;
 
-    @Autowired
-    private CategoryService categoryService;
-
     @Id
     private ObjectId _id;
 
