@@ -1,6 +1,6 @@
 package asw.i2b.dao.dto;
 
-import asw.i2b.model.ProposalRestrictions;
+import asw.i2b.model.Restrictions;
 import asw.i2b.service.CategoryService;
 import asw.i2b.util.Views;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -149,9 +149,9 @@ public class Proposal {
         return votes >= minimalSupport;
     }
 
-    public boolean isValid() {
-        for (String s : ProposalRestrictions.getInstance().getNotAllowedWords())
-            if (body.contains(s))
+    public boolean isValid(List<String> invalidWords) {
+        for (String s : invalidWords)
+            if (body.contains(s) || title.contains(s))
                 return false;
         return true;
     }
