@@ -1,11 +1,9 @@
 package asw.i2b.consumers;
 
-import org.codehaus.groovy.runtime.powerassert.SourceText;
 import org.springframework.kafka.annotation.KafkaListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author MIGUEL
