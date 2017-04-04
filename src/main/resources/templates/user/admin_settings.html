@@ -16,9 +16,33 @@
     </script>
 </head>
 <body>
-<div th:each="invalidWord : ${invalidWords}">
-    <p th:text="${invalidWord.word}"/>
+<div th:replace="/fragments/navbar :: navbar">
+</div>
+
+<div class="container">
+    <h1>Settings</h1>
+
+    <div id="invalidWords" class="panel panel-default">
+        <div class="panel-heading">
+            <p>Invalid Words</p>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group" th:each="invalidWord : ${invalidWords}">
+                <li class="list-group-item list-group-item-warning" th:text="${invalidWord.word}">
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+
+    <div th:each="category : ${categories}">
+        <p th:text="${category.name + ' ' + category.minimalSupport }"/>
+    </div>
+
 
 </div>
+
 </body>
 </html>
