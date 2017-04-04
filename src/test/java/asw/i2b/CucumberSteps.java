@@ -1,5 +1,7 @@
 package asw.i2b;
 
+import asw.i2b.consumers.KafkaConsumer;
+import asw.i2b.producers.KafkaProducer;
 import com.esotericsoftware.minlog.Log;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -25,6 +27,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -37,6 +40,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
@@ -58,6 +62,9 @@ public class CucumberSteps {
     private static MongoCollection<Document> proposals = db.getCollection("proposals");
     private static MongoCollection<Document> categories = db.getCollection("categories");
     private static MongoCollection<Document> invalidWords = db.getCollection("invalidWords");
+
+    @Autowired
+    private KafkaConsumer kafkaConsumer;
 
     private static FirefoxDriver driver;
 
@@ -434,6 +441,16 @@ public class CucumberSteps {
     public void theUserOrdersTheCommentsByPopularity(){
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("order-by-popularity"))).click();
+    }
+
+    @And("^a kafka createProposal event is generated for \"([^\"]*)\"$")
+    public void aKafkaCreateProposalEventIsGenerated(String proposal) throws InterruptedException {
+        assertTrue(kafkaConsumer.getCreateProposal().stream().anyMatch(elem -> elem.contains(proposal)));
+    }
+
+    @And("^a kafka createComment event is generated for \"([^\"]*)\"$")
+    public void aKafkaCreateCommentEventIsGenerated(String comment) throws InterruptedException {
+        assertTrue(kafkaConsumer.getCreateComment().stream().anyMatch(elem -> elem.contains(comment)));
     }
 
 }
