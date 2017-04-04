@@ -65,6 +65,13 @@
                 <form th:action="${'/deleteProposal/' + selectedProposal.id}" th:method="post" style="margin:0;">
                     <button type="submit" class="btn btn-danger pull-right">Delete</button>
                 </form>
+
+                <form id="form-add-votes" th:action="${'/addVotes/' + selectedProposal.id}" method="post">
+                    <div class="input-group" style="width: 15%;">
+                        <input type="number" name="quantity" class="form-control" min="1" placeholder="Votes"/>
+                        <span class="btn btn-default input-group-addon" onclick="document.getElementById('form-add-votes').submit()">Add Votes</span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

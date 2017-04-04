@@ -103,10 +103,19 @@ public class MainController {
         return "redirect:/user/admin_settings";
     }
 
+    @PostMapping("/deleteCategory/{id}")
+    public String deleteCategory(Model model, @PathVariable("id") String id) {
+        Category cat = categoryService.findCategoryById(id);
+        if (cat != null) {
+            categoryService.delete(cat);
+        }
+        return "redirect:/user/admin_settings";
+    }
+
     @PostMapping("/user/createProposal")
     public String createProposal(Model model, @ModelAttribute ProposalCreation createProposal) {
         String author = ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
-        Category cat = categoryService.findProposalById(createProposal.getCategory());
+        Category cat = categoryService.findCategoryById(createProposal.getCategory());
         Proposal proposal = new Proposal(author, cat.getName(), createProposal.getTitle(), createProposal.getBody(), cat.getMinimalSupport());
         proposalService.createProposal(proposal);
         kafkaProducer.sendCreateProposal(proposal);
@@ -151,9 +160,29 @@ public class MainController {
         return "redirect:/user/admin_settings";
     }
 
+    @PostMapping("/createCategory")
+    public String createCategory(Model model, @ModelAttribute CategoryCreation categoryCreation) {
+        categoryService.createCategory(
+                new Category(
+                        categoryCreation.getName(),
+                        categoryCreation.getMinimalSupport()
+                )
+        );
+        return "redirect:/user/admin_settings";
+    }
+
+    @PostMapping("/addVotes/{id}")
+    public String addVotes(Model model, @ModelAttribute("quantity") int quantity, @PathVariable("id") String id){
+        Proposal proposal = proposalService.findProposalById(id);
+        System.out.println("QUANTITY" + quantity);
+        if(proposal != null)
+            proposal.setVotes(proposal.getVotes() + quantity);
+        proposalService.save(proposal);
+        return "redirect:/user/proposal/" + id + "?orderBy=date";
+    }
+
     @GetMapping("/user/proposal/{id}")
     public String proposal(Model model, @PathVariable("id") String id, @RequestParam(value = "orderBy") String orderBy) {
-        System.out.println("View proposal: " + id);
         Proposal selectedProposal = proposalService.findProposalById(id);
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         selectedProposal.setOrder(("date".equals(orderBy)) ? Proposal.Order.date : Proposal.Order.popularity);

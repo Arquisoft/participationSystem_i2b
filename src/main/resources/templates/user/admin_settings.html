@@ -31,8 +31,10 @@
                 <li class="list-group-item list-group-item-warning" th:each="invalidWord : ${invalidWords}"
                     style=" margin-bottom: 5px;">
                     <span th:text="${invalidWord.word}"/>
-                    <form method="post" style="float:right;" th:action="${'/deleteInvalidWord/'+ invalidWord.id}" th:id="${'form-delete-'+invalidWord.id}">
-                        <a style="cursor:pointer;" type="submit" th:onclick="'document.getElementById(\''+${'form-delete-'+invalidWord.id}+'\').submit()'"
+                    <form method="post" style="float:right;" th:action="${'/deleteInvalidWord/'+ invalidWord.id}"
+                          th:id="${'form-delete-word-'+invalidWord.id}">
+                        <a style="cursor:pointer;" type="submit"
+                           th:onclick="'document.getElementById(\''+${'form-delete-word-'+invalidWord.id}+'\').submit()'"
                            class="glyphicon glyphicon-remove pull-right"/>
                     </form>
                 </li>
@@ -52,39 +54,42 @@
         <div class="panel-heading">
             <h3>Manage Categories</h3>
         </div>
-        <div class="panel-body">
-            <div class="list-group">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center">Name</th>
-                        <th style="text-align: center">Minimal Support</th>
-                        <th style="text-align: center">Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody th:each="category : ${categories}">
-                    <tr>
-                        <td style="text-align: center" th:text="${category.name}"/>
-                        <td style="text-align: center" th:text="${category.minimalSupport}"/>
-                        <td style="text-align: center; "><p
-                                th:action="${'/deleteCategory/'+ category.id}" class="glyphicon glyphicon-remove"
-                                style="cursor:pointer;"></p>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="panel-body pre-scrollable"  style="max-height:62%;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="text-align: center">Name</th>
+                    <th style="text-align: center">Minimal Support</th>
+                    <th style="text-align: center">Delete</th>
+                </tr>
+                </thead>
+                <tbody th:each="category : ${categories}">
+                <tr>
+                    <td style="text-align: center" th:text="${category.name}"/>
+                    <td style="text-align: center" th:text="${category.minimalSupport}"/>
+                    <td style="text-align: center; ">
+                        <form method="post" style="float:right; text-align: center"
+                              th:action="${'/deleteCategory/'+ category.id}" th:id="${'form-delete-cat-'+category.id}">
+                            <a style="cursor:pointer;" type="submit"
+                               th:onclick="'document.getElementById(\''+${'form-delete-cat-'+category.id}+'\').submit()'"
+                               class="glyphicon glyphicon-remove pull-right"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <div class="panel-footer" style="position: absolute; bottom: 0;">
-            <form class="input-group" th:action="@{/createCategory}">
-                <input type="text" class="form-control" placeholder="Invalid Word"/>
+            <form class="input-group" th:object="${createCategory}" th:action="@{/createCategory}" method="post">
+                <input type="text" style="float: left; width: 90%;" class="form-control" required="true"
+                       placeholder="Name" th:field="*{name}"/>
+                <input type="number" style="width: 10%;" min="0" class="form-control" required="true"
+                       th:field="*{minimalSupport}"/>
                 <div class="input-group-btn">
-                    <button class="btn btn-default glyphicon glyphicon-plus"/>
+                    <button type="submit" class="btn btn-default glyphicon glyphicon-plus"/>
                 </div>
             </form>
         </div>
-
-
     </div>
 
 

@@ -23,10 +23,17 @@ public class CategoryService {
     }
 
 
-    public Category findProposalById(String id) {
+    public Category findCategoryById(String id) {
         return categoryRepository.findOne(new ObjectId(id));
     }
 
 
+    public void createCategory(Category category) {
+        if (category != null && this.getAllCategories().stream().map(a -> a.getName()).filter(a -> a.equals(category.getName())).count() == 0)
+            categoryRepository.insert(category);
+    }
 
+    public void delete(Category cat) {
+        categoryRepository.delete(cat);
+    }
 }
