@@ -25,3 +25,5 @@ Feature:
     And the user navigates into "Proposal 1" details
     When the user clicks on the comment's vote button with title "Proposal 1 seems quite good"
     Then a kafka voteComment event is generated
+
+    #TODO

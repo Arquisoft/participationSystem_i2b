@@ -5,30 +5,28 @@ Feature:
   Scenario: the whole information of the proposal is shown
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user navigates into "Proposal 1" details n
-    Then the user should see "Proposal 1"'s information
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user navigates into "Proposal 1" details
+    Then the user should see "Proposal 1"'s information with author "Author 1" and supported by "5" users
 
   Scenario: the comments should be shown
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user navigates into "Proposal 1" details n
-    Then the user should see "comment1"
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user navigates into "Proposal 1" details
+    Then the user should see "Proposal 1 seems quite good"
 
   Scenario: the comments should be ordered by date by default
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user navigates into "Proposal 1" details n
-    Then the user should see "comment2" before "comment1"
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user navigates into "Proposal 2" details
+    Then the user should see comment "Shut up" before "Your test comment is shit"
 
   Scenario: the user should be able to order the comments by popularity
     Given the test database is loaded
     And the user navigates to "localhost:8090"
-    And user "user1" with password "user1" is logged in
-    When the user navigates into "Proposal 1" details n
-    And the users orders the comment by popularity
-    Then the user should see "comment1" before "comment2"
-
-  #TODO
+    And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
+    When the user navigates into "Proposal 2" details
+    And the users orders the comments by popularity
+    Then the user should see comment "This is a test comment" before "Shut up"

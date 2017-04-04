@@ -224,26 +224,48 @@ public class CucumberSteps {
         assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + text2 + "')]").size() > 0);
     }
 
+    @Then("^the user should see \"([^\"]*)\"$")
+    public void theUserShouldSee(String text1) {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(), '" + text1 + "')]")));
+        assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + text1 + "')]").size() > 0);
+    }
+
     @Then("^the user should see proposal \"([^\"]*)\"$")
     public void theUserShouldSeeProposal(String proposal) throws Throwable {
         assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + proposal + "')]").size() > 0);
     }
 
     @Then("^the user should see proposal \"([^\"]*)\" before \"([^\"]*)\"$")
-    public void theUserShouldSeeBefore(String text1, String text2) throws Throwable {
+    public void theUserShouldSeeProposalBefore(String text1, String text2) throws Throwable {
+        List<WebElement> list = driver.findElementsByXPath("//div[@id='proposalList']/div/div[@class='panel-heading']/a");
+        if(!isBefore(list, text1, text2))
+            fail();
+    }
+
+    private boolean isBefore(List<WebElement> list, String text1, String text2){
         boolean foundFirst = false;
-        for (WebElement we : driver.findElementsByXPath("//div[@id='proposalList']/div/div[@class='panel-heading']/a")) {
+        for (WebElement we : list) {
             if (we.getText().contains(text1)) {
                 foundFirst = true;
             } else if (we.getText().contains(text2)) {
                 if (foundFirst) {
-                    return;
+                    return true;
                 } else {
-                    fail();
+                    return false;
                 }
             }
         }
-        fail();
+        return false;
+    }
+
+    @Then("^the user should see comment \"([^\"]*)\" before \"([^\"]*)\"$")
+    public void theUserShouldSeeCommentBefore(String text1, String text2) throws Throwable {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='comments-panel']/div[@class='panel-body']//div[@class='panel-body']/span")));
+        List<WebElement> list = driver.findElementsByXPath("//div[@id='comments-panel']/div[@class='panel-body']//div[@class='panel-body']/span");
+        if(!isBefore(list, text1, text2))
+            fail();
     }
 
     @Then("^the user returns to login screen$")
@@ -304,7 +326,7 @@ public class CucumberSteps {
     }
 
     @When("^the user clicks on the comment's vote button with title \"([^\"]*)\"$")
-    public void hteUserClicksOnTheCommentVoteButton(String commentTitle) throws InterruptedException {
+    public void theUserClicksOnTheCommentVoteButton(String commentTitle) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.presenceOfElementLocated(
         By.xpath(
@@ -337,9 +359,10 @@ public class CucumberSteps {
 
     @And("^the user navigates into \"([^\"]*)\" details$")
     public void theUserNavigatesIntoDetails(String link) throws Throwable {
-        driver.findElementByXPath(
-                ".//a[contains(text(),\""+ link.trim() +"\")]"
-        ).click();
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(
+                ".//a[contains(text(),'"+ link.trim() +"')]"
+        ))).click();
     }
 
     @When("^the user clicks on the create comment button$")
@@ -358,7 +381,6 @@ public class CucumberSteps {
 
     @Then("^a comment should appear at the bottom of the comment list with body \"([^\"]*)\"$")
     public void aCommentShouldAppearOnTheCommentListWithBody(String body) throws Throwable {
-
         String bodyInDoc = (
                 driver.findElementByXPath(
                         ".//*[@class='comment'][last()]//div[@class=\"panel-body\"]"
@@ -366,4 +388,20 @@ public class CucumberSteps {
         );
         assertEquals(body, bodyInDoc);
     }
+
+    @Then("^the user should see \"([^\"]*)\"'s information with author \"([^\"]*)\" and supported by \"([^\"]*)\" users$")
+    public void theUserShouldSeeInformationWithAuthorAndSupportedBy(String proposal, String author, String supportedBy) {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[contains(text(), '" + proposal + "')]")));
+        assertTrue(driver.findElementsByXPath(".//*[contains(text(), '" + proposal + "')]").size() > 0);
+        assertTrue(driver.findElementsByXPath(".//*[contains(text(), 'Created by: " + author + "')]").size() > 0);
+        assertTrue(driver.findElementsByXPath(".//*[contains(text(), 'Supported by: " + supportedBy + "')]").size() > 0);
+    }
+
+    @And("^the users orders the comments by popularity$")
+    public void theUserOrdersTheCommentsByPopularity(){
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("order-by-popularity"))).click();
+    }
+
 }

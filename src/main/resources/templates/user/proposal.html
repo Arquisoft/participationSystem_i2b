@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div id="comments-panel" class="panel panel-default">
         <div class="panel-heading" style="height: 4em;">
             <span>Comments</span>
             <button th:if="${!user.isAdmin()}" id="openCreateProposalDialog" type="button"
@@ -77,11 +77,11 @@
                     data-target="#createComment" style="margin: 0;">
                 Create Comment
             </button>
-            <a th:if="${orderBy eq 'date'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=popularity'}"
+            <a id="order-by-popularity" th:if="${orderBy eq 'date'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=popularity'}"
                class="btn btn-default pull-right" style="margin-right: 10;">
                 Order by Popularity
             </a>
-            <a th:if="${orderBy eq 'popularity'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=date'}"
+            <a id="order-by-date" th:if="${orderBy eq 'popularity'}" th:href="${'/user/proposal/' + selectedProposal.id + '?orderBy=date'}"
                class="btn btn-default pull-right" style="margin-right: 10;">
                 Order by Date
             </a>

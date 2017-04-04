@@ -65,6 +65,7 @@ public class Proposal {
         this.votes = 0;
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
+        this.orderBy = Order.date;
     }
     @JsonView(Views.Public.class)
     public String get_id() {        //Just for serialization, to have the appropiate name with the _
