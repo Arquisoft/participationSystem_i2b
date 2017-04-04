@@ -13,7 +13,7 @@ public class InvalidWord {
     @Id
     private ObjectId _id;
 
-    String word;
+    private String word;
 
     public InvalidWord(String word){
         this.word = word;

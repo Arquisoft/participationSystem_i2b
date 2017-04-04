@@ -4,12 +4,10 @@ import asw.i2b.dao.dto.Comment;
 import asw.i2b.dao.dto.Proposal;
 import asw.i2b.model.UserModel;
 import asw.i2b.util.Views;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterables;
-import kafka.Kafka;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -20,8 +18,6 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.io.StringWriter;
 
 /**
  * Created by herminio on 26/12/16.
@@ -85,7 +81,7 @@ public class KafkaProducer {
 
     public void sendVoteProposal(Proposal proposal, boolean isAVote) {
         StringBuilder sb = new StringBuilder();
-        sb.append(proposal.get_id());
+        sb.append(proposal.getIdString());
         sb.append(";");
         sb.append(isAVote ? Iterables.getLast(proposal.getVotedUsernames()) :
                 ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin());
@@ -95,7 +91,7 @@ public class KafkaProducer {
 
     public void sendVoteComment(Comment comment, Proposal proposal, boolean isAVote) {
         StringBuilder sb = new StringBuilder();
-        sb.append(proposal.get_id());
+        sb.append(proposal.getIdString());
         sb.append(";");
         sb.append(comment.getNum());
         sb.append(";");
