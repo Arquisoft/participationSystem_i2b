@@ -16,9 +16,20 @@ In order to run this application, you have to follow this steps:
 
 2. Run MongoDB. The steps are explained in [**this**](https://github.com/Arquisoft/citizensLoader_i2b/wiki/MongoDB-quick-start-guide#download-and-set-up) wiki page.
 
-3. Run **participants** module
+3. Run **participants** module with the jar included in the repo.  
+    ```
+    $> java -jar participants.jar
+    ```
+4. [Optional] To initialize the the db run:  
+    ```
+    $> mvn test
+    ```  
+5. To launch the app run:  
+    ```
+    $> mvn spring-boot:run
+    ```    
 
-And you're ready to go.
+And you're ready to go, the page will be in localhost:**8090**.
 
 ## Testing the application
 If you want to run the tests, you need to perform the same steps as before, but also to **uncompress** FirefoxWindows or FirefoxLinux, directly where they are.
