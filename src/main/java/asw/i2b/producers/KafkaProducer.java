@@ -66,36 +66,35 @@ public class KafkaProducer {
     }
 
     public void sendCreateProposal(Proposal proposal) {
-        send("createProposal", writer(proposal));
+        send("createProposal", "{\"id\": \"" + proposal.getIdString() + "\"}");
     }
 
     public void sendCreateComment(Comment comment, String proposalId) {
         StringBuilder sb = new StringBuilder();
-        sb.append("{\"proposalId\":\"");
+        sb.append("{\"postId\": \"");
         sb.append(proposalId);
-        sb.append("\",\"comment:");
-        sb.append(writer(comment));
+        sb.append("\",\"number\": ");
+        sb.append(comment.getNum());
         sb.append("}");
         send("createComment", sb.toString());
     }
 
     public void sendVoteProposal(Proposal proposal, boolean isAVote) {
         StringBuilder sb = new StringBuilder();
+        sb.append("{\"id\": \"");
         sb.append(proposal.getIdString());
-        sb.append(";");
-        sb.append(isAVote ? Iterables.getLast(proposal.getVotedUsernames()) :
-                ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin());
+        sb.append("\"}");
         send(isAVote ? "voteProposal" : "unvoteProposal", sb.toString());
     }
 
 
     public void sendVoteComment(Comment comment, Proposal proposal, boolean isAVote) {
         StringBuilder sb = new StringBuilder();
+        sb.append("{\"postId\": \"");
         sb.append(proposal.getIdString());
-        sb.append(";");
+        sb.append("\", \"number:\" ");
         sb.append(comment.getNum());
-        sb.append(";");
-        sb.append(Iterables.getLast(comment.getVotedUsernames()));
+        sb.append("}");
         send(isAVote ? "voteComment" : "unvoteComment", sb.toString());
     }
 

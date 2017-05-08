@@ -30,21 +30,14 @@ public class Proposal {
     @Id
     private ObjectId _id;
 
-    @JsonView(Views.Public.class)
     private String author;
-    @JsonView(Views.Public.class)
     private Date created;
     private String category;
-    @JsonView(Views.Public.class)
     private String title;
-    @JsonView(Views.Public.class)
     private String body;
     private int minimalSupport;
-    @JsonView(Views.Public.class)
     private int votes;
-    @JsonView(Views.Public.class)
     private List<String> votedUsernames;
-    @JsonView(Views.Public.class)
     private List<Comment> comments;
 
     public Proposal() {
@@ -64,11 +57,11 @@ public class Proposal {
         this.orderBy = Order.date;
     }
 
-    @JsonView(Views.Public.class)
     public String getIdString() {        //Just for serialization, to have the appropiate name with the _
         return _id.toHexString();   //and just serializing the id string
     }
 
+    @JsonView(Views.Public.class)
     public ObjectId getId() {
         return _id;
     }
