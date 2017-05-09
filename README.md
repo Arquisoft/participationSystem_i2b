@@ -29,7 +29,7 @@ In order to run this application, you have to follow this steps:
     $> mvn spring-boot:run
     ```    
 
-And you're ready to go, the page will be in localhost:**8090**.
+And you're ready to go, the page will be in localhost:**9000**.
 
 ## Testing the application
 If you want to run the tests, you need to perform the same steps as before, but also to **uncompress** FirefoxWindows or FirefoxLinux, directly where they are.

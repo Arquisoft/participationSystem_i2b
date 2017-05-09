@@ -4,7 +4,7 @@ Feature:
 
   Scenario: a user votes a comment
     Given the test database is loaded
-    And the user navigates to "localhost:8090"
+    And the user navigates to "localhost:9000"
     And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
     And the user navigates into "Proposal 1" details
     When the user clicks on the comment's vote button with title "Proposal 1 seems quite good"
@@ -12,7 +12,7 @@ Feature:
 
   Scenario: a user votes a comment twice
     Given the test database is loaded
-    And the user navigates to "localhost:8090"
+    And the user navigates to "localhost:9000"
     And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
     And the user navigates into "Proposal 1" details
     When the user clicks on the comment's vote button with title "Proposal 1 seems quite good"
@@ -20,7 +20,7 @@ Feature:
 
   Scenario: a user votes and then unvotes a comment
     Given the test database is loaded
-    And the user navigates to "localhost:8090"
+    And the user navigates to "localhost:9000"
     And user "prueba01@prueba.es" with password "dgM4BrQu8zHuXSk" is logged in
     And the user navigates into "Proposal 1" details
     When the user clicks on the comment's vote button with title "Proposal 1 seems quite good"

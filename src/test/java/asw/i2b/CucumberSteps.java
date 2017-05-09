@@ -285,7 +285,7 @@ public class CucumberSteps {
 
     @Then("^the user returns to login screen$")
     public void theUserReturnsToLoginScreen() throws Throwable {
-        assertTrue(driver.getCurrentUrl().contains("localhost:8090/login?logout"));
+        assertTrue(driver.getCurrentUrl().contains("localhost:9000/login?logout"));
     }
 
     @When("^the users clicks on the logout button$")

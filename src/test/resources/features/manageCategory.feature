@@ -3,7 +3,7 @@ Feature:
 
   Scenario: the personnel member adds a new category
     Given the test database is loaded
-    And the user navigates to "localhost:8090"
+    And the user navigates to "localhost:9000"
     And user "admin@admin.com" with password "admin" is logged in
     And the user navigates into admin settings
     When the personnel member adds a new category "Test category" with minimal support of "50"
@@ -11,7 +11,7 @@ Feature:
 
   Scenario: the personnel member deletes a category
     Given the test database is loaded
-    And the user navigates to "localhost:8090"
+    And the user navigates to "localhost:9000"
     And user "admin@admin.com" with password "admin" is logged in
     And the user navigates into admin settings
     When the personnel member adds a new category "Test category" with minimal support of "50"
