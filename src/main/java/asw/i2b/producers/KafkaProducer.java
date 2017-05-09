@@ -66,7 +66,7 @@ public class KafkaProducer {
     }
 
     public void sendCreateProposal(Proposal proposal) {
-        send("createProposal", "{\"id\": \"" + proposal.getIdString() + "\"}");
+        send("CREATE_POST", "{\"id\": \"" + proposal.getIdString() + "\"}");
     }
 
     public void sendCreateComment(Comment comment, String proposalId) {
@@ -76,7 +76,7 @@ public class KafkaProducer {
         sb.append("\",\"number\": ");
         sb.append(comment.getNum());
         sb.append("}");
-        send("createComment", sb.toString());
+        send("CREATE_COMMENT", sb.toString());
     }
 
     public void sendVoteProposal(Proposal proposal, boolean isAVote) {
@@ -84,7 +84,7 @@ public class KafkaProducer {
         sb.append("{\"id\": \"");
         sb.append(proposal.getIdString());
         sb.append("\"}");
-        send(isAVote ? "voteProposal" : "unvoteProposal", sb.toString());
+        send(isAVote ? "VOTE_POST" : "UNVOTE_POST", sb.toString());
     }
 
 
@@ -95,7 +95,7 @@ public class KafkaProducer {
         sb.append("\", \"number:\" ");
         sb.append(comment.getNum());
         sb.append("}");
-        send(isAVote ? "voteComment" : "unvoteComment", sb.toString());
+        send(isAVote ? "VOTE_COMMENT" : "UNVOTE_COMMENT", sb.toString());
     }
 
 }
