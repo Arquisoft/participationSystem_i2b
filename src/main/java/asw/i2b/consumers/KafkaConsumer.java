@@ -42,32 +42,32 @@ public class KafkaConsumer {
         return unvoteComment;
     }
 
-    @KafkaListener(topics = "createProposal")
+    @KafkaListener(topics = "CREATE_POST")
     public void listenCreateProposal(String s){
         createProposal.add(s);
     }
 
-    @KafkaListener(topics = "createComment")
+    @KafkaListener(topics = "CREATE_COMMENT")
     public void listenCreateComment(String s){
         createComment.add(s);
     }
 
-    @KafkaListener(topics = "voteProposal")
+    @KafkaListener(topics = "VOTE_POST")
     public void listenVoteProposal(String s){
         voteProposal.add(s);
     }
 
-    @KafkaListener(topics = "voteComment")
+    @KafkaListener(topics = "VOTE_COMMENT")
     public void listenVoteComment(String s){
         voteComment.add(s);
     }
 
-    @KafkaListener(topics = "unvoteProposal")
+    @KafkaListener(topics = "UNVOTE_POST")
     public void listenUnvoteProposal(String s){
         unvoteProposal.add(s);
     }
 
-    @KafkaListener(topics = "unvoteComment")
+    @KafkaListener(topics = "UNVOTE_COMMENT")
     public void listenUnvoteComment(String s){
         unvoteComment.add(s);
     }
